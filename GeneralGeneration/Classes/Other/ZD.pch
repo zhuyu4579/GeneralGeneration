@@ -5,8 +5,6 @@
 //  Created by 朱玉隆 on 2018/4/23.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
-
-
 #define UIColorRBG(r,b,g) [UIColor colorWithRed:r/255.0 green:b/255.0 blue:g/255.0 alpha:1.0]
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -21,4 +19,4 @@
 #define JF_TOP_SPACE IOS11_OR_LATER_SPACE(JF_KEY_WINDOW.safeAreaInsets.top)
 #define JF_TOP_ACTIVE_SPACE IOS11_OR_LATER_SPACE(MAX(0, JF_KEY_WINDOW.safeAreaInsets.top-20))
 #define JF_BOTTOM_SPACE IOS11_OR_LATER_SPACE(JF_KEY_WINDOW.safeAreaInsets.bottom)
-#define URL @"https://www.jingfuapp.com/proapp"
+#define URL @"https://www.jingfuapp.com/preapp"

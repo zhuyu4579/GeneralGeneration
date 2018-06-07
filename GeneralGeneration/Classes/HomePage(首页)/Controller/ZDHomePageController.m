@@ -71,11 +71,21 @@ static NSString * const ID = @"cell";
 }
 //开启定位
 -(void)locate{
-    _locationManager = [[CLLocationManager alloc] init];
-    _locationManager.delegate = self;
-    _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    _locationManager.distanceFilter = 10;
-    [_locationManager startUpdatingLocation];//开启定位
+    // 判断定位操作是否被允许
+    if([CLLocationManager locationServicesEnabled]) {
+        //定位初始化
+        _locationManager=[[CLLocationManager alloc] init];
+        _locationManager.delegate=self;
+        _locationManager.desiredAccuracy=kCLLocationAccuracyBest;
+        _locationManager.distanceFilter=10;
+        [_locationManager startUpdatingLocation];//开启定位
+    }else {
+        //提示用户无法进行定位操作
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"App需要访问你的位置获取周边项目，您是否允许?"  delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+        [alertView show];
+    }
+    // 开始定位
+    [_locationManager startUpdatingLocation];
     
 }
 //获取定位信息
