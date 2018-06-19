@@ -43,6 +43,8 @@
 @property(nonatomic,strong)UIButton *startTime;
 //合同结束时间
 @property(nonatomic,strong)UIButton *endTime;
+//参数
+@property(nonatomic,strong)NSDictionary *paraments;
 @end
 
 @implementation ZDContractProjectController
@@ -51,7 +53,8 @@
     [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"签约项目";
     //创建控件
@@ -222,6 +225,7 @@
     label.textColor = UIColorRBG(153, 153, 153);
     [scrollView addSubview:label];
     scrollView.contentSize = CGSizeMake(0, self.view.fHeight);
+    
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, self.view.fHeight-49-JF_BOTTOM_SPACE, self.view.fWidth, 49+JF_BOTTOM_SPACE)];
     button.backgroundColor = UIColorRBG(3, 133, 219);
     [button setTitle:@"提交审核" forState:UIControlStateNormal];
@@ -450,62 +454,79 @@
         [SVProgressHUD showInfoWithStatus:@"合同照片不能为空"];
         return;
     }
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"distributionCompanyId"] = distributionCompanyId;
+    paraments[@"distributionCompanyName"] = distributionCompanyName;
+    paraments[@"projectId"] = projectId;
+    paraments[@"projectName"] = projectName;
+    paraments[@"validityTimeStart"] = validityTimeStart;
+    paraments[@"validityTimeEnd"] = validityTimeEnd;
+    paraments[@"companyName"] = companyName;
+    paraments[@"dutyName"] = dutyName;
+    paraments[@"telphone"] = telphone;
+    
+    _paraments = paraments;
+    //添加遮罩
+    UIView *view = [[UIView alloc] init];
+    [GKCover translucentWindowCenterCoverContent:view animated:YES notClick:YES];
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+    [SVProgressHUD showWithStatus:@"提交中"];
+    
+    [self performSelector:@selector(loadData) withObject:self afterDelay:1];
+}
+-(void)loadData{
+    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
+    NSInteger sum =  _imageViews.subviews.count;
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
-        //创建会话请求
-        AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-        
-        mgr.requestSerializer.timeoutInterval = 20;
-        //申明返回的结果是json类型
-        mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-        
-        //申明请求的数据是json类型
-        mgr.requestSerializer=[AFJSONRequestSerializer serializer];
-        mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-        [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-        //2.拼接参数
-        NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-        paraments[@"distributionCompanyId"] = distributionCompanyId;
-        paraments[@"distributionCompanyName"] = distributionCompanyName;
-        paraments[@"projectId"] = projectId;
-        paraments[@"projectName"] = projectName;
-        paraments[@"validityTimeStart"] = validityTimeStart;
-        paraments[@"validityTimeEnd"] = validityTimeEnd;
-        paraments[@"companyName"] = companyName;
-        paraments[@"dutyName"] = dutyName;
-        paraments[@"telphone"] = telphone;
-        NSString *url = [NSString stringWithFormat:@"%@/projectCompany/sign/project",URL];
-        [mgr POST:url parameters:paraments constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-            for (int i=0; i<(sum-1); i++) {
-                UIButton *but = [_imageViews viewWithTag:(10+i)];
-                UIImage *img = but.currentBackgroundImage;
-                if (![img isEqual:_oldImage]) {
-                    NSData *imageData = [ZDAlertView imageProcessWithImage:img];
-                    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                    formatter.dateFormat = @"yyyyMMddHHmmss";
-                    NSString *fileName = [NSString stringWithFormat:@"%@.png",[formatter stringFromDate:[NSDate date]]];
-                    // 任意的二进制数据MIMEType application/octet-stream
-                    [formData appendPartWithFileData:imageData name:@"face" fileName:fileName mimeType:@"image/png"];
-                    
-                }
+    mgr.requestSerializer.timeoutInterval = 20;
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@/projectCompany/sign/project",URL];
+    [mgr POST:url parameters:_paraments constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        for (int i=0; i<(sum-1); i++) {
+            UIButton *but = [_imageViews viewWithTag:(10+i)];
+            UIImage *img = but.currentBackgroundImage;
+            if (![img isEqual:_oldImage]) {
+                NSData *imageData = [ZDAlertView imageProcessWithImage:img];
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                formatter.dateFormat = @"yyyyMMddHHmmss";
+                NSString *fileName = [NSString stringWithFormat:@"%@.png",[formatter stringFromDate:[NSDate date]]];
+                // 任意的二进制数据MIMEType application/octet-stream
+                [formData appendPartWithFileData:imageData name:@"face" fileName:fileName mimeType:@"image/png"];
+                
             }
-        } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-            NSString *code = [responseObject valueForKey:@"code"];
-            if([code isEqual:@"200"]){
-                [SVProgressHUD showInfoWithStatus:@"提交审核成功"];
-                [self.navigationController popViewControllerAnimated:YES];
-            }else{
-                NSString *msg = [responseObject valueForKey:@"msg"];
-                if (![msg isEqual:@""]) {
-                    [SVProgressHUD showInfoWithStatus:msg];
-                }
-                [NSString isCode:self.navigationController code:code];
+        }
+    } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        [GKCover hide];
+        [SVProgressHUD dismiss];
+        if([code isEqual:@"200"]){
+            [SVProgressHUD showInfoWithStatus:@"提交审核成功"];
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if (![msg isEqual:@""]) {
+                [SVProgressHUD showInfoWithStatus:msg];
             }
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            [SVProgressHUD showInfoWithStatus:@"网络不给力"];
-        }];
+            [NSString isCode:self.navigationController code:code];
+        }
         
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [GKCover hide];
+        [SVProgressHUD dismiss];
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+    }];
 }
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{

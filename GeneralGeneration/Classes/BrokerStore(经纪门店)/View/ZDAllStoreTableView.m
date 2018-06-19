@@ -87,7 +87,8 @@ static  NSString * const ID = @"cells";
    
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.7]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     
@@ -133,6 +134,7 @@ static  NSString * const ID = @"cells";
     NSIndexPath *indexpath = [self indexPathForRowAtPoint:point];
     ZDAllStoreCell *cell = [self cellForRowAtIndexPath:indexpath];
     ZDReadFollowsController *readF = [[ZDReadFollowsController alloc] init];
+    NSLog(@"%@",cell.storeId);
     readF.storeId = cell.storeId;
     UIViewController *vc = [UIViewController viewController:self.superview];
     UIViewController *Vc = [UIViewController viewController:vc.view.superview];
@@ -146,6 +148,7 @@ static  NSString * const ID = @"cells";
     ZDAllStoreCell *cell = [self cellForRowAtIndexPath:indexpath];
     ZDStorePunchController *readF = [[ZDStorePunchController alloc] init];
     readF.storeId = cell.storeId;
+     NSLog(@"%@",cell.storeId);
     UIViewController *vc = [UIViewController viewController:self.superview];
     UIViewController *Vc = [UIViewController viewController:vc.view.superview];
     [Vc.navigationController pushViewController:readF animated:YES];
@@ -155,8 +158,9 @@ static  NSString * const ID = @"cells";
     ZDAllStoreCell *cell = [self cellForRowAtIndexPath:indexPath];
     ZDStoreDetailsController *detail = [[ZDStoreDetailsController alloc] init];
     detail.storeId = cell.storeId;
+      NSLog(@"%@",cell.storeId);
     UIViewController *vc = [UIViewController viewController:self.superview];
-     UIViewController *Vc = [UIViewController viewController:vc.view.superview];
+    UIViewController *Vc = [UIViewController viewController:vc.view.superview];
     [Vc.navigationController pushViewController:detail animated:YES];
 }
 @end

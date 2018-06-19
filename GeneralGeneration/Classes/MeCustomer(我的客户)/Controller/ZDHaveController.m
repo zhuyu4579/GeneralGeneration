@@ -38,7 +38,8 @@ static NSString *size = @"20";
     [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
     _cusListArray = [NSMutableArray array];
     current = 1;
     
@@ -46,9 +47,7 @@ static NSString *size = @"20";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     //注册cell
     [self.tableView registerNib:[UINib nibWithNibName:@"ZDMeCustCell" bundle:nil] forCellReuseIdentifier:ID];
-    _cusListArray = [NSMutableArray array];
-    current = 1;
-    [self loadData];
+  
     [self headerRefresh];
     [self setNoData];
 }
@@ -72,6 +71,8 @@ static NSString *size = @"20";
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     
     self.tableView.mj_header = header;
+    
+    [self.tableView.mj_header beginRefreshing];
     //创建上拉加载
     MJRefreshBackGifFooter *footer = [MJRefreshBackGifFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     self.tableView.mj_footer = footer;
@@ -104,7 +105,7 @@ static NSString *size = @"20";
         //2.拼接参数
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
          paraments[@"dealStatus"] = @"5";
-         paraments[@"current"] = [NSString stringWithFormat:@"%zd",current];
+         paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
          paraments[@"size"] = size;
         NSString *url = [NSString stringWithFormat:@"%@/order/general/list",URL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {

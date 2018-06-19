@@ -72,7 +72,6 @@
                         <rect key="frame" x="111.5" y="46" width="248.5" height="13"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="248.5" id="55h-W9-5SB"/>
-                            <constraint firstAttribute="height" constant="13" id="VY4-Du-nDV"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="textColor"/>

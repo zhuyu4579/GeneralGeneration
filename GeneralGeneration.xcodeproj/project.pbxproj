@@ -106,6 +106,7 @@
 		1F5AD8552096ED6100FC4387 /* POIAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5AD8542096ED6100FC4387 /* POIAnnotation.m */; };
 		1F5AD8582096FCF300FC4387 /* AMapTipAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5AD8572096FCF300FC4387 /* AMapTipAnnotation.m */; };
 		1F61784E2092C4D000A7E937 /* GKCover.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F61784C2092C4CF00A7E937 /* GKCover.m */; };
+		1F74327E20D8AE7100134886 /* ZDPunchRecordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F74327D20D8AE7100134886 /* ZDPunchRecordController.m */; };
 		1FE7708B20916B70009AE100 /* ZDContractController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE7708A20916B70009AE100 /* ZDContractController.m */; };
 		1FE770912091C041009AE100 /* ZDSelectStoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE770902091C041009AE100 /* ZDSelectStoreController.m */; };
 		1FE770942091C424009AE100 /* ZDStoreTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE770932091C424009AE100 /* ZDStoreTableView.m */; };
@@ -297,6 +298,8 @@
 		1F61784B2092C4CF00A7E937 /* GKCoverEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKCoverEnum.h; sourceTree = "<group>"; };
 		1F61784C2092C4CF00A7E937 /* GKCover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKCover.m; sourceTree = "<group>"; };
 		1F61784D2092C4CF00A7E937 /* GKCover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKCover.h; sourceTree = "<group>"; };
+		1F74327C20D8AE7100134886 /* ZDPunchRecordController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDPunchRecordController.h; sourceTree = "<group>"; };
+		1F74327D20D8AE7100134886 /* ZDPunchRecordController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDPunchRecordController.m; sourceTree = "<group>"; };
 		1FE7708920916B70009AE100 /* ZDContractController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDContractController.h; sourceTree = "<group>"; };
 		1FE7708A20916B70009AE100 /* ZDContractController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDContractController.m; sourceTree = "<group>"; };
 		1FE7708F2091C041009AE100 /* ZDSelectStoreController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDSelectStoreController.h; sourceTree = "<group>"; };
@@ -359,6 +362,7 @@
 		1F0353E3208D7310009B4753 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1F74328020D8D79100134886 /* MapFindStore(地图找店) */,
 				1F0353E4208D7310009B4753 /* ScavengingGuest(扫码上客) */,
 				1F0353E8208D7310009B4753 /* Man */,
 				1F0353EC208D7310009B4753 /* BrokerStore(经纪门店) */,
@@ -467,6 +471,8 @@
 				1F0F8DA620D2390C00FAB3E2 /* ZDFollowsRecordController.m */,
 				1F0F8DA820D2498C00FAB3E2 /* ZDStorePunchController.h */,
 				1F0F8DA920D2498C00FAB3E2 /* ZDStorePunchController.m */,
+				1F74327C20D8AE7100134886 /* ZDPunchRecordController.h */,
+				1F74327D20D8AE7100134886 /* ZDPunchRecordController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -935,6 +941,37 @@
 			path = "Alert(拍照)";
 			sourceTree = "<group>";
 		};
+		1F74328020D8D79100134886 /* MapFindStore(地图找店) */ = {
+			isa = PBXGroup;
+			children = (
+				1F74328120D8D79100134886 /* Controller */,
+				1F74328220D8D79100134886 /* Model */,
+				1F74328320D8D79100134886 /* View */,
+			);
+			path = "MapFindStore(地图找店)";
+			sourceTree = "<group>";
+		};
+		1F74328120D8D79100134886 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		1F74328220D8D79100134886 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1F74328320D8D79100134886 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		2EA33B00EC3DBD753E814BB9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1132,6 +1169,7 @@
 				1F53953F2092BAEC002F5CA4 /* ZDAlertView.m in Sources */,
 				1F462CAF208F10830010F92D /* ZDOrderDetailsController.m in Sources */,
 				1F45EC742098123C0042FD53 /* ZDFollowTableView.m in Sources */,
+				1F74327E20D8AE7100134886 /* ZDPunchRecordController.m in Sources */,
 				1F03544F208D7423009B4753 /* UIViewController+WZFindController.m in Sources */,
 				1F085013209054EF006AB282 /* ZDAreasItem.m in Sources */,
 				1F462CA7208EFE4D0010F92D /* ZDInvalidController.m in Sources */,

@@ -9,6 +9,7 @@
 #import "ZDStorePunchController.h"
 #import "UIBarButtonItem+Item.h"
 #import "NSString+LCExtension.h"
+#import "ZDPunchRecordController.h"
 #import <CoreLocation/CoreLocation.h>
 #import "ZDPunchTableView.h"
 #import "ZDPunchItem.h"
@@ -48,7 +49,8 @@ static NSString *size = @"20";
     [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.7]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"门店打卡";
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButtons:self action:@selector(punchRecord) title:@"打卡记录"];
@@ -56,16 +58,14 @@ static NSString *size = @"20";
     current = 1;
     //创建view
     [self setViews];
-    //查询数据
-    [self loadData];
     //下拉刷新
     [self headerRefresh];
-   
+    
 }
 //下拉刷新
 -(void)headerRefresh{
     //创建下拉刷新
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic:)];
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
     
     // 设置文字
     [header setTitle:@"刷新完毕..." forState:MJRefreshStateIdle];
@@ -82,13 +82,14 @@ static NSString *size = @"20";
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     
     _punchs.mj_header = header;
+    
+    [_punchs.mj_header beginRefreshing];
     //创建上拉加载
     MJRefreshBackGifFooter *footer = [MJRefreshBackGifFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     _punchs.mj_footer = footer;
 }
 #pragma mark -下拉刷新或者加载数据
--(void)loadNewTopic:(id)refrech{
-    
+-(void)loadNewTopic{
     [_punchs.mj_header beginRefreshing];
     _punchArray = [NSMutableArray array];
     current = 1;
@@ -117,12 +118,12 @@ static NSString *size = @"20";
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-    paraments[@"distributionCompanyId"] = _storeId;
+    paraments[@"companyId"] = _storeId;
     paraments[@"pageNumber"] = [NSString stringWithFormat:@"%ld",(long)current];
     paraments[@"pageSize"] = size;
-    paraments[@"followTime"] = @"";
-    NSString *url = [NSString stringWithFormat:@"%@/proDistributionCompanyFollow/infoList",URL];
-    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+    paraments[@"clockDate"] = @"";
+    NSString *url = [NSString stringWithFormat:@"%@/storeClock/read/list",URL];
+    [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             NSDictionary *data = [responseObject valueForKey:@"data"];
@@ -305,14 +306,18 @@ static NSString *size = @"20";
     view.fSize = CGSizeMake(270, 265);
     view.layer.cornerRadius = 6.0;
     UILabel *title = [[UILabel alloc] init];
-    title.text = @"打卡";
-    title.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:21];
+    if ([_clockType isEqual:@"1"]) {
+        title.text = @"已进入门店打卡范围";
+    }else{
+        title.text = @"当前不在门店打卡范围内";
+    }
+    title.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
     title.textColor = UIColorRBG(101, 101, 101);
     [view addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(view.mas_top).offset(31);
         make.centerX.equalTo(view.mas_centerX);
-        make.height.offset(21);
+        make.height.offset(16);
     }];
     UIView *ine = [[UIView alloc] init];
     ine.backgroundColor = UIColorRBG(241, 241, 241);
@@ -441,7 +446,9 @@ static NSString *size = @"20";
 }
 //打卡记录
 -(void)punchRecord{
-    
+    ZDPunchRecordController *prC = [[ZDPunchRecordController alloc] init];
+    prC.storeId = _storeId;
+    [self.navigationController pushViewController:prC animated:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

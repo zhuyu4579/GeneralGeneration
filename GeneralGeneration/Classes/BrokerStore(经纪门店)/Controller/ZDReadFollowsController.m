@@ -48,7 +48,8 @@ static NSString *size = @"20";
     [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.7]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"门店跟进";
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButtons:self action:@selector(followRecord) title:@"跟进记录"];
@@ -57,8 +58,7 @@ static NSString *size = @"20";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification  object:nil];
     //创建控件
     [self createView];
-    //查询数据
-    [self loadData];
+   
     //下拉刷新
     [self headerRefresh];
 }
@@ -82,6 +82,8 @@ static NSString *size = @"20";
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     
     _follow.mj_header = header;
+    
+    [_follow.mj_header beginRefreshing];
     //创建上拉加载
     MJRefreshBackGifFooter *footer = [MJRefreshBackGifFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     _follow.mj_footer = footer;

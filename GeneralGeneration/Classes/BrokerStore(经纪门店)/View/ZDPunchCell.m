@@ -23,6 +23,7 @@
     [_titleLabel setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
     _label.textColor = UIColorRBG(153, 153, 153);
     _punchContent.textColor = UIColorRBG(153, 153, 153);
+    _punchContent.numberOfLines = 0;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -65,7 +65,8 @@ static NSString *size = @"20";
     [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
    
     
     [super viewDidLoad];
@@ -74,12 +75,11 @@ static NSString *size = @"20";
     current = 1;
     //区域数据的获取
     [self searchData];
-    //获取列表数据
-    [self loadData];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"选择门店";
     //创建view
     [self createView];
+    
     [self headerRefresh];
     
     if (_storeBlocks) {
@@ -107,6 +107,8 @@ static NSString *size = @"20";
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     
     self.store.mj_header = header;
+    
+    [self.store.mj_header beginRefreshing];
     //创建上拉加载
     MJRefreshBackGifFooter *footer = [MJRefreshBackGifFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     self.store.mj_footer = footer;
@@ -126,8 +128,6 @@ static NSString *size = @"20";
 }
 //列表的数据请求
 -(void)loadData{
-    
-    
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
         NSString *uuid = [ user objectForKey:@"uuid"];
     
@@ -147,7 +147,7 @@ static NSString *size = @"20";
         paraments[@"cityId"] = _cityId;
         paraments[@"areaId"] = _areaId;
         paraments[@"name"] = _name;
-        paraments[@"current"] = [NSString stringWithFormat:@"%zd",current];
+        paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
         paraments[@"size"] = size;
         NSString *url = [NSString stringWithFormat:@"%@/proDistributionCompany/proCompanyList",URL];
         [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {

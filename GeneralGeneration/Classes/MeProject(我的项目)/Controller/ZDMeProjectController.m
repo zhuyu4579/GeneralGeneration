@@ -63,15 +63,15 @@ static NSString *size = @"20";
 - (void)viewDidLoad {
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
     [super viewDidLoad];
      [self setNoData];
     _projectListArray = [NSMutableArray array];
     page = 1;
     //区域数据的获取
     [self searchData];
-    //获取列表数据
-    [self loadData];
+  
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"我的项目";
     //创建view
@@ -101,6 +101,7 @@ static NSString *size = @"20";
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     
     _project.mj_header = header;
+    [_project.mj_header beginRefreshing];
     //创建上拉加载
     MJRefreshBackGifFooter *footer = [MJRefreshBackGifFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     _project.mj_footer = footer;
@@ -135,7 +136,7 @@ static NSString *size = @"20";
         paraments[@"cityId"] = _cityId;
         paraments[@"areaId"] = _areaId;
         paraments[@"name"] = _name;
-        paraments[@"current"] = [NSString stringWithFormat:@"%zd",page];
+        paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)page];
         paraments[@"size"] = size;
         paraments[@"location"] = location;
         NSString *url = [NSString stringWithFormat:@"%@/userProject/projectList",URL];

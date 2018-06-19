@@ -39,7 +39,8 @@ static NSString *size = @"20";
     [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
     _cusListArray = [NSMutableArray array];
     current = 1;
     [self setNoData];
@@ -107,7 +108,7 @@ static NSString *size = @"20";
         //2.拼接参数
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"dealStatus"] = @"3";
-        paraments[@"current"] = [NSString stringWithFormat:@"%zd",current];
+        paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
         paraments[@"size"] = size;
         NSString *url = [NSString stringWithFormat:@"%@/order/general/list",URL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
@@ -202,8 +203,6 @@ static NSString *size = @"20";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    _cusListArray = [NSMutableArray array];
-    current = 1;
-    [self loadData];
+    [self.tableView.mj_header beginRefreshing];
 }
 @end

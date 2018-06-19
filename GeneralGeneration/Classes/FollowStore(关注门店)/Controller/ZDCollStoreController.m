@@ -62,7 +62,8 @@ static NSString *size = @"20";
     [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
      self.view.backgroundColor = UIColorRBG(242, 242, 242);
      [self setNoData];
     _storeListArray = [NSMutableArray array];
@@ -136,7 +137,7 @@ static NSString *size = @"20";
         paraments[@"areaId"] = _areaId;
         paraments[@"name"] = _name;
         paraments[@"collect"] = @"1";
-        paraments[@"current"] = [NSString stringWithFormat:@"%zd",currents];
+        paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)currents];
         paraments[@"size"] = size;
         paraments[@"location"] = location;
          NSString *url = [NSString stringWithFormat:@"%@/proDistributionCompany/serverCompany/list",URL];
@@ -473,9 +474,7 @@ static NSString *size = @"20";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    _storeListArray = [NSMutableArray array];
-    currents = 1;
-    [self loadData];
+    [_allStore.mj_header beginRefreshing];
 }
 
 @end

@@ -1,49 +1,47 @@
 //
-//  ZDFollowsRecordController.m
+//  ZDPunchRecordController.m
 //  GeneralGeneration
 //
-//  Created by 朱玉隆 on 2018/6/14.
+//  Created by 朱玉隆 on 2018/6/19.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
 
-#import "ZDFollowsRecordController.h"
+#import "ZDPunchRecordController.h"
 #import "NSString+LCExtension.h"
 #import "UIBarButtonItem+Item.h"
-#import "UIView+Frame.h"
-#import <Masonry.h>
-#import <SVProgressHUD.h>
-#import <AFNetworking.h>
-#import <MJRefresh.h>
-#import <MJExtension.h>
-#import "ZDFollowItem.h"
-#import "ZDFollowCell.h"
 #import <BRDatePickerView.h>
-static  NSString * const ID = @"cells";
-@interface ZDFollowsRecordController (){
+#import <SVProgressHUD.h>
+#import "UIView+Frame.h"
+#import <AFNetworking.h>
+#import <MJExtension.h>
+#import "ZDPunchCell.h"
+#import "ZDPunchItem.h"
+#import <MJRefresh.h>
+#import <Masonry.h>
+@interface ZDPunchRecordController (){
     //页数
     NSInteger current;
 }
 //跟进内容数组
 @property(nonatomic,strong)NSMutableArray *recordArray;
 //数据模型数组
-@property(nonatomic,strong)NSArray *followArray;
+@property(nonatomic,strong)NSArray *punchArray;
 //数据模型数组
 @property(nonatomic,strong)NSString *dateTime;
 @end
 //查询条数
 static NSString *size = @"20";
-
-@implementation ZDFollowsRecordController
+static  NSString * const ID = @"cell";
+@implementation ZDPunchRecordController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.7]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
-    
+    self.navigationItem.title = @"打卡记录";
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.title = @"跟进记录";
     NSDate *date=[NSDate date];
     NSDateFormatter *format1=[[NSDateFormatter alloc] init];
     [format1 setDateFormat:@"yyyy-MM-dd"];
@@ -53,9 +51,8 @@ static NSString *size = @"20";
     _recordArray = [NSMutableArray array];
     current = 1;
     //注册cell
-    [self.tableView registerNib:[UINib nibWithNibName:@"ZDFollowCell" bundle:nil] forCellReuseIdentifier:ID];
+    [self.tableView registerNib:[UINib nibWithNibName:@"ZDPunchCell" bundle:nil] forCellReuseIdentifier:ID];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     //下拉刷新
     [self headerRefresh];
 }
@@ -79,6 +76,7 @@ static NSString *size = @"20";
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     
     self.tableView.mj_header = header;
+    
     [self.tableView.mj_header beginRefreshing];
     //创建上拉加载
     MJRefreshBackGifFooter *footer = [MJRefreshBackGifFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
@@ -115,12 +113,12 @@ static NSString *size = @"20";
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-    paraments[@"distributionCompanyId"] = _storeId;
+    paraments[@"companyId"] = _storeId;
     paraments[@"pageNumber"] = [NSString stringWithFormat:@"%ld",(long)current];
     paraments[@"pageSize"] = size;
-    paraments[@"followTime"] = _dateTime;
-    NSString *url = [NSString stringWithFormat:@"%@/proDistributionCompanyFollow/infoList",URL];
-    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+    paraments[@"clockDate"] = _dateTime;
+    NSString *url = [NSString stringWithFormat:@"%@/storeClock/read/list",URL];
+    [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             NSDictionary *data = [responseObject valueForKey:@"data"];
@@ -135,7 +133,7 @@ static NSString *size = @"20";
                 current +=1;
                 [self.tableView.mj_footer endRefreshing];
             }
-            _followArray = [ZDFollowItem mj_objectArrayWithKeyValuesArray:_recordArray];
+            _punchArray = [ZDPunchItem mj_objectArrayWithKeyValuesArray:_recordArray];
             [self.tableView reloadData];
             [self.tableView.mj_header endRefreshing];
         }else{
@@ -156,41 +154,41 @@ static NSString *size = @"20";
 //选择时间
 -(void)selectDate{
     [BRDatePickerView showDatePickerWithTitle:@"开始时间" dateType:UIDatePickerModeDate defaultSelValue:nil resultBlock:^(NSString *selectValue) {
-         self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButtonImage:[UIImage imageNamed:@"more_unfold_2-1"] target:self action:@selector(selectDate) title:selectValue];
+        self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButtonImage:[UIImage imageNamed:@"more_unfold_2-1"] target:self action:@selector(selectDate) title:selectValue];
         _dateTime = selectValue;
         _recordArray = [NSMutableArray array];
         current = 1;
         [self loadData];
     }];
 }
+
 #pragma mark - Table view data source
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 110;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _followArray.count;
+    return _punchArray.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    ZDFollowCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-    [cell.ineOne setHidden:NO];
-    [cell.ineTwo setHidden:NO];
-    if(_followArray.count == 1){
-        [cell.ineOne setHidden:YES];
-        [cell.ineTwo setHidden:YES];
+    ZDPunchCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    [cell.ineTop setHidden:NO];
+    [cell.ineBottom setHidden:NO];
+    if(_punchArray.count == 1){
+        [cell.ineTop setHidden:YES];
+        [cell.ineBottom setHidden:YES];
     }else{
         if (indexPath.row == 0) {
-            [cell.ineOne setHidden:YES];
-            [cell.ineTwo setHidden:NO];
+            [cell.ineTop setHidden:YES];
+            [cell.ineBottom setHidden:NO];
         }
-        if (indexPath.row == (_followArray.count-1)) {
-            [cell.ineOne setHidden:NO];
-            [cell.ineTwo setHidden:YES];
+        if (indexPath.row == (_punchArray.count-1)) {
+            [cell.ineTop setHidden:NO];
+            [cell.ineBottom setHidden:YES];
         }
     }
     
-    ZDFollowItem *item = _followArray[indexPath.row];
+    ZDPunchItem *item = _punchArray[indexPath.row];
     cell.item = item;
     return cell;
 }
-
 @end
