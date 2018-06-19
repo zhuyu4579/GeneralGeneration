@@ -31,9 +31,15 @@
     [_readFollow setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
     _readFollow.layer.borderWidth = 1.0;
     
-    [_contractProject setEnlargeEdgeWithTop:10 right:9 bottom:10 left:9];
-    [_collect setEnlargeEdgeWithTop:10 right:9 bottom:10 left:9];
-    [_readFollow setEnlargeEdgeWithTop:10 right:9 bottom:10 left:9];
+    _punch.layer.cornerRadius = 10.0;
+    _punch.layer.borderColor = UIColorRBG(3, 133, 219).CGColor;
+    [_punch setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
+    _punch.layer.borderWidth = 1.0;
+    
+    [_contractProject setEnlargeEdgeWithTop:10 right:5 bottom:10 left:5];
+    [_collect setEnlargeEdgeWithTop:10 right:5 bottom:10 left:5];
+    [_readFollow setEnlargeEdgeWithTop:10 right:5 bottom:10 left:5];
+    [_punch setEnlargeEdgeWithTop:10 right:5 bottom:10 left:5];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

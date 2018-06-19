@@ -95,7 +95,7 @@
 }
 -(void)textViewDidChange:(UITextView *)textView{
       NSString *text = textView.text;
-    _labelSum.text = [NSString stringWithFormat:@"%lu/1000",(unsigned long)text.length];
+    _labelSum.text = [NSString stringWithFormat:@"%lu/400",(unsigned long)text.length];
     if (text.length == 400) {
         textView.editable = NO;
     }
@@ -103,7 +103,7 @@
 //提交
 -(void)Submission{
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-        NSString *uuid = [ user objectForKey:@"uuid"];
+        NSString *uuid = [user objectForKey:@"uuid"];
         NSString *jobType = [user objectForKey:@"jobType"];
         //创建会话请求
         AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];

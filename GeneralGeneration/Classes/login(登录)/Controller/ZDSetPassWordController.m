@@ -42,6 +42,7 @@
 }
 //设置控件按钮
 -(void)setUpButton{
+    _headHeight.constant = kApplicationStatusBarHeight + 85;
     //设置登录按钮圆角
     self.comfileButton.layer.cornerRadius = 22.0;
     self.comfileButton.layer.masksToBounds = YES;

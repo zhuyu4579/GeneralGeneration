@@ -13,6 +13,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *followTime;
 //图片
 @property (strong, nonatomic) IBOutlet UIButton *label;
+//负责人姓名
+@property (strong, nonatomic) IBOutlet UILabel *dutyName;
 //跟进内容
 @property (strong, nonatomic) IBOutlet UILabel *followContent;
 //上面线

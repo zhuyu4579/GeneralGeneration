@@ -16,6 +16,7 @@
                 <outlet property="address" destination="xs9-EL-Bro" id="Fz1-kh-Yn5"/>
                 <outlet property="comptyName" destination="7Wl-Ye-u7f" id="oIl-sT-UyV"/>
                 <outlet property="dutyName" destination="apT-5X-IHm" id="edQ-ZA-KYq"/>
+                <outlet property="headHeight" destination="l1D-l7-1IO" id="vIk-WH-RUu"/>
                 <outlet property="remarks" destination="tM7-eJ-AvP" id="CtT-ei-hgN"/>
                 <outlet property="selectStoreType" destination="pBB-82-C7K" id="bSX-Rs-Puy"/>
                 <outlet property="storeName" destination="fBx-5v-5SK" id="JSv-hu-Nkj"/>

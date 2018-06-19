@@ -31,6 +31,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *selectStoreType;
 //门店位置按钮
 @property (strong, nonatomic) IBOutlet UIButton *addrButton;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *headHeight;
 //选择类型
 - (IBAction)selectStoreType:(UIButton *)sender;
 //选择位置

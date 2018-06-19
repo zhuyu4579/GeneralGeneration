@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ZDFindPWController">
             <connections>
+                <outlet property="headHeight" destination="mqV-C7-fyN" id="ngi-7F-TG8"/>
                 <outlet property="nextButton" destination="hSc-gI-PHe" id="Oka-r5-xrg"/>
                 <outlet property="phone" destination="hUg-Cl-RPv" id="hGu-PC-Rxk"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>

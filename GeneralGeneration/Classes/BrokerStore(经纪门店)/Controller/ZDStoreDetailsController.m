@@ -21,6 +21,7 @@
 #import "ZDReadFollowsController.h"
 #import "ZDMapController.h"
 #import "NSString+LCExtension.h"
+#import "ZDStorePunchController.h"
 @interface ZDStoreDetailsController ()<UITextViewDelegate,UITextFieldDelegate>
 //内容scrollView
 @property(nonatomic,strong)UIScrollView *scrollView;
@@ -55,6 +56,8 @@
 @property (strong, nonatomic)  UIButton *collect;
 //写跟进
 @property (strong, nonatomic)  UIButton *readFollow;
+//打卡
+@property (strong, nonatomic)  UIButton *punsh;
 //门店经纬度
 @property(nonatomic,strong)NSString *lnglat;
 //已签约项目
@@ -221,7 +224,7 @@
     readFollow.layer.borderWidth = 1.0;
     _readFollow = readFollow;
     [readFollow setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
-    [readFollow setTitle:@"写跟进" forState:UIControlStateNormal];
+    [readFollow setTitle:@"跟进" forState:UIControlStateNormal];
     readFollow.titleLabel.font = [UIFont systemFontOfSize:13];
 
     [readFollow addTarget:self action:@selector(readFollows) forControlEvents:UIControlEventTouchUpInside];
@@ -229,6 +232,24 @@
     [readFollow mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(buttonView.mas_top).offset(15);
         make.right.equalTo(collect.mas_left).offset(-18);
+        make.width.offset(60);
+        make.height.offset(20);
+    }];
+    
+    UIButton *punsh = [[UIButton alloc] init];
+    punsh.layer.cornerRadius = 10.0;
+    punsh.layer.borderColor = UIColorRBG(3, 133, 219).CGColor;
+    punsh.layer.borderWidth = 1.0;
+    _punsh = punsh;
+    [punsh setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
+    [punsh setTitle:@"打卡" forState:UIControlStateNormal];
+    punsh.titleLabel.font = [UIFont systemFontOfSize:13];
+    
+    [punsh addTarget:self action:@selector(punshs) forControlEvents:UIControlEventTouchUpInside];
+    [buttonView addSubview:punsh];
+    [punsh mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(buttonView.mas_top).offset(15);
+        make.right.equalTo(readFollow.mas_left).offset(-18);
         make.width.offset(60);
         make.height.offset(20);
     }];
@@ -764,6 +785,12 @@
     ZDReadFollowsController *readF = [[ZDReadFollowsController alloc] init];
     readF.storeId = _storeId;
     [self.navigationController pushViewController:readF animated:YES];
+}
+//打卡
+-(void)punshs{
+    ZDStorePunchController *punch = [[ZDStorePunchController alloc] init];
+    punch.storeId = _storeId;
+    [self.navigationController pushViewController:punch animated:YES];
 }
 //获取焦点
 -(void)textFieldDidBeginEditing:(UITextField *)textField{

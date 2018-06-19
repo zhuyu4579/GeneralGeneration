@@ -16,430 +16,322 @@
 #import <MJExtension.h>
 #import "ZDFollowTableView.h"
 #import "ZDFollowItem.h"
-#import <BRPickerView.h>
 #import "NSString+LCExtension.h"
-@interface ZDReadFollowsController ()<UITextFieldDelegate>
-//门店名称
-@property(nonatomic,strong)UILabel *storeName;
-//门店地址
-@property(nonatomic,strong)UILabel *address;
-//负责人姓名
-@property(nonatomic,strong)UILabel *dutyName;
-//负责人联系电话
-@property(nonatomic,strong)UILabel *telphone;
-//跟进类型
-@property(nonatomic,strong)UILabel *followType;
-//跟进时间
-@property(nonatomic,strong)UILabel *followTime;
-//创建跟进类容
-@property(nonatomic,strong)UITextField *followContent;
-//发送内容的view
-@property(nonatomic ,strong)UIView *viewThree;
-@property(nonatomic ,strong)UIView *viewFour;
-//跟进消息列表
-@property(nonatomic,strong)ZDFollowTableView *tableView;
-//跟进数组
-@property(nonatomic,strong)NSMutableArray *followArray;
-//跟进数组value
-@property(nonatomic,strong)NSMutableArray *valueArray;
+#import "UIBarButtonItem+Item.h"
+#import "ZDFollowsRecordController.h"
+@interface ZDReadFollowsController ()<UITextFieldDelegate,UITextViewDelegate>{
+    //页数
+    NSInteger current;
+}
+//跟进view
+@property (nonatomic, strong) UIView *recordView;
+//写跟进
+@property (nonatomic, strong) UIView *views;
+//文本输入框
+@property (nonatomic, strong) UITextView *textView;
+//文本提示语
+@property (nonatomic, strong) UILabel *labels;
+//文本数量
+@property (nonatomic, strong) UILabel *labelSum;
+//提交按钮
+@property (nonatomic, strong) UIButton *button;
+//跟进内容数组
+@property(nonatomic,strong)NSMutableArray *recordArray;
+
+@property(nonatomic,strong)ZDFollowTableView *follow;
 @end
+//查询条数
+static NSString *size = @"20";
 
 @implementation ZDReadFollowsController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.7]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    self.view.backgroundColor = UIColorRBG(242, 242, 242);
+    self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"门店跟进";
-    //读取数据字典
-    NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
-    NSString *fileName = [path stringByAppendingPathComponent:@"dictionaries.plist"];
-    NSArray *result = [NSArray arrayWithContentsOfFile:fileName];
-    NSArray *itemArray;
-    for (NSDictionary *obj in result) {
-        NSString *code = [obj valueForKey:@"code"];
-        //跟进类别
-        if ([code isEqual:@"gjlb"]) {
-           itemArray = [obj valueForKey:@"dicts"];
-        }
-    }
-    _followArray = [NSMutableArray array];
-    _valueArray = [NSMutableArray array];
-    for (NSDictionary *dicty in itemArray) {
-        NSString *label = [dicty valueForKey:@"label"];
-        NSString *value = [dicty valueForKey:@"value"];
-        [_followArray addObject:label];
-        [_valueArray addObject:value];
-    }
-    //创建view
-    [self createCV];
-    //请求数据
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButtons:self action:@selector(followRecord) title:@"跟进记录"];
+    _recordArray = [NSMutableArray array];
+    current = 1;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification  object:nil];
+    //创建控件
+    [self createView];
+    //查询数据
+    [self loadData];
+    //下拉刷新
+    [self headerRefresh];
+}
+//下拉刷新
+-(void)headerRefresh{
+    //创建下拉刷新
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic:)];
+    
+    // 设置文字
+    [header setTitle:@"刷新完毕..." forState:MJRefreshStateIdle];
+    [header setTitle:@"下拉刷新" forState:MJRefreshStatePulling];
+    [header setTitle:@"刷新中..." forState:MJRefreshStateRefreshing];
+    // 隐藏时间
+    header.lastUpdatedTimeLabel.hidden = YES;
+    header.mj_h = 60;
+    // 设置字体
+    header.stateLabel.font = [UIFont systemFontOfSize:15];
+    header.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:14];
+    
+    // 设置颜色
+    header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
+    
+    _follow.mj_header = header;
+    //创建上拉加载
+    MJRefreshBackGifFooter *footer = [MJRefreshBackGifFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    _follow.mj_footer = footer;
+}
+#pragma mark -下拉刷新或者加载数据
+-(void)loadNewTopic:(id)refrech{
+    
+    [_follow.mj_header beginRefreshing];
+    _recordArray = [NSMutableArray array];
+    current = 1;
     [self loadData];
 }
-//请求数据
+//上拉刷新
+-(void)loadMoreData{
+    [_follow.mj_footer beginRefreshing];
+    [self loadData];
+}
+//查询当天的跟进记录
 -(void)loadData{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [ user objectForKey:@"uuid"];
+    NSString *uuid = [user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
-        //创建会话请求
-        AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-        
-        mgr.requestSerializer.timeoutInterval = 20;
-        
-        mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-        [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-        //2.拼接参数
-        NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-        paraments[@"distributionCompanyId"] = _storeId;
-        NSString *url = [NSString stringWithFormat:@"%@/proDistributionCompanyFollow/infoList",URL];
-        [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-            NSString *code = [responseObject valueForKey:@"code"];
-            if ([code isEqual:@"200"]) {
-                NSDictionary *data = [responseObject valueForKey:@"data"];
-                _storeName.text = [data valueForKey:@"name"];
-                _address.text = [data valueForKey:@"addr"];
-                _dutyName.text = [data valueForKey:@"dutyName"];
-                _telphone.text = [data valueForKey:@"telphone"];
-                NSArray *followArray = [data valueForKey:@"distributioncompanyfollow"];
-                _tableView.followArray = [ZDFollowItem mj_objectArrayWithKeyValuesArray:followArray];
-                [_tableView reloadData];
+    mgr.requestSerializer.timeoutInterval = 20;
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"distributionCompanyId"] = _storeId;
+    paraments[@"pageNumber"] = [NSString stringWithFormat:@"%ld",(long)current];
+    paraments[@"pageSize"] = size;
+    paraments[@"followTime"] = @"";
+    NSString *url = [NSString stringWithFormat:@"%@/proDistributionCompanyFollow/infoList",URL];
+    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSArray *rows = [data valueForKey:@"rows"];
+            
+            if (rows.count == 0) {
+                [_follow.mj_footer endRefreshingWithNoMoreData];
             }else{
-                NSString *msg = [responseObject valueForKey:@"msg"];
-                if (![msg isEqual:@""]) {
-                    [SVProgressHUD showInfoWithStatus:msg];
+                for (int i=0; i<rows.count; i++) {
+                    [_recordArray addObject:rows[i]];
                 }
-                [NSString isCode:self.navigationController code:code];
+                current +=1;
+                [_follow.mj_footer endRefreshing];
             }
             
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            [SVProgressHUD showInfoWithStatus:@"网络不给力"];
-        }];
-        
-    
-}
-//创建控件
--(void)createCV{
-    //创建view
-    UIView *viewOne = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+45, self.view.fWidth, 134)];
-    viewOne.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:viewOne];
-    //门店名称
-    UILabel *storeName = [[UILabel alloc] init];
-    _storeName = storeName;
-    storeName.text = @"无";
-    storeName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
-    storeName.textColor = UIColorRBG(68, 68, 68);
-    [viewOne addSubview:storeName];
-    [storeName mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(viewOne.mas_centerX);
-        make.top.equalTo(viewOne.mas_top).offset(20);
-        make.height.offset(15);
-    }];
-    //门店地址
-    UILabel *address = [[UILabel alloc] init];
-    _address = address;
-    address.text = @"无";
-    address.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    address.textColor = UIColorRBG(153, 153, 153);
-    [viewOne addSubview:address];
-    [address mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(viewOne.mas_centerX);
-        make.top.equalTo(storeName.mas_bottom).offset(16);
-        make.height.offset(13);
-    }];
-    //负责人
-    UILabel *duty = [[UILabel alloc] init];
-    duty.text = @"负 责 人：";
-    duty.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    duty.textColor = UIColorRBG(153, 153, 153);
-    [viewOne addSubview:duty];
-    [duty mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(viewOne.mas_left).offset(15);
-        make.top.equalTo(address.mas_bottom).offset(40);
-        make.height.offset(13);
-    }];
-    //负责人姓名
-    UILabel *dutyName = [[UILabel alloc] init];
-    dutyName.text = @"无";
-    _dutyName = dutyName;
-    dutyName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    dutyName.textColor = UIColorRBG(68, 68, 68);
-    [viewOne addSubview:dutyName];
-    [dutyName mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(duty.mas_right).offset(0);
-        make.top.equalTo(address.mas_bottom).offset(40);
-        make.height.offset(13);
-    }];
-    //打电话
-    UIButton *playPhone = [[UIButton alloc] init];
-    [playPhone setBackgroundImage:[UIImage imageNamed:@"phone"] forState:UIControlStateNormal];
-    [playPhone setEnlargeEdge:20];
-    [playPhone addTarget:self action:@selector(palyPhone) forControlEvents:UIControlEventTouchUpInside];
-    [viewOne addSubview:playPhone];
-    [playPhone mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(viewOne.mas_right).offset(-15);
-        make.top.equalTo(address.mas_bottom).offset(34);
-        make.height.offset(23);
-        make.width.offset(16);
-    }];
-    //负责人电话
-    UILabel *telphone = [[UILabel alloc] init];
-    _telphone = telphone;
-    telphone.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    telphone.textColor = UIColorRBG(3, 133, 219);
-    [viewOne addSubview:telphone];
-    [telphone mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(playPhone.mas_left).offset(-24);
-        make.top.equalTo(address.mas_bottom).offset(40);
-        make.height.offset(13);
-    }];
-    
-    UIView *viewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, viewOne.fY+144, self.view.fWidth, 91)];
-    viewTwo.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:viewTwo];
-    //跟进类型
-    UILabel *follow = [[UILabel alloc] init];
-    follow.text = @"跟进类型：";
-    follow.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    follow.textColor = UIColorRBG(153, 153, 153);
-    [viewTwo addSubview:follow];
-    [follow mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(viewTwo.mas_left).offset(15);
-        make.top.equalTo(viewTwo.mas_top).offset(17);
-        make.height.offset(13);
-    }];
-   //跟进类型
-    UILabel *followType = [[UILabel alloc] init];
-    if (_followArray.count !=0) {
-         followType.text = _followArray[0];
-    }else{
-        followType.text = @"";
-    }
-   
-    _followType = followType;
-    followType.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
-    followType.textColor = UIColorRBG(68, 68, 68);
-    [viewTwo addSubview:followType];
-    [followType mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(follow.mas_right).offset(0);
-        make.top.equalTo(viewTwo.mas_top).offset(16);
-        make.height.offset(14);
-    }];
-    //选择类型
-    UIButton *selectType = [[UIButton alloc] init];
-    [selectType setBackgroundImage:[UIImage imageNamed:@"more_unfold_2"] forState:UIControlStateNormal];
-    [selectType setEnlargeEdgeWithTop:10 right:10 bottom:10 left:100];
-    [selectType  addTarget:self action:@selector(selectType) forControlEvents:UIControlEventTouchUpInside];
-    [viewTwo addSubview:selectType];
-    [selectType mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(viewTwo.mas_right).offset(-15);
-        make.top.equalTo(viewTwo.mas_top).offset(14);
-        make.height.offset(17);
-        make.width.offset(9);
-    }];
-    UIView *ine = [[UIView alloc] initWithFrame:CGRectMake(15, 45, self.view.fWidth-15, 1)];
-    ine.backgroundColor = UIColorRBG(242, 242, 242);
-    [viewTwo addSubview:ine];
-    
-    //跟进类型
-    UILabel *followT = [[UILabel alloc] init];
-    followT.text = @"跟进时间：";
-    followT.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    followT.textColor = UIColorRBG(153, 153, 153);
-    [viewTwo addSubview:followT];
-    [followT mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(viewTwo.mas_left).offset(15);
-        make.top.equalTo(ine.mas_bottom).offset(17);
-        make.height.offset(13);
-    }];
-    //跟进类型
-    UILabel *followTime = [[UILabel alloc] init];
-    followTime.text = @"请选择";
-    _followTime = followTime;
-    followTime.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
-    followTime.textColor = UIColorRBG(68, 68, 68);
-    [viewTwo addSubview:followTime];
-    [followTime mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(follow.mas_right).offset(0);
-        make.top.equalTo(ine.mas_bottom).offset(16);
-        make.height.offset(14);
-    }];
-    //选择类型
-    UIButton *selectTime = [[UIButton alloc] init];
-    [selectTime setBackgroundImage:[UIImage imageNamed:@"more_unfold_2"] forState:UIControlStateNormal];
-    [selectTime setEnlargeEdgeWithTop:10 right:10 bottom:10 left:100];
-    [selectTime  addTarget:self action:@selector(selectTime) forControlEvents:UIControlEventTouchUpInside];
-    [viewTwo addSubview:selectTime];
-    [selectTime mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(viewTwo.mas_right).offset(-15);
-        make.top.equalTo(ine.mas_bottom).offset(14);
-        make.height.offset(17);
-        make.width.offset(9);
-    }];
-    
-    UIView *viewThree = [[UIView alloc] initWithFrame:CGRectMake(0, viewTwo.fY+101, self.view.fWidth, self.view.fHeight-370)];
-    _viewThree = viewThree;
-    viewThree.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:viewThree];
-    ZDFollowTableView *tableView = [[ZDFollowTableView alloc] init];
-    tableView.frame = viewThree.bounds;
-    _tableView = tableView;
-    [viewThree addSubview:tableView];
-    
-    UIView *viewFour = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.fHeight-49-JF_BOTTOM_SPACE, self.view.fWidth,49+JF_BOTTOM_SPACE)];
-    viewFour.backgroundColor = [UIColor whiteColor];
-    _viewFour = viewFour;
-    [self.view addSubview:viewFour];
-    //发送
-    UIButton *send = [[UIButton alloc] init];
-    [send setTitle:@"发送" forState:UIControlStateNormal];
-    send.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    [send setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
-    [send setTitleColor:[UIColor blueColor] forState:UIControlStateHighlighted];
-    send.layer.borderColor = UIColorRBG(204, 204, 204).CGColor;
-    send.backgroundColor = UIColorRBG(249, 249, 249);
-    send.layer.borderWidth = 1.0;
-    send.layer.cornerRadius = 5.0;
-    [send  addTarget:self action:@selector(send:) forControlEvents:UIControlEventTouchUpInside];
-    [viewFour addSubview:send];
-    [send mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(viewFour.mas_right).offset(-15);
-        make.top.equalTo(viewFour.mas_top).offset(7);
-        make.height.offset(35);
-        make.width.offset(58);
-    }];
-    UITextField *followContent = [[UITextField alloc] initWithFrame:CGRectMake(15, 7, viewFour.fWidth-90, 35)];
-    //编辑时显示一键清除键
-    followContent.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _followContent = followContent;
-    //再次编辑内容清除
-    followContent.clearsOnBeginEditing = YES;
-    followContent.keyboardType = UIKeyboardTypeDefault;
-    followContent.placeholder = @"请输入跟进内容";
-    followContent.textColor = UIColorRBG(68, 68, 68);
-    followContent.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    followContent.backgroundColor = UIColorRBG(249, 249, 249);
-    followContent.layer.borderWidth = 1.0;
-    followContent.layer.cornerRadius = 5.0;
-    followContent.layer.masksToBounds = YES;
-    followContent.delegate = self;
-    followContent.layer.borderColor = UIColorRBG(204, 204, 204).CGColor;
-    [viewFour addSubview:followContent];
-    UILabel * leftView = [[UILabel alloc] initWithFrame:CGRectMake(10,0,7,26)];
-    leftView.backgroundColor = [UIColor clearColor];
-    followContent.leftView = leftView;
-    followContent.leftViewMode = UITextFieldViewModeAlways;
-    followContent.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-}
-//获得焦点
--(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
-    _viewFour.fY -= 256+49;
-    _viewThree.fHeight -=256+49;
-    _tableView.fHeight -=256+49;
-    return YES;
-}
-//结束编辑
--(void)textFieldDidEndEditing:(UITextField *)textField{
-    _viewFour.fY += 256+49;
-    _viewThree.fHeight +=256+49;
-    _tableView.fHeight +=256+49;
-}
-//选择跟进类型
--(void)selectType{
-    NSString *type = _followType.text;
-    [BRStringPickerView showStringPickerWithTitle:@"跟进类型" dataSource:_followArray defaultSelValue:type resultBlock:^(id selectValue) {
-        _followType.text = selectValue;
-    }];
-}
-//选择跟进时间
--(void)selectTime{
-    [BRDatePickerView showDatePickerWithTitle:@"跟进时间" dateType:UIDatePickerModeDate defaultSelValue:nil resultBlock:^(NSString *selectValue) {
-        _followTime.text = selectValue;
-    }];
-}
-//打电话
--(void)palyPhone{
-    NSString *phone = _telphone.text;
-    if (![phone isEqual:@""]) {
-        NSString *callPhone = [NSString stringWithFormat:@"telprompt://%@", phone];
-        if (@available(iOS 10.0, *)) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callPhone] options:@{} completionHandler:nil];
-        } else {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callPhone]];
+            _follow.followArray = [ZDFollowItem mj_objectArrayWithKeyValuesArray:_recordArray];
+            [_follow reloadData];
+            [_follow.mj_header endRefreshing];
+        }else{
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if (![msg isEqual:@""]) {
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+            [NSString isCode:self.navigationController code:code];
+            [_follow.mj_header endRefreshing];
+            [_follow.mj_footer endRefreshing];
         }
-    }else{
-        [SVProgressHUD showInfoWithStatus:@"号码为空"];
-    }
- 
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+        [_follow.mj_header endRefreshing];
+        [_follow.mj_footer endRefreshing];
+    }];
 }
-//发送
--(void)send:(UIButton *)button{
-  
-    NSString *content = _followContent.text;
-    if ([content isEqual:@""]) {
+
+#pragma mark -跟进记录
+-(void)followRecord{
+    ZDFollowsRecordController *followRecord = [[ZDFollowsRecordController alloc] init];
+    followRecord.storeId = _storeId;
+    [self.navigationController pushViewController:followRecord animated:YES];
+}
+#pragma mark -创建控件
+-(void)createView{
+    UILabel *title = [[UILabel alloc] init];
+    title.text = @"像蜜蜂一样勤劳工作才能享受甜蜜生活";
+    title.textColor = UIColorRBG(135, 135, 135);
+    title.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    [self.view addSubview:title];
+    [title mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left).offset(15);
+        make.top.equalTo(self.view.mas_top).offset(kApplicationStatusBarHeight+70);
+        make.height.offset(13);
+    }];
+    //跟进记录view
+    UIView *recordView = [[UIView alloc] init];
+    recordView.backgroundColor = [UIColor whiteColor];
+    _recordView = recordView;
+    [self.view addSubview:recordView];
+    [recordView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left);
+        make.top.equalTo(title.mas_bottom).offset(12);
+        make.width.offset(self.view.fWidth);
+        make.height.offset(self.view.fHeight-kApplicationStatusBarHeight-399);
+    }];
+    ZDFollowTableView *follow = [[ZDFollowTableView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight-399)];
+    _follow = follow;
+    [recordView addSubview:follow];
+    //输入框
+    [self setUpRead];
+    //提交按钮
+    UIButton *button = [[UIButton alloc] init];
+    [button setTitle:@"提交" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _button = button;
+    button.backgroundColor = UIColorRBG(3, 133, 219);
+    button.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
+    [button addTarget:self action:@selector(readRecord) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:button];
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left);
+        make.bottom.equalTo(self.view.mas_bottom);
+        make.width.offset(self.view.fWidth);
+        make.height.offset(49+JF_BOTTOM_SPACE);
+    }];
+}
+//设置输入框
+-(void)setUpRead{
+    UIView *views = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.fHeight - 304 , self.view.fWidth, 233)];
+    views.backgroundColor = [UIColor whiteColor];
+    _views = views;
+    [self.view addSubview:views];
+    UIView *view = [[UIView alloc] init];
+    view.backgroundColor = UIColorRBG(245, 245, 245);
+    [views addSubview:view];
+    [view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(views.mas_left).offset(15);
+        make.top.equalTo(views.mas_top).offset(24);
+        make.width.offset(self.view.fWidth-30);
+        make.height.offset(185);
+    }];
+    self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth-30, 185)]; //初始化大小并自动释放
+    
+    self.textView.textColor = [UIColor blackColor];//设置textview里面的字体颜色
+    
+    self.textView.font = [UIFont fontWithName:@"Arial" size:13.0];//设置字体名字和字体大小
+    
+    self.textView.delegate = self;//设置它的委托方法
+    
+    self.textView.backgroundColor = [UIColor clearColor];//设置它的背景颜色
+    
+    self.textView.returnKeyType = UIReturnKeyDefault;//返回键的类型
+    
+    self.textView.keyboardType = UIKeyboardTypeDefault;//键盘类型
+    
+    self.textView.scrollEnabled = YES;//是否可以拖动
+    
+    self.textView.autoresizingMask = UIViewAutoresizingFlexibleHeight;//自适应高度
+    [view addSubview: self.textView];//加入到页面中
+    
+    UILabel *lable = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, self.textView.fWidth-20, 13)];
+    lable.textColor = UIColorRBG(204, 204, 204);
+    lable.font = [UIFont systemFontOfSize:13];
+    lable.text = @"输入跟进内容";
+    _labels = lable;
+    [self.textView addSubview:lable];
+    
+    UILabel *lable1 = [[UILabel alloc] init];
+    lable1.textColor = UIColorRBG(204, 204, 204);
+    lable1.font = [UIFont systemFontOfSize:13];
+    lable1.text = @"0/400";
+    _labelSum = lable1;
+    [view addSubview:lable1];
+    [lable1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(view.mas_right).offset(-10);
+        make.top.equalTo(view.mas_top).offset(162);
+        make.height.offset(13);
+    }];
+    
+}
+//提交跟进
+-(void)readRecord{
+    NSString *content = _textView.text;
+    if (content.length == 0) {
         [SVProgressHUD showInfoWithStatus:@"跟进内容不能为空"];
         return;
     }
-    NSString *followTime = _followTime.text;
-    if([followTime isEqual:@"请选择"]){
-        [SVProgressHUD showInfoWithStatus:@"跟进时间不能为空"];
-        return;
-    }
-    NSString *followType = _followType.text;
-    NSString *followTypes = @"1";
-    for (int i = 0; i<_followArray.count; i++) {
-        if ([followType isEqual:_followArray[i]]) {
-            followTypes = _valueArray[i];
-        }
-    }
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [ user objectForKey:@"uuid"];
-    button.enabled = NO;
-        //创建会话请求
-        AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-        
-        mgr.requestSerializer.timeoutInterval = 20;
-        
-        mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-        [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-        //2.拼接参数
-        NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-        paraments[@"distributionCompanyId"] = _storeId;
-        paraments[@"content"] = content;
-        paraments[@"followTime"] = followTime;
-        paraments[@"followType"] = followTypes;
-        NSString *url = [NSString stringWithFormat:@"%@/proDistributionCompanyFollow/crateInfo",URL];
-        [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-            NSString *code = [responseObject valueForKey:@"code"];
-            
-            if ([code isEqual:@"200"]) {
-                [self loadData];
-                [_followContent resignFirstResponder];
-            }else{
-                NSString *msg = [responseObject valueForKey:@"msg"];
-                if (![msg isEqual:@""]) {
-                    [SVProgressHUD showInfoWithStatus:msg];
-                }
-                [NSString isCode:self.navigationController code:code];
+    NSString *uuid = [user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"distributionCompanyId"] = _storeId;
+    paraments[@"content"] = content;
+    NSString *url = [NSString stringWithFormat:@"%@/proDistributionCompanyFollow/crateInfo",URL];
+    _button.enabled = NO;
+    [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            [SVProgressHUD showInfoWithStatus:@"提交成功"];
+            _recordArray = [NSMutableArray array];
+            current = 1;
+            [self loadData];
+        }else{
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if (![msg isEqual:@""]) {
+                [SVProgressHUD showInfoWithStatus:msg];
             }
-            button.enabled = YES;
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             [SVProgressHUD showInfoWithStatus:@"网络不给力"];
-            button.enabled = YES;
-        }];
-        
-    
+            [NSString isCode:self.navigationController code:code];
+        }
+        _button.enabled = YES;
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+        _button.enabled = YES;
+    }];
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+//取消键盘
+- (void)keyboardWillHide:(NSNotification *)aNotification{
     
+     _views.fY = _recordView.fHeight+_recordView.fY;
+}
+//开始编辑
+-(void)textViewDidBeginEditing:(UITextView *)textView{
+    [_labels setHidden:YES];
+    _views.fY = _recordView.fHeight+_recordView.fY - 209;
+}
+//结束编辑
+-(void)textViewDidEndEditing:(UITextView *)textView{
+    NSString *text = textView.text;
+    if (text.length == 0) {
+        [_labels setHidden:NO];
+    }
+}
+-(void)textViewDidChange:(UITextView *)textView{
+    NSString *text = textView.text;
+    _labelSum.text = [NSString stringWithFormat:@"%lu/400",(unsigned long)text.length];
+    if (text.length == 400) {
+        textView.editable = NO;
+    }
 }
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [_followContent resignFirstResponder];
+   [_textView resignFirstResponder];
 }
-
-
 @end

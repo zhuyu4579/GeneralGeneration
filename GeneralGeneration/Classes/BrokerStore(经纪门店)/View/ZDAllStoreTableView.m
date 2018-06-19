@@ -18,6 +18,7 @@
 #import "ZDContractProjectController.h"
 #import "ZDReadFollowsController.h"
 #import "NSString+LCExtension.h"
+#import "ZDStorePunchController.h"
 static  NSString * const ID = @"cells";
 @interface ZDAllStoreTableView()<UITableViewDelegate,UITableViewDataSource>
 
@@ -55,8 +56,10 @@ static  NSString * const ID = @"cells";
     [cell.contractProject addTarget:self action:@selector(contractProject:) forControlEvents:UIControlEventTouchUpInside];
     //关注
     [cell.collect addTarget:self action:@selector(collect:) forControlEvents:UIControlEventTouchUpInside];
-    //写关注
+    //跟进
     [cell.readFollow addTarget:self action:@selector(readFollow:) forControlEvents:UIControlEventTouchUpInside];
+    //打卡
+    [cell.punch addTarget:self action:@selector(punch:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
 //签约项目
@@ -130,6 +133,18 @@ static  NSString * const ID = @"cells";
     NSIndexPath *indexpath = [self indexPathForRowAtPoint:point];
     ZDAllStoreCell *cell = [self cellForRowAtIndexPath:indexpath];
     ZDReadFollowsController *readF = [[ZDReadFollowsController alloc] init];
+    readF.storeId = cell.storeId;
+    UIViewController *vc = [UIViewController viewController:self.superview];
+    UIViewController *Vc = [UIViewController viewController:vc.view.superview];
+    [Vc.navigationController pushViewController:readF animated:YES];
+}
+//打卡
+-(void)punch:(UIButton *)button{
+    CGPoint point = button.center;
+    point = [self convertPoint:point fromView:button.superview];
+    NSIndexPath *indexpath = [self indexPathForRowAtPoint:point];
+    ZDAllStoreCell *cell = [self cellForRowAtIndexPath:indexpath];
+    ZDStorePunchController *readF = [[ZDStorePunchController alloc] init];
     readF.storeId = cell.storeId;
     UIViewController *vc = [UIViewController viewController:self.superview];
     UIViewController *Vc = [UIViewController viewController:vc.view.superview];

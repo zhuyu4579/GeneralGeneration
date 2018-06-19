@@ -62,8 +62,6 @@ static NSString * const ID = @"cell";
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-   
-   
     //创建首页
     [self setViewsController];
     [self headerRefresh];
@@ -71,22 +69,13 @@ static NSString * const ID = @"cell";
 }
 //开启定位
 -(void)locate{
-    // 判断定位操作是否被允许
-    if([CLLocationManager locationServicesEnabled]) {
         //定位初始化
         _locationManager=[[CLLocationManager alloc] init];
         _locationManager.delegate=self;
-        _locationManager.desiredAccuracy=kCLLocationAccuracyBest;
-        _locationManager.distanceFilter=10;
+        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        _locationManager.distanceFilter= 10;
+        [_locationManager requestWhenInUseAuthorization];//使用程序其间允许访问位置数据（iOS8定位需要）
         [_locationManager startUpdatingLocation];//开启定位
-    }else {
-        //提示用户无法进行定位操作
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"App需要访问你的位置获取周边项目，您是否允许?"  delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-        [alertView show];
-    }
-    // 开始定位
-    [_locationManager startUpdatingLocation];
-    
 }
 //获取定位信息
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
@@ -194,9 +183,9 @@ static NSString * const ID = @"cell";
     viewTwo.backgroundColor = [UIColor clearColor];
     [self.view addSubview:viewTwo];
     //按钮图片
-     NSArray *imageArray = @[@"home",@"home_2",@"home_3",@"project",@"client",@"scan",@"set"];
-     NSArray *nameArray = @[@"经纪门店",@"关注门店",@"新增门店",@"我的项目",@"我的客户",@"扫码上客",@"设置"];
-    NSArray *nameType = @[@"jjmd",@"gzmd",@"xzmd",@"wdxm",@"wdkh",@"smsk",@"sz"];
+     NSArray *imageArray = @[@"home",@"home_2",@"home_3",@"map",@"project",@"client",@"scan",@"set"];
+     NSArray *nameArray = @[@"经纪门店",@"关注门店",@"新增门店",@"地图找店",@"我的项目",@"我的客户",@"扫码上客",@"设置"];
+    NSArray *nameType = @[@"jjmd",@"gzmd",@"xzmd",@"dtzd",@"wdxm",@"wdkh",@"smsk",@"sz"];
     NSMutableArray *array = [NSMutableArray array];
     for (int i=0; i<nameArray.count; i++) {
         NSMutableDictionary *button = [NSMutableDictionary dictionary];
@@ -324,17 +313,21 @@ static NSString * const ID = @"cell";
             [self addStore];
             break;
         case 103:
-            [self meProject];
+            [self mapFindStore];
             break;
         case 104:
             //我的客户
-            [self meCustomer];
+            [self meProject];
             break;
         case 105:
            //扫码上客
-            [self scaveng];
+            [self meCustomer];
             break;
         case 106:
+            //设置
+            [self scaveng];
+            break;
+        case 107:
             //设置
             [self setting];
             break;
@@ -356,6 +349,10 @@ static NSString * const ID = @"cell";
     ZDBrokerStoreController *droker = [[ZDBrokerStoreController alloc] init];
     droker.status =1;
     [self.navigationController pushViewController:droker animated:YES];
+}
+//地图找店
+-(void)mapFindStore{
+    
 }
 //经纪门店
 -(void)brokerStore{

@@ -15,4 +15,6 @@
 @property(nonatomic,strong)NSString *content;
 //跟进类型
 @property(nonatomic,strong)NSString *followType;
+//负责人姓名
+@property(nonatomic,strong)NSString *followBy;
 @end

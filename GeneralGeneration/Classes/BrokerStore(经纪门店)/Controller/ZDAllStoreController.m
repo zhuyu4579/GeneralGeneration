@@ -132,7 +132,7 @@ static NSString *size = @"20";
         paraments[@"areaId"] = _areaId;
         paraments[@"name"] = _name;
         paraments[@"collect"] = @"";
-        paraments[@"current"] = [NSString stringWithFormat:@"%zd",current];
+        paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
         paraments[@"size"] = size;
         paraments[@"location"] = location;
         NSString *url = [NSString stringWithFormat:@"%@/proDistributionCompany/serverCompany/list",URL];
@@ -150,6 +150,7 @@ static NSString *size = @"20";
                     }
                     current +=1;
                     [_allStore.mj_footer endRefreshing];
+                    
                 }
                 if (_storeListArray.count == 0 ) {
                     [_viewNo setHidden:NO];

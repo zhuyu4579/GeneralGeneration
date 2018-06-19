@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "ZDLoginController.h"
 #import "ZDNavgationController.h"
+#import "ZDHomePageController.h"
 @interface AppDelegate ()
 
 @end
@@ -20,11 +21,17 @@
     //1.创建窗口
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     //2.设置窗口根控制器
-    //ZDHomePageController *Vc = [[ZDHomePageController alloc] init];
-    ZDLoginController *Vc = [[ZDLoginController alloc] init];
-    ZDNavgationController *nav = [[ZDNavgationController alloc] initWithRootViewController:Vc];
-    
-    self.window.rootViewController =nav;
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    if(uuid){
+        ZDHomePageController *Vc = [[ZDHomePageController alloc] init];
+        ZDNavgationController *nav = [[ZDNavgationController alloc] initWithRootViewController:Vc];
+        self.window.rootViewController = nav;
+    }else{
+        ZDLoginController *Vc = [[ZDLoginController alloc] init];
+        ZDNavgationController *nav = [[ZDNavgationController alloc] initWithRootViewController:Vc];
+        self.window.rootViewController = nav;
+    }
     //3.显示窗口
     [self.window makeKeyAndVisible];
     

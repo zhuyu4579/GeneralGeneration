@@ -48,6 +48,7 @@
     [super viewDidLoad];
     self.navigationItem.title = @"设置";
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
+    _headHeight.constant = kApplicationStatusBarHeight+54;
     _cache.textColor = UIColorRBG(199, 199, 205);
     [_exit setTitleColor:UIColorRBG(255, 105, 110) forState:UIControlStateNormal];
     [_JTOne setEnlargeEdge:20];

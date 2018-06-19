@@ -50,7 +50,6 @@
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *username = [ user objectForKey:@"username"];
     _admin.text = username;
-    
 }
 //设置控件按钮
 -(void)setUpButton{
@@ -58,7 +57,7 @@
     self.loginButton.layer.cornerRadius = 22.0;
     self.loginButton.layer.masksToBounds = YES;
     self.loginButton.backgroundColor = UIColorRBG(3, 133, 219);
-
+    _headHeight.constant = kApplicationStatusBarHeight + 160;
      [self.showPassWord setEnlargeEdge:10];
     //设置文本框
     [self setTextFeildbords];

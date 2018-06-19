@@ -11,4 +11,5 @@
 @interface ZDLoginController : UIViewController
 //账号
 @property (strong, nonatomic) IBOutlet UITextField *admin;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *headHeight;
 @end

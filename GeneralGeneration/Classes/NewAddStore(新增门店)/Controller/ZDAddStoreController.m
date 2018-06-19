@@ -73,6 +73,7 @@
         [_storeTypeArray addObject:label];
         [_valueTypeArray addObject:value];
     }
+    _headHeight.constant = kApplicationStatusBarHeight+45;
     //设置文本框属性
     _storeName.keyboardType = UIKeyboardTypeDefault;
      _storeName.delegate = self;

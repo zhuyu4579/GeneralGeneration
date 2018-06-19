@@ -38,7 +38,7 @@
 }
 //设置按钮样式
 -(void)setUpButton{
-   
+    _headHeight.constant = kApplicationStatusBarHeight+85;
     // //设置下一步按钮
     self.nextButton.layer.cornerRadius = 22.0;
     self.nextButton.layer.masksToBounds = YES;

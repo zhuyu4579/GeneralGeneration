@@ -31,19 +31,29 @@ static  NSString * const ID = @"cells";
 }
 #pragma mark - Table view data source
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 45;
+    return 110;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _followArray.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ZDFollowCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-    if (indexPath.row == 0) {
+    [cell.ineOne setHidden:NO];
+    [cell.ineTwo setHidden:NO];
+    if(_followArray.count == 1){
         [cell.ineOne setHidden:YES];
-    }
-    if (indexPath.row == (_followArray.count-1)) {
         [cell.ineTwo setHidden:YES];
+    }else{
+        if (indexPath.row == 0) {
+            [cell.ineOne setHidden:YES];
+            [cell.ineTwo setHidden:NO];
+        }
+        if (indexPath.row == (_followArray.count-1)) {
+            [cell.ineOne setHidden:NO];
+            [cell.ineTwo setHidden:YES];
+        }
     }
+    
     ZDFollowItem *item = _followArray[indexPath.row];
     cell.item = item;
     return cell;

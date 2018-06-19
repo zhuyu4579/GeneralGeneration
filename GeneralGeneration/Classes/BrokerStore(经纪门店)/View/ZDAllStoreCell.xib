@@ -62,7 +62,7 @@
                         <state key="normal" title="签约项目"/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xKb-eU-Krv">
-                        <rect key="frame" x="212" y="97" width="70" height="20"/>
+                        <rect key="frame" x="220" y="97" width="70" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="Ezt-2D-nDR"/>
                             <constraint firstAttribute="height" constant="20" id="MB8-jL-h24"/>
@@ -71,13 +71,22 @@
                         <state key="normal" title="加关注"/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kuh-Sz-vJG">
-                        <rect key="frame" x="134" y="97" width="60" height="20"/>
+                        <rect key="frame" x="150" y="97" width="60" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="YXe-PU-HWr"/>
                             <constraint firstAttribute="width" constant="60" id="aNJ-RG-ySE"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <state key="normal" title="写跟进"/>
+                        <state key="normal" title="跟进"/>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2qk-mW-n67">
+                        <rect key="frame" x="80" y="97" width="60" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="1gr-Pv-nmx"/>
+                            <constraint firstAttribute="height" constant="20" id="4Bw-n5-Q9B"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <state key="normal" title="打卡"/>
                     </button>
                 </subviews>
                 <constraints>
@@ -85,12 +94,14 @@
                     <constraint firstItem="kuh-Sz-vJG" firstAttribute="top" secondItem="Opv-Gw-ci0" secondAttribute="bottom" constant="15" id="7fY-zl-tDv"/>
                     <constraint firstItem="ZWv-jH-877" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="AcG-sd-C7f"/>
                     <constraint firstAttribute="trailing" secondItem="rHa-n2-cuy" secondAttribute="trailing" constant="15" id="K8t-4n-SX3"/>
+                    <constraint firstItem="2qk-mW-n67" firstAttribute="top" secondItem="Opv-Gw-ci0" secondAttribute="bottom" constant="15" id="TV1-Ed-lXh"/>
                     <constraint firstItem="rHa-n2-cuy" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="UEe-KV-Kel"/>
                     <constraint firstItem="Opv-Gw-ci0" firstAttribute="top" secondItem="6mR-Xz-Hdl" secondAttribute="bottom" constant="19" id="UoN-sc-7nk"/>
-                    <constraint firstItem="eav-c4-OSc" firstAttribute="leading" secondItem="xKb-eU-Krv" secondAttribute="trailing" constant="18" id="V8c-Lj-4tl"/>
+                    <constraint firstItem="eav-c4-OSc" firstAttribute="leading" secondItem="xKb-eU-Krv" secondAttribute="trailing" constant="10" id="V8c-Lj-4tl"/>
                     <constraint firstAttribute="trailing" secondItem="eav-c4-OSc" secondAttribute="trailing" constant="15" id="X3P-D0-sXR"/>
                     <constraint firstItem="eav-c4-OSc" firstAttribute="top" secondItem="Opv-Gw-ci0" secondAttribute="bottom" constant="15" id="YTN-3C-uPV"/>
-                    <constraint firstItem="xKb-eU-Krv" firstAttribute="leading" secondItem="kuh-Sz-vJG" secondAttribute="trailing" constant="18" id="cSP-Ht-lCR"/>
+                    <constraint firstItem="xKb-eU-Krv" firstAttribute="leading" secondItem="kuh-Sz-vJG" secondAttribute="trailing" constant="10" id="cSP-Ht-lCR"/>
+                    <constraint firstItem="kuh-Sz-vJG" firstAttribute="leading" secondItem="2qk-mW-n67" secondAttribute="trailing" constant="10" id="ct4-ju-hHg"/>
                     <constraint firstAttribute="trailing" secondItem="Opv-Gw-ci0" secondAttribute="trailing" id="deW-rD-XtR"/>
                     <constraint firstItem="ZWv-jH-877" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="god-xK-YVL"/>
                     <constraint firstItem="Opv-Gw-ci0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="mpF-js-Mbv"/>
@@ -102,12 +113,13 @@
             <connections>
                 <outlet property="collect" destination="xKb-eU-Krv" id="q8a-KY-67Q"/>
                 <outlet property="contractProject" destination="eav-c4-OSc" id="N28-ll-jBX"/>
+                <outlet property="punch" destination="2qk-mW-n67" id="FBA-07-3ir"/>
                 <outlet property="readFollow" destination="kuh-Sz-vJG" id="bYO-aa-AZg"/>
                 <outlet property="storeAddress" destination="6mR-Xz-Hdl" id="Haz-Ll-0Aa"/>
                 <outlet property="storeDate" destination="rHa-n2-cuy" id="GjN-TK-gnk"/>
                 <outlet property="storeName" destination="ZWv-jH-877" id="97s-cD-WXp"/>
             </connections>
-            <point key="canvasLocation" x="34.5" y="54"/>
+            <point key="canvasLocation" x="1.5" y="37"/>
         </tableViewCell>
     </objects>
 </document>

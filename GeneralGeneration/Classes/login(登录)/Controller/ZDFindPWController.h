@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ZDFindPWController : UIViewController
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *headHeight;
 
 @end

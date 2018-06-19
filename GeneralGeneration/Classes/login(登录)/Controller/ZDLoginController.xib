@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ZDLoginController">
             <connections>
                 <outlet property="admin" destination="rF4-rY-51i" id="gdn-7V-FsE"/>
+                <outlet property="headHeight" destination="N3J-9W-JzK" id="hs5-vf-1th"/>
                 <outlet property="loginButton" destination="CUL-15-Xnb" id="YN3-P7-7Hu"/>
                 <outlet property="passWord" destination="H5d-3x-kyc" id="LjE-KM-Rv4"/>
                 <outlet property="showPassWord" destination="9Wc-tA-Nr7" id="jkF-iX-cha"/>
