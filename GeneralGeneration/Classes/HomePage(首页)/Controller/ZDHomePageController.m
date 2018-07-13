@@ -23,11 +23,15 @@
 #import "ZDScavengController.h"
 #import "NSString+LCExtension.h"
 #import "GKCover.h"
+#import "ZDTodayController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import <CoreLocation/CoreLocation.h>
+#import "ZDMapFindStoreController.h"
 @interface ZDHomePageController ()<UICollectionViewDataSource,UICollectionViewDelegate,CLLocationManagerDelegate>
 //名称
 @property(nonatomic,strong)UILabel *labelName;
+//今日报备按钮
+@property(nonatomic,strong)UIButton *buttonBoaring;
 //左边数据
 @property(nonatomic,strong)UILabel *labelOne;
 //右边数据
@@ -185,7 +189,7 @@ static NSString * const ID = @"cell";
     [self.view addSubview:viewTwo];
     //按钮图片
      NSArray *imageArray = @[@"home",@"home_2",@"home_3",@"map",@"project",@"client",@"scan",@"set"];
-     NSArray *nameArray = @[@"经纪门店",@"关注门店",@"新增门店",@"地图找店",@"我的项目",@"我的客户",@"扫码上客",@"设置"];
+     NSArray *nameArray = @[@"分销公司",@"我的分销",@"新增分销",@"地图找店",@"我的楼盘",@"我的客户",@"扫码上客",@"设置"];
     NSArray *nameType = @[@"jjmd",@"gzmd",@"xzmd",@"dtzd",@"wdxm",@"wdkh",@"smsk",@"sz"];
     NSMutableArray *array = [NSMutableArray array];
     for (int i=0; i<nameArray.count; i++) {
@@ -210,7 +214,7 @@ static NSString * const ID = @"cell";
     [self.view addSubview:viewThew];
     //创建两个label
     UILabel *labelOne = [[UILabel alloc] init];
-    labelOne.text = @"今日订单";
+    labelOne.text = @"今日报备";
     _labelOne = labelOne;
     labelOne.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
     labelOne.textColor = UIColorRBG(68, 68, 68);
@@ -230,13 +234,25 @@ static NSString * const ID = @"cell";
         make.top.equalTo(labelOne.mas_bottom).offset(9);
         make.height.offset(12);
     }];
+    //创建今日报备按钮
+    UIButton *button = [[UIButton alloc] init];
+    [button addTarget:self action:@selector(findTodayBoaring) forControlEvents:UIControlEventTouchUpInside];
+     _buttonBoaring = button;
+    [viewThew addSubview:button];
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(viewThew.mas_left);
+        make.top.equalTo(viewThew.mas_top);
+        make.height.offset(viewThew.fHeight);
+        make.width.offset(viewThew.fWidth/2.0-1);
+    }];
+    
     UIView *viewIne = [[UIView alloc] init];
     viewIne.frame = CGRectMake(viewThew.fWidth/2-0.5,10,1,viewThew.fHeight-20);
     viewIne.backgroundColor = UIColorRBG(238, 238, 238);
     [viewThew addSubview:viewIne];
    
     UILabel *labelTwo = [[UILabel alloc] init];
-    labelTwo.text = @"签约门店";
+    labelTwo.text = @"今日上客";
     _labelTwo = labelTwo;
     labelTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
     labelTwo.textColor = UIColorRBG(68, 68, 68);
@@ -256,7 +272,41 @@ static NSString * const ID = @"cell";
         make.top.equalTo(labelOne.mas_bottom).offset(9);
         make.height.offset(12);
     }];
+    //创建今日上客按钮
+    UIButton *buttons = [[UIButton alloc] init];
+    [buttons addTarget:self action:@selector(findTodayGuest) forControlEvents:UIControlEventTouchUpInside];
+    [viewThew addSubview:buttons];
+    [buttons mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(viewThew.mas_right);
+        make.top.equalTo(viewThew.mas_top);
+        make.height.offset(viewThew.fHeight);
+        make.width.offset(viewThew.fWidth/2.0-1);
+    }];
 }
+//今日报备
+-(void)findTodayBoaring{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *jobType = [ user objectForKey:@"jobType"];
+    ZDTodayController *today = [[ZDTodayController alloc] init];
+    today.left = @"0";
+    today.right = @"";
+    if ([jobType isEqual:@"1"]) {
+        
+        today.navigationItem.title = @"今日报备";
+    }else if([jobType isEqual:@"2"]){
+        today.navigationItem.title = @"今日预约";
+    }
+    [self.navigationController pushViewController:today animated:YES];
+}
+//今日上客
+-(void)findTodayGuest{
+    ZDTodayController *today = [[ZDTodayController alloc] init];
+    today.left = @"";
+    today.right = @"1";
+    today.navigationItem.title = @"今日上客";
+    [self.navigationController pushViewController:today animated:YES];
+}
+
 #pragma mark -创建城市列表
 -(void)getUpButtonItem:(UIView *)view{
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
@@ -302,7 +352,7 @@ static NSString * const ID = @"cell";
     //点击跳转
     switch (tag) {
         case 100:
-            //我的门店
+            //我的分销
             [self brokerStore];
             break;
         case 101:
@@ -310,22 +360,22 @@ static NSString * const ID = @"cell";
             [self CollStore];
             break;
         case 102:
-            //新增门店
+            //新增分销
             [self addStore];
             break;
         case 103:
             [self mapFindStore];
             break;
         case 104:
-            //我的客户
+            //我的楼盘
             [self meProject];
             break;
         case 105:
-           //扫码上客
+           //我的客户
             [self meCustomer];
             break;
         case 106:
-            //设置
+            //扫码上客
             [self scaveng];
             break;
         case 107:
@@ -340,7 +390,7 @@ static NSString * const ID = @"cell";
     [self.navigationController pushViewController:scaVc animated:YES];
 }
 
-//新增门店
+//新增分销
 -(void)addStore{
     ZDAddStoreController *addStore =   [[ZDAddStoreController alloc] init];
     [self.navigationController pushViewController:addStore animated:YES];
@@ -353,15 +403,16 @@ static NSString * const ID = @"cell";
 }
 //地图找店
 -(void)mapFindStore{
-    
+    ZDMapFindStoreController *findStore = [[ZDMapFindStoreController alloc] init];
+    [self.navigationController pushViewController:findStore animated:YES];
 }
-//经纪门店
+//经纪分销
 -(void)brokerStore{
     ZDBrokerStoreController *droker = [[ZDBrokerStoreController alloc] init];
     droker.status =0;
     [self.navigationController pushViewController:droker animated:YES];
 }
-//我的项目
+//我的楼盘
 -(void)meProject{
     ZDMeProjectController *mePro = [[ZDMeProjectController alloc] init];
     [self.navigationController pushViewController:mePro animated:YES];
@@ -400,10 +451,10 @@ static NSString * const ID = @"cell";
     NSString *jobType = [ user objectForKey:@"jobType"];
     _labelName.text = realname;
     if ([jobType isEqual:@"1"]) {
-        _labelOne.text = @"今日订单";
-        _labelTwo.text = @"签约门店";
+        _labelOne.text = @"今日报备";
+        _labelTwo.text = @"今日上客";
     }else if([jobType isEqual:@"2"]){
-        _labelOne.text = @"预约上客";
+        _labelOne.text = @"今日预约";
         _labelTwo.text = @"今日上客";
     }
         //创建会话请求

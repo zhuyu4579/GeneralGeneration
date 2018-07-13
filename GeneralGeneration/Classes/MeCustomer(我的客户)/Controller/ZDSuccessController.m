@@ -49,7 +49,8 @@ static NSString *size = @"20";
     //注册cell
     [self.tableView registerNib:[UINib nibWithNibName:@"ZDMeCustCell" bundle:nil] forCellReuseIdentifier:ID];
     [self headerRefresh];
-    
+    //创造通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewTopics) name:@"Refresh" object:nil];
 }
 //下拉刷新
 -(void)headerRefresh{
@@ -71,6 +72,8 @@ static NSString *size = @"20";
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     
     self.tableView.mj_header = header;
+    
+     [self.tableView.mj_header beginRefreshing];
     //创建上拉加载
     MJRefreshBackGifFooter *footer = [MJRefreshBackGifFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     self.tableView.mj_footer = footer;
@@ -82,6 +85,11 @@ static NSString *size = @"20";
     _cusListArray = [NSMutableArray array];
     current = 1;
     [self loadData];
+}
+-(void)loadNewTopics{
+    
+    [self.tableView.mj_header beginRefreshing];
+    
 }
 //上拉刷新
 -(void)loadMoreData{
@@ -203,6 +211,6 @@ static NSString *size = @"20";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.tableView.mj_header beginRefreshing];
+   
 }
 @end

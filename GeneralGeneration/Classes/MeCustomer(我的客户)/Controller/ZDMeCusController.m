@@ -10,8 +10,10 @@
 #import "UIView+Frame.h"
 #import "UIView+Center.h"
 #import "ZDHaveController.h"
+#import "UIBarButtonItem+Item.h"
 #import "ZDSuccessController.h"
 #import "ZDInvalidController.h"
+#import "ZDFindCustomerController.h"
 @interface ZDMeCusController ()<UIScrollViewDelegate,UIGestureRecognizerDelegate>
 @property(nonatomic,weak)UIView *titlesView;
 @property(nonatomic,weak)UIButton *previousClickButton;
@@ -25,12 +27,18 @@
     [super viewDidLoad];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"我的客户";
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithImage:[UIImage imageNamed:@"search_1"] highImage:[UIImage imageNamed:@"search_1"] target:self action:@selector(findCustomer)];
     //初始化子控制器
     [self setupAllChilds];
     //创建一个UIScrollView
     [self setUIScrollView];
     //创建标题栏
     [self setTitlesView];
+}
+//搜索客户
+-(void)findCustomer{
+    ZDFindCustomerController *findCustomer = [[ZDFindCustomerController alloc] init];
+    [self.navigationController pushViewController:findCustomer animated:YES];
 }
 #pragma mark -初始化子控制器
 -(void)setupAllChilds{
@@ -107,6 +115,7 @@
         UIView *childsView = self.childViewControllers[titleButton.tag].view;
         childsView.frame = CGRectMake(self.scrollView.fWidth*titleButton.tag, _titlesView.fY+_titlesView.fHeight+1, self.scrollView.fWidth, self.scrollView.fHeight-(_titlesView.fY+_titlesView.fHeight+JF_BOTTOM_SPACE));
         [self.scrollView addSubview:childsView];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"Refresh" object:nil];
     }];
 }
 #pragma mark -设置下划线

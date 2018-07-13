@@ -51,7 +51,7 @@
     UIView *viewOne = [[UIView alloc] initWithFrame:CGRectMake(0,kApplicationStatusBarHeight+44                                                                                                 , self.view.fWidth, 65)];
     viewOne.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:viewOne];
-    //项目名称
+    //楼盘名称
     UILabel *projectName = [[UILabel alloc] initWithFrame:CGRectMake(15, 24, viewOne.fWidth-30, 17)];
     projectName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:17];
     projectName.textColor = UIColorRBG(68, 68, 68);

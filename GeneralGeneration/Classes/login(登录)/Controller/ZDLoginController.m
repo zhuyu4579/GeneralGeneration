@@ -16,6 +16,7 @@
 #import <MJExtension.h>
 #import "ZDHomePageController.h"
 #import "ZDNavgationController.h"
+#import "JPUSHService.h"
 @interface ZDLoginController ()
 //登录头像
 @property (strong, nonatomic) IBOutlet UIImageView *headImage;
@@ -161,6 +162,11 @@
         
         if (code == 200) {
             NSDictionary  *loginItem = [responseObject valueForKey:@"data"];
+            [JPUSHService setAlias:[loginItem valueForKey:@"id"] completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+                if (iResCode == 0) {
+                    NSLog(@"添加别名成功");
+                }
+            } seq:1];
             if(![loginItem isEqual:@""]){
                 //数据持久化
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

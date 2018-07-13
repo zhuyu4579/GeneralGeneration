@@ -50,11 +50,13 @@ static NSString *size = @"20";
   
     [self headerRefresh];
     [self setNoData];
+    //创造通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewTopics) name:@"Refresh" object:nil];
 }
 //下拉刷新
 -(void)headerRefresh{
     //创建下拉刷新
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic:)];
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
     
     // 设置文字
     [header setTitle:@"刷新完毕..." forState:MJRefreshStateIdle];
@@ -78,11 +80,16 @@ static NSString *size = @"20";
     self.tableView.mj_footer = footer;
 }
 #pragma mark -下拉刷新或者加载数据
--(void)loadNewTopic:(id)refrech{
+-(void)loadNewTopic{
     [self.tableView.mj_header beginRefreshing];
     _cusListArray = [NSMutableArray array];
-    current = 1;
+    current = 1;    
     [self loadData];
+}
+-(void)loadNewTopics{
+    
+    [self.tableView.mj_header beginRefreshing];
+    
 }
 //上拉刷新
 -(void)loadMoreData{
