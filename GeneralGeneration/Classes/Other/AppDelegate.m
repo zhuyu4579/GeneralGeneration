@@ -38,7 +38,7 @@
     
     [JPUSHService setupWithOption:launchOptions appKey:@"420657cd2e8ef9559f3f66de"
                           channel:@"App Store"
-                 apsForProduction:0
+                 apsForProduction:1
             advertisingIdentifier:advertisingId];
     
     //1.创建窗口
