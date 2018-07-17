@@ -12,7 +12,6 @@
 		1F0353DA208D68D3009B4753 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F0353D8208D68D3009B4753 /* LaunchScreen.storyboard */; };
 		1F035412208D7311009B4753 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0353FF208D7310009B4753 /* main.m */; };
 		1F035413208D7311009B4753 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F035400208D7310009B4753 /* AppDelegate.m */; };
-		1F035414208D7311009B4753 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F035401208D7310009B4753 /* Info.plist */; };
 		1F035440208D7423009B4753 /* UIColor+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F03541B208D7423009B4753 /* UIColor+Tools.m */; };
 		1F035442208D7423009B4753 /* UIImage+Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F035420208D7423009B4753 /* UIImage+Image.m */; };
 		1F035443208D7423009B4753 /* UIView+WZButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F035425208D7423009B4753 /* UIView+WZButton.m */; };
@@ -139,6 +138,7 @@
 		1F48F4CA2095AF37001AA4A3 /* ZDSureProjectsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F48F4C92095AF37001AA4A3 /* ZDSureProjectsTableView.m */; };
 		1F48F4CE2095B0AB001AA4A3 /* ZDSureProjectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F48F4CC2095B0AB001AA4A3 /* ZDSureProjectCell.m */; };
 		1F48F4CF2095B0AB001AA4A3 /* ZDSureProjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F48F4CD2095B0AB001AA4A3 /* ZDSureProjectCell.xib */; };
+		1F4D6DF220FD8ED0008A9514 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F4D6DF120FD8ED0008A9514 /* Info.plist */; };
 		1F53953F2092BAEC002F5CA4 /* ZDAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F53953E2092BAEC002F5CA4 /* ZDAlertView.m */; };
 		1F5AD8502096BBBD00FC4387 /* ZDMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5AD84F2096BBBD00FC4387 /* ZDMapController.m */; };
 		1F5AD8552096ED6100FC4387 /* POIAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5AD8542096ED6100FC4387 /* POIAnnotation.m */; };
@@ -164,7 +164,6 @@
 		1F0353FD208D7310009B4753 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1F0353FF208D7310009B4753 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1F035400208D7310009B4753 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		1F035401208D7310009B4753 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F035418208D7423009B4753 /* NSString+LCExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LCExtension.h"; sourceTree = "<group>"; };
 		1F03541A208D7423009B4753 /* UIColor+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Tools.h"; sourceTree = "<group>"; };
 		1F03541B208D7423009B4753 /* UIColor+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Tools.m"; sourceTree = "<group>"; };
@@ -396,6 +395,7 @@
 		1F48F4CB2095B0AB001AA4A3 /* ZDSureProjectCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDSureProjectCell.h; sourceTree = "<group>"; };
 		1F48F4CC2095B0AB001AA4A3 /* ZDSureProjectCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDSureProjectCell.m; sourceTree = "<group>"; };
 		1F48F4CD2095B0AB001AA4A3 /* ZDSureProjectCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ZDSureProjectCell.xib; sourceTree = "<group>"; };
+		1F4D6DF120FD8ED0008A9514 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F53953D2092BAEC002F5CA4 /* ZDAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDAlertView.h; sourceTree = "<group>"; };
 		1F53953E2092BAEC002F5CA4 /* ZDAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDAlertView.m; sourceTree = "<group>"; };
 		1F5AD84E2096BBBD00FC4387 /* ZDMapController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDMapController.h; sourceTree = "<group>"; };
@@ -466,7 +466,7 @@
 				1F0353D3208D68D3009B4753 /* Main.storyboard */,
 				1F0353D6208D68D3009B4753 /* Assets.xcassets */,
 				1F0353D8208D68D3009B4753 /* LaunchScreen.storyboard */,
-				1F035401208D7310009B4753 /* Info.plist */,
+				1F4D6DF120FD8ED0008A9514 /* Info.plist */,
 			);
 			path = GeneralGeneration;
 			sourceTree = "<group>";
@@ -1281,7 +1281,6 @@
 			files = (
 				1F4745D720D393990046AB16 /* ZDPunchCell.xib in Resources */,
 				1F09950220F1F1AE00524361 /* WZLBCollectionViewCell.xib in Resources */,
-				1F035414208D7311009B4753 /* Info.plist in Resources */,
 				1F089BB3209441C1001AA285 /* ZDAddStoreController.xib in Resources */,
 				1F0994FA20F1F1AE00524361 /* WZAllTableViewCell.xib in Resources */,
 				1F45EC79209814F80042FD53 /* ZDFollowCell.xib in Resources */,
@@ -1300,6 +1299,7 @@
 				1F462CAC208EFFD90010F92D /* ZDMeCustCell.xib in Resources */,
 				1F09950020F1F1AE00524361 /* WZDynamicCell.xib in Resources */,
 				1F0353D5208D68D3009B4753 /* Main.storyboard in Resources */,
+				1F4D6DF220FD8ED0008A9514 /* Info.plist in Resources */,
 				1FE7709C2091C86F009AE100 /* ZDStoreCell.xib in Resources */,
 				1F0994A120F1BF8200524361 /* ZDProjectCell.xib in Resources */,
 				1F462C98208EBA4A0010F92D /* ZDSettingController.xib in Resources */,
