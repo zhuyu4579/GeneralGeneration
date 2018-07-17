@@ -55,6 +55,8 @@
 @property(nonatomic,strong)NSMutableArray *storeListArray;
 //无数据展示
 @property(nonatomic,strong)UIView *viewNo;
+//数据请求是否完毕
+@property (nonatomic, assign) BOOL isRequestFinish;
 @end
 static  NSString * const ID = @"cell";
 //查询条数
@@ -66,15 +68,18 @@ static NSString *size = @"20";
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
      [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
    
     
     [super viewDidLoad];
      [self setNoData];
+    _isRequestFinish = YES;
     _storeListArray = [NSMutableArray array];
     current = 1;
+    
     //区域数据的获取
     [self searchData];
+    [self loadData];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"选择分销";
     //创建view
@@ -108,7 +113,6 @@ static NSString *size = @"20";
     
     self.store.mj_header = header;
     
-    [self.store.mj_header beginRefreshing];
     //创建上拉加载
     MJRefreshBackGifFooter *footer = [MJRefreshBackGifFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     self.store.mj_footer = footer;
@@ -128,6 +132,10 @@ static NSString *size = @"20";
 }
 //列表的数据请求
 -(void)loadData{
+    if (!_isRequestFinish) {
+        return;
+    }
+    _isRequestFinish = NO;
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
         NSString *uuid = [ user objectForKey:@"uuid"];
     
@@ -182,12 +190,12 @@ static NSString *size = @"20";
                 [self.store.mj_header endRefreshing];
                 [self.store.mj_footer endRefreshing];
             }
-           
+            _isRequestFinish = YES;
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             [SVProgressHUD showInfoWithStatus:@"网络不给力"];
             [self.store.mj_header endRefreshing];
             [self.store.mj_footer endRefreshing];
-           
+            _isRequestFinish = YES;
         }];
     
 }

@@ -36,8 +36,12 @@
     NSString *type = item.clockType;
     if ([type isEqual:@"1"]) {
         [_titleLabel setTitle:@"店内" forState:UIControlStateNormal];
+         _titleLabel.layer.borderColor = UIColorRBG(3, 133, 219).CGColor;
+        [_titleLabel setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
     }else{
         [_titleLabel setTitle:@"外勤" forState:UIControlStateNormal];
+         _titleLabel.layer.borderColor = UIColorRBG(247, 151, 74).CGColor;
+        [_titleLabel setTitleColor:UIColorRBG(247, 151, 74)forState:UIControlStateNormal];
     }
     _punchContent.text = item.addr;
 }

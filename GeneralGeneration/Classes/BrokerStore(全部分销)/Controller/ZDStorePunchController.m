@@ -50,9 +50,9 @@ static NSString *size = @"20";
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.7]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
      [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.title = @"打卡";
+    self.navigationItem.title = @"门店打卡";
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButtons:self action:@selector(punchRecord) title:@"打卡记录"];
     _punchArray = [NSMutableArray array];
     current = 1;
@@ -186,8 +186,8 @@ static NSString *size = @"20";
     //打卡按钮
     UIButton *punchButton = [[UIButton alloc] init];
     _punchButton = punchButton;
-    [punchButton setBackgroundImage:[UIImage imageNamed:@"circle"] forState:UIControlStateNormal];
-    [punchButton setTitle:@"打卡" forState:UIControlStateNormal];
+    [punchButton setBackgroundImage:[UIImage imageNamed:@"dk_button"] forState:UIControlStateNormal];
+    [punchButton setTitle:@"门店打卡" forState:UIControlStateNormal];
     [punchButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     punchButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:18];
     [punchButton setTitleEdgeInsets:UIEdgeInsetsMake(-6,0, 6, 0)];
@@ -362,7 +362,7 @@ static NSString *size = @"20";
     }];
     UIButton *next = [[UIButton alloc] init];
     if ([_clockType isEqual:@"1"]) {
-        [next setTitle:@"打卡" forState:UIControlStateNormal];
+        [next setTitle:@"门店打卡" forState:UIControlStateNormal];
     }else{
         [next setTitle:@"外勤打卡" forState:UIControlStateNormal];
     }

@@ -80,6 +80,7 @@
 @property(nonatomic,strong)NSMutableArray *storeTypeArray;
 //分销类型数组value
 @property(nonatomic,strong)NSMutableArray *valueTypeArray;
+
 @end
 
 @implementation ZDStoreDetailsController
@@ -89,7 +90,7 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
      [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     [super viewDidLoad];
     //读取数据字典
     NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;

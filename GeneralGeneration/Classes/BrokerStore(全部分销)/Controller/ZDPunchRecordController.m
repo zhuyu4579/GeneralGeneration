@@ -28,6 +28,8 @@
 @property(nonatomic,strong)NSArray *punchArray;
 //数据模型数组
 @property(nonatomic,strong)NSString *dateTime;
+//数据请求是否完毕
+@property (nonatomic, assign) BOOL isRequestFinish;
 @end
 //查询条数
 static NSString *size = @"20";
@@ -39,7 +41,7 @@ static  NSString * const ID = @"cell";
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.7]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     self.navigationItem.title = @"打卡记录";
     self.view.backgroundColor = [UIColor whiteColor];
     NSDate *date=[NSDate date];
@@ -48,6 +50,7 @@ static  NSString * const ID = @"cell";
     NSString *dateStr=[format1 stringFromDate:date];
     _dateTime = dateStr;
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButtonImage:[UIImage imageNamed:@"more_unfold_2-1"] target:self action:@selector(selectDate) title:dateStr];
+    _isRequestFinish = YES;
     _recordArray = [NSMutableArray array];
     current = 1;
     //注册cell
@@ -76,8 +79,7 @@ static  NSString * const ID = @"cell";
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     
     self.tableView.mj_header = header;
-    
-    [self.tableView.mj_header beginRefreshing];
+
     //创建上拉加载
     MJRefreshBackGifFooter *footer = [MJRefreshBackGifFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     footer.mj_h = JF_BOTTOM_SPACE + 20;
@@ -98,6 +100,10 @@ static  NSString * const ID = @"cell";
 }
 //查询当天的跟进记录
 -(void)loadData{
+    if (!_isRequestFinish) {
+        return;
+    }
+    _isRequestFinish = NO;
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [user objectForKey:@"uuid"];
     //创建会话请求
@@ -145,10 +151,12 @@ static  NSString * const ID = @"cell";
             [self.tableView.mj_header endRefreshing];
             [self.tableView.mj_footer endRefreshing];
         }
+        _isRequestFinish = YES;
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
+        _isRequestFinish = YES;
     }];
 }
 //选择时间

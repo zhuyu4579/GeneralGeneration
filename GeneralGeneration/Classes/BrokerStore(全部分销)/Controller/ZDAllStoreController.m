@@ -51,9 +51,11 @@
 @property(nonatomic,strong)NSMutableArray *storeListArray;
 //无数据展示
 @property(nonatomic,strong)UIView *viewNo;
+//数据请求是否完毕
+@property (nonatomic, assign) BOOL isRequestFinish;
+
 @end
 static  NSString * const ID = @"cell";
-
 //查询条数
 static NSString *size = @"20";
 @implementation ZDAllStoreController
@@ -63,9 +65,10 @@ static NSString *size = @"20";
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.7]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
      [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     [self setNoData];
+    _isRequestFinish = YES;
     _storeListArray = [NSMutableArray array];
     current = 1;
     //区域数据的获取
@@ -115,6 +118,10 @@ static NSString *size = @"20";
 }
 //列表的数据请求
 -(void)loadData{
+    if (!_isRequestFinish) {
+        return;
+    }
+    _isRequestFinish = NO;
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
         NSString *uuid = [ user objectForKey:@"uuid"];
         NSString *location = [ user objectForKey:@"lnglat"];
@@ -171,10 +178,12 @@ static NSString *size = @"20";
                 [_allStore.mj_header endRefreshing];
                 [_allStore.mj_footer endRefreshing];
             }
+            _isRequestFinish = YES;
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             [SVProgressHUD showInfoWithStatus:@"网络不给力"];
             [_allStore.mj_header endRefreshing];
             [_allStore.mj_footer endRefreshing];
+            _isRequestFinish = YES;
         }];
     
 }
@@ -478,7 +487,7 @@ static NSString *size = @"20";
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-   [_allStore.mj_header beginRefreshing];
+    [self loadData];
 }
 
 

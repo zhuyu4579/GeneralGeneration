@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="WZMainUnitCell">
+            <rect key="frame" x="0.0" y="0.0" width="130" height="193"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="130" height="193"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="h4d-47-owX">
+                        <rect key="frame" x="0.0" y="0.0" width="130" height="128"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="128" id="0ZW-GI-UyK"/>
+                            <constraint firstAttribute="width" constant="130" id="8RR-EW-IJQ"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3房两室一厅" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VbP-3g-hBf">
+                        <rect key="frame" x="6" y="136" width="74.5" height="13"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="13" id="qdT-sl-hC4"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="90平" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H3G-VI-Usy">
+                        <rect key="frame" x="6" y="155" width="25.5" height="11"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="11" id="0b9-0O-jne"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200万起" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="faI-JR-eqU">
+                        <rect key="frame" x="6" y="171" width="51" height="13"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="13" id="zdX-gR-IpS"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="H3G-VI-Usy" firstAttribute="top" secondItem="VbP-3g-hBf" secondAttribute="bottom" constant="6" id="433-0o-Pf2"/>
+                <constraint firstItem="VbP-3g-hBf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="6" id="PWL-TZ-6iV"/>
+                <constraint firstItem="faI-JR-eqU" firstAttribute="top" secondItem="H3G-VI-Usy" secondAttribute="bottom" constant="5" id="Stg-0a-ut8"/>
+                <constraint firstItem="h4d-47-owX" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="W5W-zc-U74"/>
+                <constraint firstItem="faI-JR-eqU" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="6" id="ZR7-Cc-WNd"/>
+                <constraint firstItem="h4d-47-owX" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="diS-kr-5eO"/>
+                <constraint firstItem="H3G-VI-Usy" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="6" id="fyP-87-Lr4"/>
+                <constraint firstItem="VbP-3g-hBf" firstAttribute="top" secondItem="h4d-47-owX" secondAttribute="bottom" constant="8" id="lVp-Qo-tsH"/>
+            </constraints>
+            <connections>
+                <outlet property="houseImage" destination="h4d-47-owX" id="d2c-7k-7lh"/>
+                <outlet property="mainUnitLabelOne" destination="VbP-3g-hBf" id="pUT-JH-uN8"/>
+                <outlet property="mainUnitLabelThree" destination="H3G-VI-Usy" id="lw1-Rs-2Dj"/>
+                <outlet property="mianUnitLabelFour" destination="faI-JR-eqU" id="Bq3-EP-odp"/>
+            </connections>
+            <point key="canvasLocation" x="42" y="137.5"/>
+        </collectionViewCell>
+    </objects>
+</document>

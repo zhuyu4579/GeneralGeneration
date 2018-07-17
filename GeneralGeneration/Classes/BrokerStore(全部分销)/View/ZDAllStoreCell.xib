@@ -83,7 +83,7 @@
                             <constraint firstAttribute="width" constant="60" id="aNJ-RG-ySE"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <state key="normal" title="跟进"/>
+                        <state key="normal" title="打卡"/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2qk-mW-n67">
                         <rect key="frame" x="80" y="97" width="60" height="20"/>
@@ -92,7 +92,7 @@
                             <constraint firstAttribute="height" constant="20" id="4Bw-n5-Q9B"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <state key="normal" title="打卡"/>
+                        <state key="normal" title="跟进"/>
                     </button>
                 </subviews>
                 <constraints>
@@ -119,8 +119,8 @@
             <connections>
                 <outlet property="collect" destination="xKb-eU-Krv" id="q8a-KY-67Q"/>
                 <outlet property="contractProject" destination="eav-c4-OSc" id="N28-ll-jBX"/>
-                <outlet property="punch" destination="2qk-mW-n67" id="FBA-07-3ir"/>
-                <outlet property="readFollow" destination="kuh-Sz-vJG" id="bYO-aa-AZg"/>
+                <outlet property="punch" destination="kuh-Sz-vJG" id="MAx-YF-xSb"/>
+                <outlet property="readFollow" destination="2qk-mW-n67" id="MiE-Hn-Ob2"/>
                 <outlet property="storeAddress" destination="6mR-Xz-Hdl" id="Haz-Ll-0Aa"/>
                 <outlet property="storeDate" destination="rHa-n2-cuy" id="GjN-TK-gnk"/>
                 <outlet property="storeName" destination="ZWv-jH-877" id="97s-cD-WXp"/>

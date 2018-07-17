@@ -28,6 +28,8 @@
 @property(nonatomic,strong)MJRefreshBackGifFooter *footer;
 //无数据展示
 @property(nonatomic,strong)UIView *viewNo;
+//数据请求是否完毕
+@property (nonatomic, assign) BOOL isRequestFinish;
 @end
 static  NSString * const ID = @"cell";
 //查询条数
@@ -39,10 +41,12 @@ static NSString *size = @"20";
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
      [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
+    
+    _isRequestFinish = YES;
     _cusListArray = [NSMutableArray array];
     current = 1;
-    
+    [self loadData];
     self.view.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     //注册cell
@@ -51,13 +55,12 @@ static NSString *size = @"20";
     [self headerRefresh];
     [self setNoData];
     //创造通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewTopics) name:@"Refresh" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"Refresh" object:nil];
 }
 //下拉刷新
 -(void)headerRefresh{
     //创建下拉刷新
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
-    
     // 设置文字
     [header setTitle:@"刷新完毕..." forState:MJRefreshStateIdle];
     [header setTitle:@"下拉刷新" forState:MJRefreshStatePulling];
@@ -73,8 +76,6 @@ static NSString *size = @"20";
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     
     self.tableView.mj_header = header;
-    
-    [self.tableView.mj_header beginRefreshing];
     //创建上拉加载
     MJRefreshBackGifFooter *footer = [MJRefreshBackGifFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     self.tableView.mj_footer = footer;
@@ -98,7 +99,10 @@ static NSString *size = @"20";
 }
 //数据请求
 -(void)loadData{
-    
+    if (!_isRequestFinish) {
+        return;
+    }
+    _isRequestFinish = NO;
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
         NSString *uuid = [ user objectForKey:@"uuid"];
     
@@ -147,10 +151,12 @@ static NSString *size = @"20";
                 [self.tableView.mj_header endRefreshing];
                 [self.tableView.mj_footer endRefreshing];
             }
+            _isRequestFinish = YES;
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             [SVProgressHUD showInfoWithStatus:@"网络不给力"];
             [self.tableView.mj_header endRefreshing];
             [self.tableView.mj_footer endRefreshing];
+            _isRequestFinish = YES;
         }];
     
 }
@@ -212,6 +218,6 @@ static NSString *size = @"20";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-   
+    
 }
 @end

@@ -33,6 +33,7 @@ static  NSString * const ID = @"cell";
 @property(nonatomic,strong)MJRefreshBackGifFooter *footer;
 //无数据展示
 @property(nonatomic,strong)UIView *viewNo;
+
 @end
 //查询条数
 static NSString *size = @"20";
