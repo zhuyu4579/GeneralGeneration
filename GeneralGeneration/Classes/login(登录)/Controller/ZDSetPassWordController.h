@@ -13,4 +13,5 @@
 @property(nonatomic,strong)NSString *phone;
 //验证码
 @property(nonatomic,strong)NSString *YZM;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *headHeight;
 @end

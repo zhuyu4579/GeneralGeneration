@@ -15,6 +15,7 @@
 #import <MJExtension.h>
 #import "ZDOpinionController.h"
 #import "NSString+LCExtension.h"
+#import "JPUSHService.h"
 @interface ZDSettingController ()
 //箭头1，2，3
 @property (strong, nonatomic) IBOutlet UIButton *JTOne;
@@ -44,10 +45,12 @@
 - (void)viewDidLoad {
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     [super viewDidLoad];
     self.navigationItem.title = @"设置";
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
+    _headHeight.constant = kApplicationStatusBarHeight+54;
     _cache.textColor = UIColorRBG(199, 199, 205);
     [_exit setTitleColor:UIColorRBG(255, 105, 110) forState:UIControlStateNormal];
     [_JTOne setEnlargeEdge:20];
@@ -129,6 +132,12 @@
         if ([code isEqual:@"200"]) {
             //清除持久数据
             [SVProgressHUD showInfoWithStatus:@"退出成功"];
+            //退出的时候删除别名
+            [JPUSHService deleteAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+                if (iResCode == 0) {
+                    NSLog(@"删除别名成功");
+                }
+            } seq:1];
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             NSDictionary *dic = [userDefaults dictionaryRepresentation];
             for (NSString *key in dic) {
@@ -183,7 +192,7 @@
         str = [NSString stringWithFormat:@"%.1fKB",size/1000.0];
     }else if (size>0){
         //B
-        str = [NSString stringWithFormat:@"%zdB",size];
+        str = [NSString stringWithFormat:@"%ldB",(long)size];
     }
     return str;
 }

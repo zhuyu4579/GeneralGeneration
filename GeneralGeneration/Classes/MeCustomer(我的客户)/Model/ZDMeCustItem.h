@@ -11,7 +11,7 @@
 @interface ZDMeCustItem : NSObject
 //订单Id
 @property(nonatomic,strong)NSString *id;
-//项目名称
+//楼盘名称
 @property(nonatomic,strong)NSString *projectName;
 //订单修改时间
 @property(nonatomic,strong)NSString *updateDate;
@@ -27,4 +27,5 @@
 @property(nonatomic,strong)NSString *dealStatus;
 //订单审核状态
 @property(nonatomic,strong)NSString *verify;
+
 @end

@@ -33,7 +33,8 @@
 - (void)viewDidLoad {
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     [super viewDidLoad];
     self.navigationItem.title = @"设置密码";
     //设置按钮
@@ -42,6 +43,7 @@
 }
 //设置控件按钮
 -(void)setUpButton{
+    _headHeight.constant = kApplicationStatusBarHeight + 85;
     //设置登录按钮圆角
     self.comfileButton.layer.cornerRadius = 22.0;
     self.comfileButton.layer.masksToBounds = YES;

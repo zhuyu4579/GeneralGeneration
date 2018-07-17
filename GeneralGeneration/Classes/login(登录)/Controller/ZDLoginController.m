@@ -16,6 +16,7 @@
 #import <MJExtension.h>
 #import "ZDHomePageController.h"
 #import "ZDNavgationController.h"
+#import "JPUSHService.h"
 @interface ZDLoginController ()
 //登录头像
 @property (strong, nonatomic) IBOutlet UIImageView *headImage;
@@ -42,7 +43,8 @@
     [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     self.view.backgroundColor = [UIColor whiteColor];
     //设置按钮
     [self setUpButton];
@@ -50,7 +52,6 @@
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *username = [ user objectForKey:@"username"];
     _admin.text = username;
-    
 }
 //设置控件按钮
 -(void)setUpButton{
@@ -58,7 +59,7 @@
     self.loginButton.layer.cornerRadius = 22.0;
     self.loginButton.layer.masksToBounds = YES;
     self.loginButton.backgroundColor = UIColorRBG(3, 133, 219);
-
+    _headHeight.constant = kApplicationStatusBarHeight + 160;
      [self.showPassWord setEnlargeEdge:10];
     //设置文本框
     [self setTextFeildbords];
@@ -161,6 +162,11 @@
         
         if (code == 200) {
             NSDictionary  *loginItem = [responseObject valueForKey:@"data"];
+            [JPUSHService setAlias:[loginItem valueForKey:@"id"] completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+                if (iResCode == 0) {
+                    NSLog(@"添加别名成功");
+                }
+            } seq:1];
             if(![loginItem isEqual:@""]){
                 //数据持久化
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

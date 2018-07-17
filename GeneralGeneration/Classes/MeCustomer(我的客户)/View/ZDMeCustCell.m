@@ -9,6 +9,7 @@
 #import "ZDMeCustCell.h"
 #import "ZDMeCustItem.h"
 #import "ZDRefusalController.h"
+#import "UIButton+WZEnlargeTouchAre.h"
 #import "UIViewController+WZFindController.h"
 @implementation ZDMeCustCell
 
@@ -20,8 +21,11 @@
     _cusPhone.textColor = UIColorRBG(153, 153, 153);
     _brokerName.textColor = UIColorRBG(153, 153, 153);
     _brokerPhone.textColor = UIColorRBG(153, 153, 153);
+    _telphone.textColor = UIColorRBG(3, 133, 219);
     _status.textColor = UIColorRBG(3, 133, 219);
     //按钮
+    
+    [_playPhone setEnlargeEdge:44];
     _refusalButton.layer.cornerRadius = 10.0;
     _refusalButton.layer.masksToBounds = YES;
     
@@ -36,7 +40,8 @@
     _customerName.text = [NSString stringWithFormat:@"客       户：%@",item.clientName];
     _cusPhone.text = [NSString stringWithFormat:@"报备电话：%@",item.missContacto];
     _brokerName.text = [NSString stringWithFormat:@"经  纪  人：%@",[item.user valueForKey:@"realname"]];
-    _brokerPhone.text = [NSString stringWithFormat:@"电       话：%@",[item.user valueForKey:@"phone"]];
+    _brokerPhone.text = [NSString stringWithFormat:@"电       话："];
+    _telphone.text = [item.user valueForKey:@"phone"];
     NSArray *statusArray = @[@"已报备",@"已上客",@"已成交",@"已失效",@"成交审核中"];
     int n = [item.dealStatus intValue];
     int m = [item.verify intValue];
@@ -82,7 +87,9 @@
     [super setFrame:frame];
 }
 - (IBAction)playPhone:(UIButton *)sender {
-    NSString *phone = _brokerPhone.text;
+    
+    NSString *phone = _telphone.text;
+    
     if (![phone isEqual:@""]) {
         NSString *callPhone = [NSString stringWithFormat:@"telprompt://%@", phone];
         if (@available(iOS 10.0, *)) {

@@ -39,7 +39,8 @@
     [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.7]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"订单资料";
     //创建控件
@@ -50,7 +51,7 @@
     UIView *viewOne = [[UIView alloc] initWithFrame:CGRectMake(0,kApplicationStatusBarHeight+44                                                                                                 , self.view.fWidth, 65)];
     viewOne.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:viewOne];
-    //项目名称
+    //楼盘名称
     UILabel *projectName = [[UILabel alloc] initWithFrame:CGRectMake(15, 24, viewOne.fWidth-30, 17)];
     projectName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:17];
     projectName.textColor = UIColorRBG(68, 68, 68);

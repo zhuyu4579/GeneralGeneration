@@ -29,7 +29,8 @@
 - (void)viewDidLoad {
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"意见反馈";
@@ -95,7 +96,7 @@
 }
 -(void)textViewDidChange:(UITextView *)textView{
       NSString *text = textView.text;
-    _labelSum.text = [NSString stringWithFormat:@"%lu/1000",(unsigned long)text.length];
+    _labelSum.text = [NSString stringWithFormat:@"%lu/400",(unsigned long)text.length];
     if (text.length == 400) {
         textView.editable = NO;
     }
@@ -103,7 +104,7 @@
 //提交
 -(void)Submission{
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-        NSString *uuid = [ user objectForKey:@"uuid"];
+        NSString *uuid = [user objectForKey:@"uuid"];
         NSString *jobType = [user objectForKey:@"jobType"];
         //创建会话请求
         AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];

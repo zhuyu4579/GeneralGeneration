@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -19,10 +19,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tq1-BC-An2">
-                        <rect key="frame" x="15" y="19" width="200" height="17"/>
+                        <rect key="frame" x="15" y="19" width="300" height="17"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="UG7-Bn-kBO"/>
-                            <constraint firstAttribute="width" constant="200" id="otg-u5-bhH"/>
+                            <constraint firstAttribute="width" constant="300" id="aS7-7V-l1o"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
@@ -119,8 +119,18 @@
                             <action selector="refusal:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="VWa-nE-88a"/>
                         </connections>
                     </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vDY-X1-qEm">
+                        <rect key="frame" x="48" y="161" width="33" height="13"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="13" id="Thu-ZV-AcS"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="vDY-X1-qEm" firstAttribute="top" secondItem="699-zb-iRU" secondAttribute="top" id="6cg-z9-BwK"/>
                     <constraint firstItem="699-zb-iRU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="6hY-3w-cDb"/>
                     <constraint firstItem="7ag-KA-Q45" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="8wh-hI-qS5"/>
                     <constraint firstItem="G1D-Wz-CCy" firstAttribute="top" secondItem="7ag-KA-Q45" secondAttribute="bottom" constant="15" id="9Fg-x6-Zh2"/>
@@ -137,6 +147,7 @@
                     <constraint firstItem="G1D-Wz-CCy" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Vcq-ze-Dp4"/>
                     <constraint firstItem="Tq1-BC-An2" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="eNb-uV-KVY"/>
                     <constraint firstItem="KEI-YX-i27" firstAttribute="top" secondItem="GL0-ER-A8b" secondAttribute="bottom" constant="15" id="eNi-q2-vHq"/>
+                    <constraint firstItem="vDY-X1-qEm" firstAttribute="leading" secondItem="699-zb-iRU" secondAttribute="trailing" id="gQI-fG-DGH"/>
                     <constraint firstAttribute="trailing" secondItem="GL0-ER-A8b" secondAttribute="trailing" constant="15" id="hdW-75-kYe"/>
                     <constraint firstItem="iXn-6s-2VF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="jp3-0h-dZJ"/>
                     <constraint firstItem="Tq1-BC-An2" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="19" id="kmH-kU-SZi"/>
@@ -154,8 +165,10 @@
                 <outlet property="customerName" destination="iXn-6s-2VF" id="68r-u3-ais"/>
                 <outlet property="itemName" destination="Tq1-BC-An2" id="JuV-r8-wLj"/>
                 <outlet property="orderTime" destination="hcY-nM-Ucb" id="VMn-VF-QPu"/>
+                <outlet property="playPhone" destination="B1d-VR-puu" id="NER-sX-yYY"/>
                 <outlet property="refusalButton" destination="KEI-YX-i27" id="rze-Zl-KHE"/>
                 <outlet property="status" destination="ISb-MV-oFW" id="JTB-jZ-0Rb"/>
+                <outlet property="telphone" destination="vDY-X1-qEm" id="eBZ-dY-ZiN"/>
             </connections>
             <point key="canvasLocation" x="33.5" y="54"/>
         </tableViewCell>

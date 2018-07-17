@@ -20,7 +20,7 @@
 @property(nonatomic,weak) UIScrollView *scrollView;
 //拒单按钮
 @property(nonatomic,weak) UIButton *refusalButton;
-//项目名称
+//楼盘名称
 @property (strong, nonatomic)UILabel *itemName;
 //订单日期
 @property (strong, nonatomic)UILabel *orderTime;
@@ -36,7 +36,7 @@
 @property (strong, nonatomic) UILabel *brokerPhone;
 //公司
 @property (strong, nonatomic) UILabel *company;
-//门店
+//分销
 @property (strong, nonatomic) UILabel *storeAddress;
 //出行人数
 @property (strong, nonatomic) UILabel *travel;
@@ -58,7 +58,8 @@
     [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"订单详情";
@@ -110,12 +111,12 @@
      _orderTime.text = [_custors valueForKey:@"updateDate"];
      _customerName.text = [_custors valueForKey:@"clientName"];
      _estimateTime.text = [_custors valueForKey:@"boardingPlane"];
-     _cusPhone.text = [NSString stringWithFormat:@"报备手机号:%@",[_custors valueForKey:@"missContacto"]];
+     _cusPhone.text = [NSString stringWithFormat:@"报备手机号：%@",[_custors valueForKey:@"missContacto"]];
       NSDictionary *user = [_custors valueForKey:@"user"];
      _brokerName.text = [NSString stringWithFormat:@"姓名：%@",[user valueForKey:@"realname"]];
      _brokerPhone.text = [NSString stringWithFormat:@"电话：%@",[user valueForKey:@"phone"]];
      _company.text = [NSString stringWithFormat:@"公司：%@",[user valueForKey:@"companyName"]];
-     _storeAddress.text = [NSString stringWithFormat:@"门店：%@",[user valueForKey:@"storeName"]];
+     _storeAddress.text = [NSString stringWithFormat:@"分销：%@",[user valueForKey:@"storeName"]];
     
      _travel.text = [NSString stringWithFormat:@"出行人数：%@",[_custors valueForKey:@"partPersonNum"]];
      _meals.text = [NSString stringWithFormat:@"用餐人数：%@",[_custors valueForKey:@"lunchNum"]];
@@ -138,17 +139,20 @@
     scrollView.delegate =self;
     self.scrollView = scrollView;
     [self.view addSubview:scrollView];
-    scrollView.contentSize =CGSizeMake(0,self.view.fHeight);
+    
     //创建view
     UIView *view = [[UIView alloc] init];
     view.frame = CGRectMake(15,10,self.view.fWidth-30,550);
     view.backgroundColor = [UIColor clearColor];
     [scrollView addSubview:view];
+    scrollView.contentSize =CGSizeMake(0,view.fHeight+view.fY+10);
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:view.bounds];
     imageView.image = [UIImage imageNamed:@"background"];
     [view addSubview:imageView];
+    
+    
     //创建内容
-    //项目名称
+    //楼盘名称
     UILabel *itemName = [[UILabel alloc] init];
     itemName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:17];
     itemName.textColor = UIColorRBG(68, 68, 68);
@@ -159,7 +163,7 @@
         make.left.equalTo(view.mas_left).offset(15);
         make.height.offset(17);
     }];
-    //项目日期
+    //楼盘日期
     UILabel *orderTime = [[UILabel alloc] init];
     orderTime.font =[UIFont fontWithName:@"PingFang-SC-Light" size:12];
     orderTime.textColor = UIColorRBG(204, 204, 204);
@@ -228,7 +232,6 @@
     }];
     //经纪人电话
     UILabel *brokerPhone = [[UILabel alloc] init];
-   
     brokerPhone.font =[UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     brokerPhone.textColor = UIColorRBG(153, 153, 153);
     _brokerPhone = brokerPhone;
@@ -250,7 +253,7 @@
         make.left.equalTo(view.mas_left).offset(15);
         make.height.offset(14);
     }];
-    //门店地址
+    //分销地址
     UILabel *storeAddress = [[UILabel alloc] init];
     
     storeAddress.font =[UIFont fontWithName:@"PingFang-SC-Regular" size:14];
