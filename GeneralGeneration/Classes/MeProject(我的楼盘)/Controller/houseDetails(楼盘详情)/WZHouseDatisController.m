@@ -81,7 +81,9 @@
 //基本信息
 @property(nonatomic,strong)WZDetailsViewOne *dView;
 //楼盘动态
+@property(nonatomic,strong)UIView *dynamicView;
 @property(nonatomic,strong)WZDynamictableView *dynamic;
+@property(nonatomic,strong)UILabel *dyname;
 //合同有效期
 @property(nonatomic,strong)UILabel *contract;
 //结佣时间
@@ -275,8 +277,10 @@
     
     
     //楼盘动态
-    _dynamic.name = [_houseDatils valueForKey:@"dynamic"];
-    [_dynamic reloadData];
+    
+    //    _dynamic.name = [_houseDatils valueForKey:@"dynamic"];
+    //    [_dynamic reloadData];
+    _dyname.text = [_houseDatils valueForKey:@"dynamic"];
     //楼盘简介
     _contents.text = [_houseDatils valueForKey:@"outlining"];
     //合同有效期
@@ -312,6 +316,31 @@
     NSMutableArray *shops = [self setString:[_houseDatils valueForKey:@"shops"]];
     _shop.array =  [WZPeripheryItem mj_objectArrayWithKeyValuesArray:shops];
     [_shop reloadData];
+    [self setDynamicHeight];
+}
+//动态修改楼盘动态高度
+-(void)setDynamicHeight{
+    
+    CGSize titleSize = [_dyname.text sizeWithFont:_dyname.font constrainedToSize:CGSizeMake(_dyname.frame.size.width, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
+    CGFloat n = titleSize.height+91;
+    if(n>210){
+        _dynamicView.fHeight +=n-210;
+        _houseIntroduce.fY += n-210;
+        _viewFour.fY +=n-210;
+        _viewFive.fY +=n-210;
+        _viewSix.fY +=n-210;
+        _viewSeven.fY += n-210;
+        _scrollView.contentSize = CGSizeMake(0,_viewSeven.fY + _viewSeven.fHeight+10);
+    }else{
+        _dynamicView.fHeight -=210-n;
+        _houseIntroduce.fY -= 210-n;
+        _viewFour.fY -=210-n;
+        _viewFive.fY -=210-n;
+        _viewSix.fY -=210-n;
+        _viewSeven.fY -= 210-n;
+        _scrollView.contentSize = CGSizeMake(0,_viewSeven.fY + _viewSeven.fHeight+10);
+    }
+    
 }
 -(void)setNavTitle{
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
@@ -351,6 +380,7 @@
     //创建第三个view
     UIView *viewThree = [[UIView alloc] initWithFrame:CGRectMake(0, viewTwo.fY +viewTwo.fHeight +10, scrollView.fWidth, 210)];
     viewThree.backgroundColor = [UIColor whiteColor];
+     _dynamicView = viewThree;
     //创建第三个view中的控件
     [self getUpThree:viewThree];
     [scrollView addSubview:viewThree];
@@ -492,16 +522,26 @@
         make.height.offset(1);
         make.width.equalTo(view.mas_width);
     }];
-    
-    WZDynamictableView *tableView = [[WZDynamictableView alloc] init];
-    _dynamic = tableView;
-    [view addSubview:tableView];
-    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(view.mas_left);
-        make.top.equalTo(ineView.mas_bottom);
-        make.width.equalTo(view.mas_width);
-        make.height.offset(150);
+    UILabel *dyname = [[UILabel alloc] init];
+    _dyname = dyname;
+    dyname.numberOfLines = 0;
+    dyname.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
+    dyname.textColor =  UIColorRBG(102, 102, 102);
+    [view addSubview:dyname];
+    [dyname mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).mas_offset(15);
+        make.top.equalTo(ineView.mas_bottom).mas_offset(20);
+        make.width.offset(view.fWidth-30);
     }];
+//    WZDynamictableView *tableView = [[WZDynamictableView alloc] init];
+//    _dynamic = tableView;
+//    [view addSubview:tableView];
+//    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(view.mas_left);
+//        make.top.equalTo(ineView.mas_bottom);
+//        make.width.equalTo(view.mas_width);
+//        make.height.offset(150);
+//    }];
 }
 //楼盘简介
 -(void)houseIntroduce:(UIView *)view{

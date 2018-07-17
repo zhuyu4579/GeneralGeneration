@@ -53,6 +53,7 @@ static  NSString * const ID = @"cell";
     _isRequestFinish = YES;
     _recordArray = [NSMutableArray array];
     current = 1;
+    [self loadData];
     //注册cell
     [self.tableView registerNib:[UINib nibWithNibName:@"ZDPunchCell" bundle:nil] forCellReuseIdentifier:ID];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
