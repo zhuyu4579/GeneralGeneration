@@ -704,7 +704,7 @@
     }
     NSString *lnglat = _lnglat;
     if ([lnglat isEqual:@""]) {
-        [SVProgressHUD showInfoWithStatus:@"地址为空"];
+        [SVProgressHUD showInfoWithStatus:@"位置坐标为空，重新选择位置"];
         return;
     }
     NSString *totalPeople = _totalPeople.text;
@@ -723,10 +723,7 @@
         return;
     }
     NSString *remarks = _remarks.text;
-    if ([remarks isEqual:@""]) {
-        [SVProgressHUD showInfoWithStatus:@"公司简介为空"];
-        return;
-    }
+
     //分销类型
     NSString *storeType = _storeType.text;
     

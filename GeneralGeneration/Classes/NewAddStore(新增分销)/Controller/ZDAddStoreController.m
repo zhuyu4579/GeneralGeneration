@@ -214,12 +214,12 @@
 //稍后再说
 -(void)Later{
     //返回根部
-     [GKCover hide];
+    [GKCover hide];
     //返回关注分销
-    ZDBrokerStoreController *droker = [[ZDBrokerStoreController alloc] init];
-    droker.status =1;
-    [self.navigationController pushViewController:droker animated:YES];
-    //[self.navigationController popToRootViewControllerAnimated:YES];
+//    ZDBrokerStoreController *droker = [[ZDBrokerStoreController alloc] init];
+//    droker.status =1;
+//    [self.navigationController pushViewController:droker animated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 //签约分销
 -(void)store{
