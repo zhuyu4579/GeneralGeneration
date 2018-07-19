@@ -84,6 +84,7 @@
 @property(nonatomic,strong)UIView *dynamicView;
 @property(nonatomic,strong)WZDynamictableView *dynamic;
 @property(nonatomic,strong)UILabel *dyname;
+@property(nonatomic,assign)CGFloat dynamicHeight;
 //合同有效期
 @property(nonatomic,strong)UILabel *contract;
 //结佣时间
@@ -323,6 +324,10 @@
     
     CGSize titleSize = [_dyname.text sizeWithFont:_dyname.font constrainedToSize:CGSizeMake(_dyname.frame.size.width, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
     CGFloat n = titleSize.height+91;
+    if (n==_dynamicHeight) {
+        return;
+    }
+    _dynamicHeight = n;
     if(n>210){
         _dynamicView.fHeight +=n-210;
         _houseIntroduce.fY += n-210;
@@ -643,6 +648,7 @@
     }];
     UILabel *contract = [[UILabel alloc] init];
     _contract = contract;
+    contract.textAlignment = NSTextAlignmentCenter;
     contract.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
     contract.textColor = UIColorRBG(3, 133, 219);
     [oneView addSubview:contract];
@@ -664,17 +670,20 @@
         make.centerX.equalTo(twoView.mas_centerX);
         make.top.equalTo(twoView.mas_top).mas_offset(12);
         make.height.offset(12);
+        
     }];
     UILabel *CommissionTime = [[UILabel alloc] init];
     
     _settlement = CommissionTime;
     CommissionTime.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
     CommissionTime.textColor = UIColorRBG(3, 133, 219);
+    CommissionTime.textAlignment = NSTextAlignmentCenter;
     [twoView addSubview:CommissionTime];
     [CommissionTime mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(twoView.mas_centerX);
         make.top.equalTo(labelTwo.mas_bottom).mas_offset(13);
         make.height.offset(15);
+        make.width.offset((view.fWidth-10)/2);
     }];
     
 }

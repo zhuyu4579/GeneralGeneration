@@ -86,6 +86,7 @@
 
 //创建相册
 -(void)setUpAlbumsView{
+    float n = [UIScreen mainScreen].bounds.size.width/375.0;
     UIView *albumsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, self.view.fHeight)];
     albumsView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:albumsView];
@@ -95,7 +96,7 @@
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.sectionInset = UIEdgeInsetsMake(20, 15, 20, 15);
     layout.minimumLineSpacing = 16;
-    layout.itemSize = CGSizeMake(165, 110);
+    layout.itemSize = CGSizeMake(165*n, 110*n);
     WZAlbumsCollectionView *albumsCV = [[WZAlbumsCollectionView alloc] initWithFrame:CGRectMake(0, 0, albumsView.fWidth, albumsView.fHeight) collectionViewLayout:layout];
     albumsCV.projectId = _ID;
     _collec = albumsCV;

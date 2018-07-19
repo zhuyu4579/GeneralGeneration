@@ -235,7 +235,7 @@
     
     NSIndexPath *indexPath1 = [NSIndexPath indexPathForItem:indexPath.section inSection:0];
     
-    [_photosCV scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    [_photosCV scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
     UICollectionViewLayoutAttributes *attr = [self.photosCV.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath];
     CGRect rect = attr.frame;
     rect.size = self.photosCV.frame.size;
@@ -248,7 +248,7 @@
     
     _photosName.arrays = [WZAlbumsItem mj_objectArrayWithKeyValuesArray:_list];;
     [_photosName reloadSections:[NSIndexSet indexSetWithIndex:0]];
-    [_photosName scrollToItemAtIndexPath:indexPath1 atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    [_photosName scrollToItemAtIndexPath:indexPath1 atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
     
     
 }
@@ -258,7 +258,7 @@
     _page.text = [NSString stringWithFormat:@"%@/%@",[dicty valueForKey:@"index"],_num];
     NSIndexPath *indexPath = [dicty valueForKey:@"indexPath"];
     NSIndexPath *indexPath1 = [NSIndexPath indexPathForItem:indexPath.section inSection:0];
-    [_photosName scrollToItemAtIndexPath:indexPath1 atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    [_photosName scrollToItemAtIndexPath:indexPath1 atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
     
     WZPhotoNameCell *cell1 =(WZPhotoNameCell *) [_photosName cellForItemAtIndexPath:_oldIndexPath];
     cell1.name.textColor = UIColorRBG(203, 203, 203);
@@ -275,7 +275,7 @@
     NSDictionary *dicty = [notFi userInfo];
     NSIndexPath *indexPath = [dicty valueForKey:@"indexPath"];
     NSIndexPath *indexPath1 = [NSIndexPath indexPathForItem:0 inSection:indexPath.row];
-    [_photosCV scrollToItemAtIndexPath:indexPath1 atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    [_photosCV scrollToItemAtIndexPath:indexPath1 atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
     UICollectionViewLayoutAttributes *attr = [self.photosCV.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath1];
     
     CGRect rect = attr.frame;
