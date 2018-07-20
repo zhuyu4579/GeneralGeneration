@@ -523,6 +523,7 @@ static NSString * const ID = @"cell";
             NSString *newVersion = [data valueForKey:@"version"];
             NSString *downAddress = [data valueForKey:@"downAddress"];
             _downAddress = downAddress;
+            
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:newVersion forKey:@"newVersion"];
             [defaults setObject:downAddress forKey:@"downAddress"];

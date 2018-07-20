@@ -29,6 +29,8 @@
 @property(nonatomic,strong)UIScrollView *scrollView;
 //分销名称
 @property(nonatomic,strong)UILabel *storeName;
+//分销编码
+@property(nonatomic,strong)UILabel *companyCode;
 //分销类型
 @property(nonatomic,strong)UILabel *storeType;
 //分销按钮
@@ -168,7 +170,7 @@
 -(void)setUpData{
     _storeName.text = [_storeDicty valueForKey:@"name"];
     _companyName.text = [_storeDicty valueForKey:@"companyName"];
-    
+    _companyCode.text = [_storeDicty valueForKey:@"storeCode"];
     //分销类型
     NSString *storeType =  [_storeDicty valueForKey:@"storeType"];
     
@@ -307,7 +309,7 @@
 
 //创建内容
 -(void)createVC{
-    UIView *viewOne = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _scrollView.fWidth, 136)];
+    UIView *viewOne = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _scrollView.fWidth, 181)];
     viewOne.backgroundColor = [UIColor whiteColor];
     [_scrollView addSubview:viewOne];
     //第一个view
@@ -333,10 +335,36 @@
         make.left.equalTo(labelOne.mas_right).offset(9);
         make.height.offset(14);
     }];
-    
     UIView *ineOne = [[UIView alloc] initWithFrame:CGRectMake(15, 45, viewOne.fWidth-15, 1)];
     ineOne.backgroundColor = UIColorRBG(242, 242, 242);
     [viewOne addSubview:ineOne];
+    
+    //分销编码
+    UILabel *companyCodeLabel = [[UILabel alloc] init];
+    companyCodeLabel.text = @"分销编码:";
+    companyCodeLabel.textColor = UIColorRBG(153, 153, 153);
+    companyCodeLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
+    [viewOne addSubview:companyCodeLabel];
+    [companyCodeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(ineOne.mas_bottom).offset(17);
+        make.left.equalTo(viewOne.mas_left).offset(15);
+        make.height.offset(13);
+    }];
+    //分销名称
+    UILabel *companyCode = [[UILabel alloc] init];
+    companyCode.text = @"无";
+    companyCode.textColor = UIColorRBG(68, 68, 68);
+    companyCode.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:14];
+    [viewOne addSubview:companyCode];
+    _companyCode = companyCode;
+    [companyCode mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(ineOne.mas_bottom).offset(16);
+        make.left.equalTo(companyCodeLabel.mas_right).offset(9);
+        make.height.offset(14);
+    }];
+    UIView *ineOnes = [[UIView alloc] initWithFrame:CGRectMake(15, 90, viewOne.fWidth-15, 1)];
+    ineOnes.backgroundColor = UIColorRBG(242, 242, 242);
+    [viewOne addSubview:ineOnes];
     
     UILabel *labelOne2 = [[UILabel alloc] init];
     labelOne2.text = @"公司名称:";
@@ -344,7 +372,7 @@
     labelOne2.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     [viewOne addSubview:labelOne2];
     [labelOne2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(ineOne.mas_bottom).offset(17);
+        make.top.equalTo(ineOnes.mas_bottom).offset(17);
         make.left.equalTo(viewOne.mas_left).offset(15);
         make.height.offset(13);
     }];
@@ -360,13 +388,13 @@
     _companyName = companyName;
     [viewOne addSubview:companyName];
     [companyName mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(ineOne.mas_bottom).offset(0);
+        make.top.equalTo(ineOnes.mas_bottom).offset(0);
         make.left.equalTo(labelOne2.mas_right).offset(9);
         make.height.offset(45);
         make.width.offset(250);
     }];
     //分割线
-    UIView *ineOneTwo = [[UIView alloc] initWithFrame:CGRectMake(15, 90, viewOne.fWidth-15, 1)];
+    UIView *ineOneTwo = [[UIView alloc] initWithFrame:CGRectMake(15, 135, viewOne.fWidth-15, 1)];
     ineOneTwo.backgroundColor = UIColorRBG(242, 242, 242);
     [viewOne addSubview:ineOneTwo];
     
@@ -666,7 +694,7 @@
 }
 //编辑按钮
 -(void)edit{
-     _scrollView.contentSize = CGSizeMake(0, self.view.fHeight + 90);
+     _scrollView.contentSize = CGSizeMake(0, self.view.fHeight + 135);
      self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(success) title:@"完成"];
     [_storeTypeButton setEnabled:YES];
     [_buttonView setHidden:YES];
@@ -690,6 +718,11 @@
     NSString *companyName = _companyName.text;
     if ([companyName isEqual:@""]) {
         [SVProgressHUD showInfoWithStatus:@"公司名称不能为空"];
+        return;
+    }
+    NSString *companyCode = _companyCode.text;
+    if ([companyCode isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"分销编码不能为空"];
         return;
     }
     NSString *address = _address.text;
@@ -748,6 +781,7 @@
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
          paraments[@"id"] = storeId;
          paraments[@"companyName"] = companyName;
+         paraments[@"storeCode"] = companyCode;
          paraments[@"storeType"] = storeTypes;
          paraments[@"address"] = address;
          paraments[@"addr"] = addr;
