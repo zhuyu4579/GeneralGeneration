@@ -241,7 +241,7 @@
         [SVProgressHUD showInfoWithStatus:@"分销名称不能为空"];
         return;
     }
-    //公司名称
+    //公司全称
      NSString *companyName = _comptyName.text;
     
     //分销位置

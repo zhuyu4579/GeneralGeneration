@@ -272,7 +272,7 @@
     _dView.address.text = [_houseDatils valueForKey:@"address"];
     _dView.phone.text = [_houseDatils valueForKey:@"telphone"];
     _dView.chargeMan.text = [_houseDatils valueForKey:@"chargeMan"];
-    //公司名称
+    //公司全称
     _dView.companyName.text = [_houseDatils valueForKey:@"companyName"];
    //分销类型
     

@@ -21,7 +21,7 @@
 @interface ZDContractController ()<UITextFieldDelegate>
 //分销名称
 @property(nonatomic,strong)UILabel *storeName;
-//公司名称
+//公司全称
 @property(nonatomic,strong)UITextField *companyName;
 //负责人
 @property(nonatomic,strong)UITextField *changeName;
@@ -94,7 +94,7 @@
     //2
     UILabel *labelTwo = [[UILabel alloc] init];
     labelTwo.frame = CGRectMake(15,17,60,13);
-    labelTwo.text = @"公司名称:";
+    labelTwo.text = @"公司全称:";
     labelTwo.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     labelTwo.textColor = UIColorRBG(153, 153, 153);
     [view2 addSubview:labelTwo];
@@ -428,10 +428,10 @@
         [SVProgressHUD showInfoWithStatus:@"时间选择错误"];
         return;
     }
-    //公司名称
+    //公司全称
     NSString *companyName = _companyName.text;
     if([companyName isEqual:@""]||!companyName){
-        [SVProgressHUD showInfoWithStatus:@"公司名称不能为空"];
+        [SVProgressHUD showInfoWithStatus:@"公司全称不能为空"];
         return;
     }
     //负责人

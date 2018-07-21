@@ -13,7 +13,7 @@
 @property(nonatomic,strong)NSString *storeId;
 //分销名称
 @property (strong, nonatomic) NSString *storeName;
-//公司名称
+//公司全称
 @property(nonatomic,strong)NSString *companyName;
 //负责人
 @property(nonatomic,strong)NSString *dutyName;

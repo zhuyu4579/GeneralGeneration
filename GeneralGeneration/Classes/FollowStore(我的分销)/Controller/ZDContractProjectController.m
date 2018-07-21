@@ -21,7 +21,7 @@
 @interface ZDContractProjectController ()<UITextFieldDelegate>
 //楼盘名称
 @property(nonatomic,strong)UILabel *projectName;
-//公司名称
+//公司全称
 @property(nonatomic,strong)UITextField *comptyNames;
 //楼盘ID
 @property(nonatomic,strong)NSString *projectId;
@@ -113,7 +113,7 @@
     //2
     UILabel *labelTwo = [[UILabel alloc] init];
     labelTwo.frame = CGRectMake(15,17,60,13);
-    labelTwo.text = @"公司名称:";
+    labelTwo.text = @"公司全称:";
     labelTwo.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     labelTwo.textColor = UIColorRBG(153, 153, 153);
     [view2 addSubview:labelTwo];
@@ -414,10 +414,10 @@
         [SVProgressHUD showInfoWithStatus:@"公司简称不能为空"];
         return;
     }
-    //公司名称
+    //公司全称
     NSString *companyName = _comptyNames.text;
     if([companyName isEqual:@""]){
-        [SVProgressHUD showInfoWithStatus:@"公司名称不能为空"];
+        [SVProgressHUD showInfoWithStatus:@"公司全称不能为空"];
         return;
     }
     

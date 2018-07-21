@@ -29,7 +29,7 @@
 @property(nonatomic,strong)NSString *dutyName;
 //电话
 @property(nonatomic,strong)NSString *telphone;
-//公司名称
+//公司全称
 @property(nonatomic,strong)NSString *companyName;
 //是否关注过
 @property(nonatomic,strong)NSString *isCollect;

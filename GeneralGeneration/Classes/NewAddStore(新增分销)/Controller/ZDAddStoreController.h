@@ -11,7 +11,7 @@
 @interface ZDAddStoreController : UIViewController
 //分销名称
 @property (strong, nonatomic) IBOutlet UITextField *storeName;
-//公司名称
+//公司全称
 @property (strong, nonatomic) IBOutlet UITextField *comptyName;
 //分销类型
 @property (strong, nonatomic) IBOutlet UILabel *storeType;

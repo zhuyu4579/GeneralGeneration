@@ -37,7 +37,7 @@
 @property(nonatomic,strong)UIButton *storeTypeButton;
 //录入经服
 @property(nonatomic,strong)UILabel *storeCreator;
-//公司名称
+//公司全称
 @property(nonatomic,strong)UITextField *companyName;
 //分销位置
 @property(nonatomic,strong)UIButton *addrButton;
@@ -367,7 +367,7 @@
     [viewOne addSubview:ineOnes];
     
     UILabel *labelOne2 = [[UILabel alloc] init];
-    labelOne2.text = @"公司名称:";
+    labelOne2.text = @"公司全称:";
     labelOne2.textColor = UIColorRBG(153, 153, 153);
     labelOne2.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     [viewOne addSubview:labelOne2];
@@ -376,11 +376,11 @@
         make.left.equalTo(viewOne.mas_left).offset(15);
         make.height.offset(13);
     }];
-    //公司名称
+    //公司全称
     UITextField *companyName = [[UITextField alloc] init];
     companyName.borderStyle = UITextBorderStyleNone;
     companyName.textColor = UIColorRBG(68, 68, 68);
-    companyName.placeholder = @"请输入公司名称";
+    companyName.placeholder = @"请输入公司全称";
     companyName.font = [UIFont systemFontOfSize:14];
     companyName.keyboardType = UIKeyboardTypeDefault;
     companyName.enabled = NO;
@@ -717,7 +717,7 @@
     }
     NSString *companyName = _companyName.text;
     if ([companyName isEqual:@""]) {
-        [SVProgressHUD showInfoWithStatus:@"公司名称不能为空"];
+        [SVProgressHUD showInfoWithStatus:@"公司全称不能为空"];
         return;
     }
     NSString *companyCode = _companyCode.text;
