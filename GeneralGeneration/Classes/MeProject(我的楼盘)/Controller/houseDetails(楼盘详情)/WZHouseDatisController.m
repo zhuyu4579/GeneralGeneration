@@ -37,7 +37,8 @@
 #import "WZLunBoItem.h"
 #import "ZDContractController.h"
 #import "ZDAlreadyContractStoreController.h"
-
+#import <WXApi.h>
+#import <WXApiObject.h>
 @interface WZHouseDatisController ()<WZCyclePhotoViewClickActionDeleage,UIScrollViewDelegate,MAMapViewDelegate>
 //总view
 @property(nonatomic,strong)UIScrollView *scrollView;
@@ -101,7 +102,8 @@
 @property(nonatomic,strong)WZBankTableView *bank;
 
 @property(nonatomic,assign)CGFloat offor;
-
+//分享弹框
+@property(nonatomic,strong) UIView *redView;
 @end
 
 @implementation WZHouseDatisController
@@ -122,6 +124,8 @@
     //点击楼盘统计
     [self editClickNum];
     [self headerRefresh];
+    //分享弹框
+    [self shareTasks];
 }
 
 -(void)editClickNum{
@@ -454,6 +458,12 @@
     self.popButton = popButton;
     [popButton addTarget:self action:@selector(black) forControlEvents:UIControlEventTouchUpInside];
     [self.tabView addSubview:popButton];
+    //创建分享按钮
+    UIButton *shareButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.fWidth-45, kApplicationStatusBarHeight+7, 30, 30)];
+    [shareButton setBackgroundImage:[UIImage imageNamed:@"share_2"] forState:UIControlStateNormal];
+    self.likeButton = shareButton;
+    [shareButton addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+    [self.tabView addSubview:shareButton];
     
     UIView *ine = [[UIView alloc] initWithFrame:CGRectMake(0, self.tabView.fHeight, self.tabView.fWidth, 1)];
     ine.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:0];
@@ -496,14 +506,14 @@
         self.Bartitle.textColor = [UIColor colorWithRed:68/255.0 green:68/255.0 blue:68/255.0 alpha: 1 - ((64 - offsetY) / 64)];
         [_popButton setBackgroundImage:[UIImage imageNamed:@"black-1"] forState:UIControlStateNormal];
         [_popButton setBackgroundImage:[UIImage imageNamed:@"black-1"] forState:UIControlStateHighlighted];
-      
+         [_likeButton setBackgroundImage:[UIImage imageNamed:@"share_3"] forState:UIControlStateNormal];
     }else{
         self.tabView.backgroundColor =[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0];
         self.ineView.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:0];
         self.Bartitle.textColor = [UIColor colorWithRed:68/255.0 green:68/255.0 blue:68/255.0 alpha: 0];
         [_popButton setBackgroundImage:[UIImage imageNamed:@"back_2"] forState:UIControlStateNormal];
         [_popButton setBackgroundImage:[UIImage imageNamed:@"back_2"] forState:UIControlStateHighlighted];
-      
+        [_likeButton setBackgroundImage:[UIImage imageNamed:@"share_2"] forState:UIControlStateNormal];
     }
 }
 //第三个view中的控件
@@ -571,7 +581,6 @@
     }];
     UILabel *contents = [[UILabel alloc] init];
     _contents = contents;
-
     contents.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     contents.numberOfLines = 5;
     contents.textColor = UIColorRBG(102, 102, 102);
@@ -1045,7 +1054,125 @@
 -(void)black{
     [self.navigationController popViewControllerAnimated:YES];
 }
-
+//分享弹框
+-(void)shareTasks{
+    //弹出分享页
+    UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(0,SCREEN_HEIGHT -250, self.view.fWidth, 250)];
+    redView.backgroundColor = UIColorRBG(246, 246, 246);
+    _redView = redView;
+    UILabel *label = [[UILabel alloc] init];
+    label.frame = CGRectMake(16,16,50,12);
+    label.text = @"分享至：";
+    label.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+    label.textColor = UIColorRBG(102, 102, 102);
+    [redView addSubview:label];
+    //创建微信按钮
+    UIButton *WXButton = [[UIButton alloc] initWithFrame:CGRectMake(redView.fWidth/2.0-87, 67, 50, 50)];
+    [WXButton setBackgroundImage:[UIImage imageNamed:@"wewhat"] forState:UIControlStateNormal];
+    [WXButton addTarget:self action:@selector(WXShare) forControlEvents:UIControlEventTouchUpInside];
+    [redView addSubview:WXButton];
+    
+    UILabel *labelOne = [[UILabel alloc] init];
+    labelOne.frame = CGRectMake(redView.fWidth/2.0-87,126,50,12);
+    labelOne.textAlignment = NSTextAlignmentCenter;
+    labelOne.text = @"微信好友";
+    labelOne.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+    labelOne.textColor = UIColorRBG(68, 68, 68);
+    [redView addSubview:labelOne];
+    
+    
+    //创建朋友圈按钮
+    UIButton *friendsButton = [[UIButton alloc] initWithFrame:CGRectMake(redView.fWidth/2.0+37, 67, 50, 50)];
+    [friendsButton setBackgroundImage:[UIImage imageNamed:@"circle-of-friend"] forState:UIControlStateNormal];
+    [friendsButton addTarget:self action:@selector(friendsButton) forControlEvents:UIControlEventTouchUpInside];
+    [redView addSubview:friendsButton];
+    
+    UILabel *labelTwo = [[UILabel alloc] init];
+    labelTwo.frame = CGRectMake(redView.fWidth/2.0+37,126,50,12);
+    labelTwo.textAlignment = NSTextAlignmentCenter;
+    labelTwo.text = @"朋友圈";
+    labelTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+    labelTwo.textColor =  UIColorRBG(68, 68, 68);
+    [redView addSubview:labelTwo];
+    
+    UIView *ineView = [[UIView alloc] initWithFrame:CGRectMake(0, 200, redView.fWidth, 1)];
+    ineView.backgroundColor = UIColorRBG(242, 242, 242);
+    [redView addSubview:ineView];
+    //创建取消按钮
+    UIButton *cleanButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 201, redView.fWidth, 49)];
+    [cleanButton setTitle:@"取消" forState:UIControlStateNormal];
+    [cleanButton setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
+    
+    [cleanButton addTarget:self action:@selector(closeGkCover) forControlEvents:UIControlEventTouchUpInside];
+    [redView addSubview:cleanButton];
+    
+}
+//分享到微信
+-(void)WXShare{
+    
+//    //1.创建多媒体消息结构体
+//    WXMediaMessage *mediaMsg = [WXMediaMessage message];
+//    mediaMsg.title = [_detailShareContents valueForKey:@"name"];
+//    mediaMsg.description = [_detailShareContents valueForKey:@"outlining"];
+//    UIImage *image =  [self handleImageWithURLStr:[_detailShareContents valueForKey:@"url"]];
+//    [mediaMsg setThumbImage:image];
+//    //分享网站
+//    WXWebpageObject *webpageObject = [WXWebpageObject object];
+//    webpageObject.webpageUrl = [_detailShareContents valueForKey:@"shareUrl"];
+//    mediaMsg.mediaObject = webpageObject;
+//
+//    //3.创建发送消息至微信终端程序的消息结构体
+//    SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+//    //多媒体消息的内容
+//    req.message = mediaMsg;
+//    //指定为发送多媒体消息（不能同时发送文本和多媒体消息，两者只能选其一）
+//    req.bText = NO;
+//    //指定发送到会话(聊天界面)
+//    req.scene = WXSceneSession;
+//    //发送请求到微信,等待微信返回onResp
+//    [WXApi sendReq:req];
+//
+//    [self closeGkCover];
+    
+}
+//分享到朋友圈
+-(void)friendsButton{
+    
+//    //1.创建多媒体消息结构体
+//    WXMediaMessage *mediaMsg = [WXMediaMessage message];
+//    
+//    mediaMsg.title = [_detailShareContents valueForKey:@"name"];
+//    mediaMsg.description = [_detailShareContents valueForKey:@"outlining"];
+//    
+//    UIImage *image =  [self handleImageWithURLStr:[_detailShareContents valueForKey:@"url"]];
+//    [mediaMsg setThumbImage:image];
+//    
+//    //2.分享网站
+//    WXWebpageObject *webpageObject = [WXWebpageObject object];
+//    webpageObject.webpageUrl = [_detailShareContents valueForKey:@"shareUrl"];
+//    mediaMsg.mediaObject = webpageObject;
+//    
+//    //3.创建发送消息至微信终端程序的消息结构体
+//    SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+//    //多媒体消息的内容
+//    req.message = mediaMsg;
+//    //指定为发送多媒体消息（不能同时发送文本和多媒体消息，两者只能选其一）
+//    req.bText = NO;
+//    //指定发送到会话(聊天界面)
+//    req.scene = WXSceneTimeline;
+//    //发送请求到微信,等待微信返回onResp
+//    [WXApi sendReq:req];
+//    [self closeGkCover];
+//    
+}
+#pragma mark -分享
+-(void)share{
+    [GKCover translucentCoverFrom:self.view content:_redView animated:YES];
+}
+//关闭分享
+-(void)closeGkCover{
+    [GKCover hide];
+}
 #pragma mark -不显示导航条
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -1058,9 +1185,6 @@
     buttonView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:buttonView];
     self.buttonView = buttonView;
-    
-   
-   
     
     UIButton *playButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, buttonView.fWidth/2.0, buttonView.fHeight)];
     [playButton setTitle:@"已签约分销" forState:UIControlStateNormal];

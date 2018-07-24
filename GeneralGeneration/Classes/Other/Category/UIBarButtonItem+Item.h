@@ -13,6 +13,7 @@
 +(UIBarButtonItem *)itemWithImage:(UIImage *)image highImage:(UIImage *)highImage target:(id)target action:(SEL)action;
 //创建一个返回按钮
 +(UIBarButtonItem *)backItemWithImage:(UIImage *)image highImage:(UIImage *)highImage target:(id)target action:(SEL)action nav:(CGRect)navsize;
++(UIBarButtonItem *)backItemWithImage:(UIImage *)image highImage:(UIImage *)highImage target:(id)target action:(SEL)action title:(NSString *)title;
 +(UIBarButtonItem *)backItemWithImage:(UIImage *)image highImage:(UIImage *)highImage target:(id)target action:(SEL)action;
 //创建一个文字按钮
 +(UIBarButtonItem *)itemWithButton:(id)target action:(SEL)action title:(NSString *)title;

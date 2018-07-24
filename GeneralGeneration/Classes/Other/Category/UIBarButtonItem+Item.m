@@ -42,7 +42,6 @@
 
 +(UIBarButtonItem *)itemWithButtonImage:(UIImage *)image target:(id)target action:(SEL)action title:(NSString *)title {
     //创建一个button
-    
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 110, 15)];
     [btn setTitleEdgeInsets:UIEdgeInsetsMake(0, -image.size.width, 0, image.size.width)];
     [btn setImageEdgeInsets:UIEdgeInsetsMake(0, 90, 0, -90)];
@@ -56,26 +55,26 @@
     [containView addSubview:btn];
     return  [[UIBarButtonItem alloc] initWithCustomView:containView];
 }
-//#pragma mark -创建一个返回按钮
-//+(UIBarButtonItem *)backItemWithImage:(UIImage *)image highImage:(UIImage *)highImage target:(id)target action:(SEL)action {
-//    //设置返回按钮样式
-//    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [backButton setEnlargeEdgeWithTop:40 right:100 bottom:40 left:100];
-//    //[backButton setTitle:title forState:UIControlStateNormal];
-//    //设置字体状态颜色
-//    [backButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//    [backButton setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
-//    //设置图片
-//    [backButton setImage:image forState:UIControlStateNormal];
-//    [backButton setImage:highImage forState:UIControlStateHighlighted];
-//    //调整按钮位置
-//    backButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-//    //适应图片
-//    [backButton sizeToFit];
-//    //返回上一个控制器
-//    [backButton addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
-//    return  [[UIBarButtonItem alloc] initWithCustomView:backButton];
-//}
+#pragma mark -创建一个返回按钮
++(UIBarButtonItem *)backItemWithImage:(UIImage *)image highImage:(UIImage *)highImage target:(id)target action:(SEL)action title:(NSString *)title{
+    //设置返回按钮样式
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setTitle:title forState:UIControlStateNormal];
+    //设置字体状态颜色
+    [backButton setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
+    [backButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+    backButton.titleLabel.font = [UIFont systemFontOfSize:15];
+    //设置图片
+    [backButton setImage:image forState:UIControlStateNormal];
+    [backButton setImage:highImage forState:UIControlStateHighlighted];
+    //调整按钮位置
+    backButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+    //适应图片
+    [backButton sizeToFit];
+    //返回上一个控制器
+    [backButton addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+    return  [[UIBarButtonItem alloc] initWithCustomView:backButton];
+}
 #pragma mark -给导航条添加一个按钮
 +(UIBarButtonItem *)itemWithImage:(UIImage *)image highImage:(UIImage *)highImage target:(id)target action:(SEL)action{
     //创建一个button

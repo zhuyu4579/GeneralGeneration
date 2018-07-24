@@ -246,7 +246,7 @@ static NSString *size = @"20";
     searchBar.placeholder = @"请搜索公司、分销名称";
     searchBar.barTintColor = [UIColor whiteColor];
     searchBar.searchBarStyle =UISearchBarStyleMinimal;
-    searchBar.returnKeyType = UIReturnKeySearch;
+    searchBar.returnKeyType = UIReturnKeyDone;
     searchBar.delegate = self;
     UITextField *searchField1 = [searchBar valueForKey:@"_searchField"];
     [searchField1 setValue:[UIFont boldSystemFontOfSize:13] forKeyPath:@"_placeholderLabel.font"];
@@ -416,15 +416,22 @@ static NSString *size = @"20";
         }
     }
 }
+//文本框改变时
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    _name = searchText;
+    currents = 1;
+    _storeListArray = [NSMutableArray array];
+    [self loadData];
+}
 - (void)searchBarSearchButtonClicked:(UISearchBar*)searchBar{
     [searchBar setShowsCancelButton:NO animated:YES];
     // 如果希望在点击取消按钮调用结束编辑方法需要让加上这句代码
     [searchBar resignFirstResponder];
-    NSString *projectName = searchBar.text;
-    _name = projectName;
-     currents = 1;
-    _storeListArray = [NSMutableArray array];
-    [self loadData];
+//    NSString *projectName = searchBar.text;
+//    _name = projectName;
+//     currents = 1;
+//    _storeListArray = [NSMutableArray array];
+//    [self loadData];
 }
 //点击取消
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {

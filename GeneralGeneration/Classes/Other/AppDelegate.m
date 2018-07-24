@@ -17,7 +17,8 @@
 #import <AdSupport/AdSupport.h>
 #import "NSString+LCExtension.h"
 #import "ZDStoreDetailsController.h"
-@interface AppDelegate ()<JPUSHRegisterDelegate>
+#import <WXApi.h>
+@interface AppDelegate ()<JPUSHRegisterDelegate,WXApiDelegate>
 @property(nonatomic,strong)NSString *registerid;
 @end
 
@@ -38,8 +39,10 @@
     
     [JPUSHService setupWithOption:launchOptions appKey:@"420657cd2e8ef9559f3f66de"
                           channel:@"App Store"
-                 apsForProduction:1
+                 apsForProduction:0
             advertisingIdentifier:advertisingId];
+    //注册微信
+    [WXApi registerApp:@"wx9a6d0860823a1151"];
     
     //1.创建窗口
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -62,7 +65,21 @@
 
     return YES;
 }
+//分享
+-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url{
+    return [WXApi handleOpenURL:url delegate:self];
+}
+-(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
+    return [WXApi handleOpenURL:url delegate:self];
+}
 
+-(void)onResp:(BaseResp *)resp{
+    if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
+
+        
+    }
+    
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

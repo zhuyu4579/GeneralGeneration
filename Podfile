@@ -16,4 +16,5 @@ target 'GeneralGeneration' do
    pod 'AMap2DMap-NO-IDFA', '~> 5.6.0'
    pod 'SDWebImage', '~> 4.3.3'
    pod 'JPush', '~> 3.0.8'
+   pod 'WechatOpenSDK', '~> 1.8.1'
 end

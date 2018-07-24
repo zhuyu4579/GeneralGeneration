@@ -128,6 +128,10 @@
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"详情页";
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(edit) title:@"编辑"];
+   
+}
+-(void)back{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 //请求数据
 -(void)loadData{
@@ -190,9 +194,9 @@
     _iscollect = [_storeDicty valueForKey:@"collect"];
     _adCode = [_storeDicty valueForKey:@"adCode"];
     if ([_iscollect isEqual:@"0"]) {
-        [_collect setTitle:@"加关注" forState:UIControlStateNormal];
+        _collect.selected = NO;
     }else if([_iscollect isEqual:@"1"]){
-        [_collect setTitle:@"取消关注" forState:UIControlStateNormal];
+         _collect.selected = YES;
     }
     _lnglat = [_storeDicty valueForKey:@"lnglat"];
     
@@ -212,23 +216,7 @@
     
     //创建内容
     [self createVC];
-    //创建签约楼盘列表
-    UIView *projectView = [[UIView alloc] initWithFrame:CGRectMake(self.view.fWidth-38, 220, 38, 125)];
-    _projectView = projectView;
-    projectView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:projectView];
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, projectView.fWidth, projectView.fHeight)];
-    imageView.image = [UIImage imageNamed:@"window"];
-    [projectView addSubview:imageView];
-    UIButton *button = [[UIButton alloc] init];
-    button.frame = imageView.bounds;
-    [button setImage:[UIImage imageNamed:@"arrowmark_2"] forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont systemFontOfSize:12];
-    button.titleLabel.numberOfLines = 0;
-    [button setTitle:@" 已\n 签\n 约\n 项\n 目" forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(projectLiset) forControlEvents:UIControlEventTouchUpInside];
-    [projectView addSubview:button];
-    
+   
     //创建按钮view
     UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.fHeight-49-JF_BOTTOM_SPACE, self.view.fWidth, 49+JF_BOTTOM_SPACE)];
     buttonView.backgroundColor = [UIColor whiteColor];
@@ -253,17 +241,20 @@
         make.height.offset(20);
     }];
     
-    UIButton *collect = [[UIButton alloc] init];
-    collect.layer.cornerRadius = 10.0;
-    collect.layer.borderColor = UIColorRBG(3, 133, 219).CGColor;
-    collect.layer.borderWidth = 1.0;
-    _collect = collect;
-    [collect setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
-    [collect setTitle:@"加关注" forState:UIControlStateNormal];
-    collect.titleLabel.font = [UIFont systemFontOfSize:13];
-    [collect addTarget:self action:@selector(collects) forControlEvents:UIControlEventTouchUpInside];
-    [buttonView addSubview:collect];
-    [collect mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    
+    UIButton *punsh = [[UIButton alloc] init];
+    punsh.layer.cornerRadius = 10.0;
+    punsh.layer.borderColor = UIColorRBG(3, 133, 219).CGColor;
+    punsh.layer.borderWidth = 1.0;
+    _punsh = punsh;
+    [punsh setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
+    [punsh setTitle:@"打卡" forState:UIControlStateNormal];
+    punsh.titleLabel.font = [UIFont systemFontOfSize:13];
+    
+    [punsh addTarget:self action:@selector(punshs) forControlEvents:UIControlEventTouchUpInside];
+    [buttonView addSubview:punsh];
+    [punsh mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(buttonView.mas_top).offset(15);
         make.right.equalTo(contractProject.mas_left).offset(-18);
         make.width.offset(60);
@@ -283,27 +274,25 @@
     [buttonView addSubview:readFollow];
     [readFollow mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(buttonView.mas_top).offset(15);
-        make.right.equalTo(collect.mas_left).offset(-18);
+        make.right.equalTo(punsh.mas_left).offset(-18);
         make.width.offset(60);
         make.height.offset(20);
     }];
     
-    UIButton *punsh = [[UIButton alloc] init];
-    punsh.layer.cornerRadius = 10.0;
-    punsh.layer.borderColor = UIColorRBG(3, 133, 219).CGColor;
-    punsh.layer.borderWidth = 1.0;
-    _punsh = punsh;
-    [punsh setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
-    [punsh setTitle:@"打卡" forState:UIControlStateNormal];
-    punsh.titleLabel.font = [UIFont systemFontOfSize:13];
-    
-    [punsh addTarget:self action:@selector(punshs) forControlEvents:UIControlEventTouchUpInside];
-    [buttonView addSubview:punsh];
-    [punsh mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(buttonView.mas_top).offset(15);
-        make.right.equalTo(readFollow.mas_left).offset(-18);
-        make.width.offset(60);
-        make.height.offset(20);
+    UIButton *collect = [[UIButton alloc] init];
+    _collect = collect;
+    [collect setBackgroundImage:[UIImage imageNamed:@"collect_2"] forState:UIControlStateNormal];
+    [collect setBackgroundImage:[UIImage imageNamed:@"collect"] forState:UIControlStateSelected];
+    [collect setTitle:nil forState:UIControlStateNormal];
+    [collect setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
+    [collect addTarget:self action:@selector(collects) forControlEvents:UIControlEventTouchUpInside];
+    [collect setEnlargeEdge:44];
+    [buttonView addSubview:collect];
+    [collect mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(buttonView.mas_top).offset(16);
+        make.right.equalTo(readFollow.mas_left).offset(-89);
+        make.width.offset(21);
+        make.height.offset(18);
     }];
 }
 
@@ -696,6 +685,7 @@
 -(void)edit{
      _scrollView.contentSize = CGSizeMake(0, self.view.fHeight + 135);
      self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(success) title:@"完成"];
+     self.navigationItem.leftBarButtonItem = [UIBarButtonItem backItemWithImage:[UIImage imageNamed:@"navigationButtonReturn"] highImage:[UIImage imageNamed:@"navigationButtonReturn"] target:self action:@selector(back) title:@"取消"];
     [_storeTypeButton setEnabled:YES];
     [_buttonView setHidden:YES];
     [_projectListView setHidden:YES];
@@ -797,6 +787,7 @@
             if ([code isEqual:@"200"]) {
                [SVProgressHUD showInfoWithStatus:@"保存成功"];
                 self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(edit) title:@"编辑"];
+                self.navigationItem.leftBarButtonItem = [UIBarButtonItem backItemWithImage:[UIImage imageNamed:@"navigationButtonReturn"] highImage:[UIImage imageNamed:@"navigationButtonReturn"] target:self action:@selector(back)];
                 [_buttonView setHidden:NO];
                 [_storeTypeButton setEnabled:NO];
                 _companyName.enabled = NO;
@@ -820,8 +811,6 @@
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             [SVProgressHUD showInfoWithStatus:@"网络不给力"];
         }];
-    
-    
 }
 //打电话
 -(void)playPhone{
@@ -849,46 +838,7 @@
         _adCode = [address valueForKey:@"adCode"];
     };
 }
-//已签约楼盘列表
--(void)projectLiset{
-    [self setUpProjectList];
-    [_projectView setHidden:YES];
-    [_projectListView setHidden:NO];
-    
-}
 
-//创建已签约楼盘列表
--(void)setUpProjectList{
-    UIView *projectListView = [[UIView alloc] initWithFrame:CGRectMake(self.view.fWidth-171, 220, 171, 125)];
-    _projectListView = projectListView;
-    [projectListView setHidden:YES];
-    projectListView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:projectListView];
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, projectListView.fWidth, projectListView.fHeight)];
-    imageView.image = [UIImage imageNamed:@"window_2"];
-    [projectListView addSubview:imageView];
-   
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(11,10, 160, projectListView.fHeight-15)];
-    view.backgroundColor = [UIColor clearColor];
-    [projectListView addSubview:view];
-    
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(5, 59, 5, 8)];
-    [button setEnlargeEdgeWithTop:30 right:30 bottom:30 left:5];
-    [button setBackgroundImage:[UIImage imageNamed:@"arrowmark"] forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(hideProjectLiset) forControlEvents:UIControlEventTouchUpInside];
-    [projectListView addSubview:button];
-    ZDProjectListView *projectLists = [[ZDProjectListView alloc] init];
-    projectLists.frame = view.bounds;
-    projectLists.projectArray = [ZDProjectListItem mj_objectArrayWithKeyValuesArray:_projectList];
-    [projectLists reloadData];
-    [view addSubview:projectLists];
-}
-//隐藏已签约楼盘列表
--(void)hideProjectLiset{
-    [self setKeyEvent];
-    [_projectView setHidden:NO];
-    [_projectListView setHidden:YES];
-}
 //签约楼盘
 -(void)contractProjects{
     ZDContractProjectController *conProVc = [[ZDContractProjectController alloc] init];
@@ -901,6 +851,7 @@
    }
 //关注
 -(void)collects{
+    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     
@@ -920,9 +871,9 @@
             if ([code isEqual:@"200"]) {
                 NSString *data = [responseObject valueForKey:@"data"];
                 if ([data isEqual:@"0"]) {
-                    [_collect setTitle:@"加关注" forState:UIControlStateNormal];
+                    _collect.selected = NO;
                 }else{
-                    [_collect setTitle:@"取消关注" forState:UIControlStateNormal];
+                    _collect.selected = YES;
                 }
                 
             }else{
