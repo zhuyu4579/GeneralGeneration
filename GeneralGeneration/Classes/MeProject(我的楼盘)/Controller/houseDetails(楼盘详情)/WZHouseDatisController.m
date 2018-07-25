@@ -1054,6 +1054,8 @@
 -(void)black{
     [self.navigationController popViewControllerAnimated:YES];
 }
+//查询分享数据
+
 //分享弹框
 -(void)shareTasks{
     //弹出分享页
@@ -1172,6 +1174,23 @@
 //关闭分享
 -(void)closeGkCover{
     [GKCover hide];
+}
+//分享图片压缩
+- (UIImage *)handleImageWithURLStr:(NSString *)imageURLStr {
+    
+    NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURLStr]];
+    NSData *newImageData = imageData;
+    // 压缩图片data大小
+    newImageData = UIImageJPEGRepresentation([UIImage imageWithData:newImageData scale:0.1], 0.1f);
+    UIImage *image = [UIImage imageWithData:newImageData];
+    
+    // 压缩图片分辨率(因为data压缩到一定程度后，如果图片分辨率不缩小的话还是不行)
+    CGSize newSize = CGSizeMake(200, 200);
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0,0,(NSInteger)newSize.width, (NSInteger)newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 #pragma mark -不显示导航条
 -(void)viewWillAppear:(BOOL)animated{

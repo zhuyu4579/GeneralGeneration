@@ -24,7 +24,9 @@
 #import "NSString+LCExtension.h"
 #import "ZDStorePunchController.h"
 #import "UIBarButtonItem+Item.h"
-@interface ZDStoreDetailsController ()<UITextViewDelegate,UITextFieldDelegate>
+#import <AMapFoundationKit/AMapFoundationKit.h>
+#import <MAMapKit/MAMapKit.h>
+@interface ZDStoreDetailsController ()<UITextViewDelegate,UITextFieldDelegate,MAMapViewDelegate>
 //内容scrollView
 @property(nonatomic,strong)UIScrollView *scrollView;
 //分销名称
@@ -42,14 +44,23 @@
 //分销位置
 @property(nonatomic,strong)UIButton *addrButton;
 @property(nonatomic,strong)UILabel *address;
+//地图
+@property(nonatomic,strong)UIView *addressMap;
+//地图
+@property(nonatomic,strong)MAMapView *mapView;
+//地图点
+@property(nonatomic,strong)MAPointAnnotation *pointAnnotation;
 //分销地址
 @property(nonatomic,strong)UITextField *addr;
 //分销人数
+@property(nonatomic,strong)UIView *viewThree;
 @property(nonatomic,strong)UITextField *totalPeople;
 //负责人
+@property(nonatomic,strong)UIView *viewFour;
 @property(nonatomic,strong)UITextField *dutyName;
 //联系电话
 @property(nonatomic,strong)UITextField *telphone;
+@property(nonatomic,strong)UIView *viewFive;
 //公司简介
 @property(nonatomic,strong)UITextView *remarks;
 //数据字典
@@ -74,8 +85,10 @@
 @property(nonatomic,strong)UIView *viewSix;
 //已签约楼盘View
 @property(nonatomic,strong)UIView *projectView;
-//已签约楼盘View
-@property(nonatomic,strong)UIView *projectListView;
+//无签约楼盘
+@property(nonatomic,strong)UILabel *noProjectLabel;
+//已签约楼盘list
+@property(nonatomic,strong)ZDProjectListView *projectListView;
 //已签约楼盘View
 @property(nonatomic,strong)NSString *adCode;
 //分销类型数组
@@ -93,7 +106,8 @@
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
      [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
-    [super viewDidLoad];
+     [AMapServices sharedServices].apiKey = @"5486d7a852ad8a9b610fb3c62c506d11";
+    
     //读取数据字典
     NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
     NSString *fileName = [path stringByAppendingPathComponent:@"dictionaries.plist"];
@@ -199,12 +213,24 @@
          _collect.selected = YES;
     }
     _lnglat = [_storeDicty valueForKey:@"lnglat"];
+    if (![_lnglat isEqual:@""]) {
+        NSArray *lnglats = [_lnglat componentsSeparatedByString:@","];
+        _mapView.centerCoordinate = CLLocationCoordinate2DMake( [lnglats[1] doubleValue], [lnglats[0] doubleValue]);
+        _pointAnnotation.coordinate = CLLocationCoordinate2DMake([lnglats[1] doubleValue], [lnglats[0] doubleValue]);
+    }
     
     _projectList = [_storeDicty valueForKey:@"projectList"];
-    if(_projectList.count==0){
-        [_projectListView setHidden:YES];
-        [_projectView setHidden:YES];
+    NSInteger n = _projectList.count;
+    if (n!=0) {
+        [_noProjectLabel setHidden:YES];
+        _projectView.fHeight += (n-1)*68;
+        _projectListView.fHeight += (n-1)*68;
+        _projectListView.projectArray = [ZDProjectListItem mj_objectArrayWithKeyValuesArray:_projectList];
+        [_projectListView reloadData];
+    }else{
+        [_noProjectLabel setHidden:NO];
     }
+     _scrollView.contentSize = CGSizeMake(0, _projectView.fY+_projectView.fHeight+10);
 }
 //创建内容
 -(void)creatController{
@@ -240,8 +266,6 @@
         make.width.offset(60);
         make.height.offset(20);
     }];
-    
-    
     
     UIButton *punsh = [[UIButton alloc] init];
     punsh.layer.cornerRadius = 10.0;
@@ -505,9 +529,32 @@
         make.height.offset(45);
         make.width.offset(250);
     }];
+    //地图展示
+    UIView *addressMap = [[UIView alloc] initWithFrame:CGRectMake(0, viewTwo.fY+viewTwo.fHeight, _scrollView.fWidth, 195)];
+    addressMap.backgroundColor = [UIColor whiteColor];
+    _addressMap = addressMap;
+    [_scrollView addSubview:addressMap];
+   
+    //创建地图view
+    UIView *mapViews = [[UIView alloc] initWithFrame:CGRectMake(15, 0, addressMap.fWidth-30, 180)];
+    mapViews.backgroundColor = UIColorRBG(242, 242, 242);
+    [addressMap addSubview:mapViews];
+    [AMapServices sharedServices].enableHTTPS = YES;
+    //初始化地图
+    MAMapView *mapView = [[MAMapView alloc] initWithFrame:mapViews.bounds];
+    _mapView = mapView;
+    mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    mapView.zoomLevel = 16.1;
+    [mapViews addSubview:mapView];
+    mapView.delegate = self;
+    MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc] init];
+    _pointAnnotation = pointAnnotation;
+    [mapView addAnnotation:pointAnnotation];
     
-    UIView *viewThree = [[UIView alloc] initWithFrame:CGRectMake(0, viewTwo.fY+viewTwo.fHeight+10, _scrollView.fWidth, 45)];
+    
+    UIView *viewThree = [[UIView alloc] initWithFrame:CGRectMake(0, addressMap.fY+addressMap.fHeight+10, _scrollView.fWidth, 45)];
     viewThree.backgroundColor = [UIColor whiteColor];
+    _viewThree = viewThree;
     [_scrollView addSubview:viewThree];
     
     UILabel *labelThree = [[UILabel alloc] init];
@@ -540,6 +587,7 @@
     
     UIView *viewFour = [[UIView alloc] initWithFrame:CGRectMake(0, viewThree.fY+viewThree.fHeight+10, _scrollView.fWidth, 91)];
     viewFour.backgroundColor = [UIColor whiteColor];
+    _viewFour = viewFour;
     [_scrollView addSubview:viewFour];
     
     UILabel *labelFour = [[UILabel alloc] init];
@@ -614,6 +662,7 @@
     }];
     UIView *viewFive = [[UIView alloc] initWithFrame:CGRectMake(0, viewFour.fY+viewFour.fHeight+10, _scrollView.fWidth, 45)];
     viewFive.backgroundColor = [UIColor whiteColor];
+    _viewFive = viewFive;
     [_scrollView addSubview:viewFive];
     
     UILabel *labelFive = [[UILabel alloc] init];
@@ -638,10 +687,58 @@
         make.left.equalTo(labelFive.mas_right).offset(9);
         make.height.offset(13);
     }];
+    //已签约楼盘
+    UIView *projectView = [[UIView alloc] initWithFrame:CGRectMake(0, viewFive.fY+viewFive.fHeight+10, _scrollView.fWidth, 114)];
+    projectView.backgroundColor = [UIColor whiteColor];
+    _projectView = projectView;
+    [_scrollView addSubview:projectView];
+    UIView *viewTitles = [[UIView alloc] init];
+    viewTitles.backgroundColor = UIColorRBG(0, 122, 255);
+    [projectView addSubview:viewTitles];
+    [viewTitles mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(projectView.mas_top).offset(15);
+        make.left.equalTo(projectView.mas_left).offset(15);
+        make.height.offset(15);
+        make.width.offset(2);
+    }];
+    UILabel *Titlelabel = [[UILabel alloc] init];
+    Titlelabel.text = @"已签约楼盘";
+    Titlelabel.textColor = UIColorRBG(51, 51, 51);
+    Titlelabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
+    [projectView addSubview:Titlelabel];
+    [Titlelabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(projectView.mas_top).offset(15);
+        make.left.equalTo(viewTitles.mas_right).offset(10);
+        make.height.offset(16);
+    }];
+   
+    
+    UIView *inePro = [[UIView alloc] initWithFrame:CGRectMake(15, 45, projectView.fWidth-15, 1)];
+    inePro.backgroundColor = UIColorRBG(242, 242, 242);
+    [projectView addSubview:inePro];
+    
+    //无签约楼盘
+    UILabel *noProject = [[UILabel alloc] init];
+    noProject.text = @"暂无签约";
+    noProject.textColor = UIColorRBG(153, 153, 153);
+    _noProjectLabel = noProject;
+    noProject.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
+    [projectView addSubview:noProject];
+    [noProject mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(inePro.mas_bottom).offset(26);
+        make.centerX.equalTo(projectView.mas_centerX);
+        make.height.offset(16);
+    }];
+    
+    ZDProjectListView *projectListView = [[ZDProjectListView alloc] initWithFrame:CGRectMake(0, 46, projectView.fWidth, projectView.fHeight-46)];
+    _projectListView = projectListView;
+    [projectView addSubview:projectListView];
+    
     
     UIView *viewSix = [[UIView alloc] initWithFrame:CGRectMake(0, viewFive.fY+viewFive.fHeight+10, _scrollView.fWidth, 142)];
     viewSix.backgroundColor = [UIColor whiteColor];
     _viewSix = viewSix;
+    [viewSix setHidden:YES];
     [_scrollView addSubview:viewSix];
     
     UILabel *labelSix = [[UILabel alloc] init];
@@ -672,7 +769,28 @@
         make.height.offset(90);
         make.width.offset(viewSix.fWidth-30);
     }];
-     _scrollView.contentSize = CGSizeMake(0, viewSix.fY+viewSix.fHeight+10);
+     _scrollView.contentSize = CGSizeMake(0, projectView.fY+projectView.fHeight+10);
+}
+//地图
+- (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation
+{
+    if ([annotation isKindOfClass:[MAPointAnnotation class]])
+    {
+        static NSString *reuseIndetifier = @"annotationReuseIndetifier";
+        MAAnnotationView *annotationView = (MAAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIndetifier];
+        if (annotationView == nil)
+        {
+            annotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation
+                                                          reuseIdentifier:reuseIndetifier];
+        }
+        annotationView.image = [UIImage imageNamed:@"place1"];
+        
+        annotationView.canShowCallout= NO;//设置气泡可以弹出，默认为NO
+        //设置中心点偏移，使得标注底部中间点成为经纬度对应点
+        annotationView.centerOffset = CGPointMake(0, -18);
+        return annotationView;
+    }
+    return nil;
 }
 //选择类型
 -(void)selectStoreType{
@@ -685,11 +803,9 @@
 -(void)edit{
      _scrollView.contentSize = CGSizeMake(0, self.view.fHeight + 135);
      self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(success) title:@"完成"];
-     self.navigationItem.leftBarButtonItem = [UIBarButtonItem backItemWithImage:[UIImage imageNamed:@"navigationButtonReturn"] highImage:[UIImage imageNamed:@"navigationButtonReturn"] target:self action:@selector(back) title:@"取消"];
+     self.navigationItem.leftBarButtonItem = [UIBarButtonItem backItemWithImage:[UIImage imageNamed:@"navigationButtonReturn"] highImage:[UIImage imageNamed:@"navigationButtonReturn"] target:self action:@selector(successButton) title:@"取消"];
     [_storeTypeButton setEnabled:YES];
     [_buttonView setHidden:YES];
-    [_projectListView setHidden:YES];
-    [_projectView setHidden:YES];
     _companyName.enabled = YES;
     _addrButton.enabled = YES;
     _addr.enabled = YES;
@@ -697,6 +813,41 @@
     _dutyName.enabled = YES;
     _telphone.enabled = YES;
     _remarks.editable = YES;
+    [_viewSix setHidden:NO];
+    [_projectView setHidden:YES];
+    [_addressMap setHidden:YES];
+    _addressMap.fHeight = 0;
+    _viewThree.fY -= 195;
+    _viewFour.fY -= 195;
+    _viewFive.fY -= 195;
+    _viewSix.fY -= 195;
+    _projectView.fHeight = 114;
+    _projectListView.fHeight = 68;
+}
+//完成按钮
+-(void)successButton{
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(edit) title:@"编辑"];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backItemWithImage:[UIImage imageNamed:@"navigationButtonReturn"] highImage:[UIImage imageNamed:@"navigationButtonReturn"] target:self action:@selector(back)];
+    [_buttonView setHidden:NO];
+    [_storeTypeButton setEnabled:NO];
+    _companyName.enabled = NO;
+    _addrButton.enabled = NO;
+    _addr.enabled = NO;
+    _totalPeople.enabled = NO;
+    _dutyName.enabled = NO;
+    _telphone.enabled = NO;
+    _remarks.editable = NO;
+    [_viewSix setHidden:YES];
+    [_projectView setHidden:NO];
+    [_addressMap setHidden:NO];
+    _addressMap.fHeight = 195;
+    _viewThree.fY += 195;
+    _viewFour.fY += 195;
+    _viewFive.fY += 195;
+    _viewSix.fY +=195;
+    [self loadData];
+    _scrollView.contentSize = CGSizeMake(0, _projectView.fY+_projectView.fHeight+10);
+    
 }
 //提交编辑保存数据
 -(void)success{
@@ -786,21 +937,8 @@
             NSString *code = [responseObject valueForKey:@"code"];
             if ([code isEqual:@"200"]) {
                [SVProgressHUD showInfoWithStatus:@"保存成功"];
-                self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(edit) title:@"编辑"];
-                self.navigationItem.leftBarButtonItem = [UIBarButtonItem backItemWithImage:[UIImage imageNamed:@"navigationButtonReturn"] highImage:[UIImage imageNamed:@"navigationButtonReturn"] target:self action:@selector(back)];
-                [_buttonView setHidden:NO];
-                [_storeTypeButton setEnabled:NO];
-                _companyName.enabled = NO;
-                _addrButton.enabled = NO;
-                _addr.enabled = NO;
-                _totalPeople.enabled = NO;
-                _dutyName.enabled = NO;
-                _telphone.enabled = NO;
-                _remarks.editable = NO;
-                if (_projectList.count!=0) {
-                    [_projectView setHidden:NO];
-                }
-                 _scrollView.contentSize = CGSizeMake(0, _viewSix.fY+_viewSix.fHeight+10);
+                [self successButton];
+                
             }else{
                 NSString *msg = [responseObject valueForKey:@"msg"];
                 if (![msg isEqual:@""]) {

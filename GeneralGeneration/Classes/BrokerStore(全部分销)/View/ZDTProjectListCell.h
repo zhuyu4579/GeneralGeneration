@@ -10,6 +10,8 @@
 @class ZDProjectListItem;
 @interface ZDTProjectListCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *projectName;
+@property (strong, nonatomic) IBOutlet UILabel *time;
+@property (strong, nonatomic) IBOutlet UILabel *name;
 
 @property(nonatomic,strong)NSString *projectId;
 

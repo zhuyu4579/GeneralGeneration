@@ -42,7 +42,7 @@ static  NSString * const ID = @"cells";
 }
 #pragma mark - Table view data source
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 140;
+    return 163;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _storeArray.count;
@@ -108,9 +108,9 @@ static  NSString * const ID = @"cells";
             if ([code isEqual:@"200"]) {
                 NSString *data = [responseObject valueForKey:@"data"];
                 if ([data isEqual:@"0"]) {
-                    [cell.collect setTitle:@"加关注" forState:UIControlStateNormal];
+                    cell.collect.selected = NO;
                 }else{
-                    [cell.collect setTitle:@"取消关注" forState:UIControlStateNormal];
+                    cell.collect.selected = YES;
                 }
                 if (_collectBolck) {
                     _collectBolck(cell.storeId);

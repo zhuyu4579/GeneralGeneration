@@ -27,4 +27,6 @@
 @property(nonatomic,strong)NSString *collect;
 //距离
 @property(nonatomic,strong)NSString *distance;
+//签约楼盘
+@property(nonatomic,strong)NSArray *signProsDtos;
 @end

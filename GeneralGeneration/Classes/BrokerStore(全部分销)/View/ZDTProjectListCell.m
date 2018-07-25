@@ -12,8 +12,9 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    _projectName.textColor = [UIColor whiteColor];
-    self.backgroundColor = [UIColor clearColor];
+    _projectName.textColor = UIColorRBG(51, 51, 51);
+    _time.textColor = UIColorRBG(153, 153, 153);
+    _name.textColor = UIColorRBG(93, 176, 232);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -24,5 +25,8 @@
     _item = item;
     _projectName.text = item.projectName;
     _projectId = item.projectId;
+    _time.text = [NSString stringWithFormat:@"截止时间：%@",item.validityTimeEnd];
+    _name.text = [NSString stringWithFormat:@"责任经服：%@",item.serverName];
+    
 }
 @end

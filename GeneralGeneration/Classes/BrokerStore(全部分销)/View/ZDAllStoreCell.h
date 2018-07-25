@@ -23,6 +23,10 @@
 @property (strong, nonatomic) IBOutlet UIButton *readFollow;
 //打卡
 @property (strong, nonatomic) IBOutlet UIButton *punch;
+@property (strong, nonatomic) IBOutlet UILabel *collectItemOne;
+@property (strong, nonatomic) IBOutlet UILabel *collectItemTwo;
+@property (strong, nonatomic) IBOutlet UILabel *collectItemThree;
+@property (strong, nonatomic) IBOutlet UILabel *collectItemFrou;
 //分销ID
 @property(nonatomic,strong)NSString *storeId;
 //负责人
@@ -33,6 +37,8 @@
 @property(nonatomic,strong)NSString *companyName;
 //是否关注过
 @property(nonatomic,strong)NSString *isCollect;
+//签约的楼盘
+@property(nonatomic,strong)NSArray *signProsDtos;
 //数据模型
 @property(nonatomic,strong)ZDAllStoreItem *item;
 

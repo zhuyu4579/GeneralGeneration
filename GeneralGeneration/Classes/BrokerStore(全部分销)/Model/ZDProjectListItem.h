@@ -13,4 +13,8 @@
 @property(nonatomic,strong)NSString *projectId;
 
 @property(nonatomic,strong)NSString *projectName;
+
+@property(nonatomic,strong)NSString *validityTimeEnd;
+
+@property(nonatomic,strong)NSString *serverName;
 @end
