@@ -104,6 +104,8 @@
 @property(nonatomic,assign)CGFloat offor;
 //分享弹框
 @property(nonatomic,strong) UIView *redView;
+//分享内容
+@property(nonatomic,strong)NSDictionary *detailShareContents;
 @end
 
 @implementation WZHouseDatisController
@@ -1055,7 +1057,37 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 //查询分享数据
+-(void)findShare{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    mgr.requestSerializer.timeoutInterval = 60;
+    
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"id"] = _ID;
+    
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/projectInfoShare",URL];
+    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        NSLog(@"%@",responseObject);
+        if ([code isEqual:@"200"]) {
+            NSMutableDictionary *data = [responseObject valueForKey:@"data"];
 
+            _detailShareContents = data;
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+}
 //分享弹框
 -(void)shareTasks{
     //弹出分享页
@@ -1112,60 +1144,59 @@
 //分享到微信
 -(void)WXShare{
     
-//    //1.创建多媒体消息结构体
-//    WXMediaMessage *mediaMsg = [WXMediaMessage message];
-//    mediaMsg.title = [_detailShareContents valueForKey:@"name"];
-//    mediaMsg.description = [_detailShareContents valueForKey:@"outlining"];
-//    UIImage *image =  [self handleImageWithURLStr:[_detailShareContents valueForKey:@"url"]];
-//    [mediaMsg setThumbImage:image];
-//    //分享网站
-//    WXWebpageObject *webpageObject = [WXWebpageObject object];
-//    webpageObject.webpageUrl = [_detailShareContents valueForKey:@"shareUrl"];
-//    mediaMsg.mediaObject = webpageObject;
-//
-//    //3.创建发送消息至微信终端程序的消息结构体
-//    SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
-//    //多媒体消息的内容
-//    req.message = mediaMsg;
-//    //指定为发送多媒体消息（不能同时发送文本和多媒体消息，两者只能选其一）
-//    req.bText = NO;
-//    //指定发送到会话(聊天界面)
-//    req.scene = WXSceneSession;
-//    //发送请求到微信,等待微信返回onResp
-//    [WXApi sendReq:req];
-//
-//    [self closeGkCover];
+    //1.创建多媒体消息结构体
+    WXMediaMessage *mediaMsg = [WXMediaMessage message];
+    mediaMsg.title = [_detailShareContents valueForKey:@"name"];
+    mediaMsg.description = [_detailShareContents valueForKey:@"outlining"];
+    UIImage *image =  [self handleImageWithURLStr:[_detailShareContents valueForKey:@"url"]];
+    [mediaMsg setThumbImage:image];
+    //分享网站
+    WXWebpageObject *webpageObject = [WXWebpageObject object];
+    webpageObject.webpageUrl = [_detailShareContents valueForKey:@"shareUrl"];
+    mediaMsg.mediaObject = webpageObject;
+
+    //3.创建发送消息至微信终端程序的消息结构体
+    SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+    //多媒体消息的内容
+    req.message = mediaMsg;
+    //指定为发送多媒体消息（不能同时发送文本和多媒体消息，两者只能选其一）
+    req.bText = NO;
+    //指定发送到会话(聊天界面)
+    req.scene = WXSceneSession;
+    //发送请求到微信,等待微信返回onResp
+    [WXApi sendReq:req];
+
+    [self closeGkCover];
     
 }
 //分享到朋友圈
 -(void)friendsButton{
     
-//    //1.创建多媒体消息结构体
-//    WXMediaMessage *mediaMsg = [WXMediaMessage message];
-//    
-//    mediaMsg.title = [_detailShareContents valueForKey:@"name"];
-//    mediaMsg.description = [_detailShareContents valueForKey:@"outlining"];
-//    
-//    UIImage *image =  [self handleImageWithURLStr:[_detailShareContents valueForKey:@"url"]];
-//    [mediaMsg setThumbImage:image];
-//    
-//    //2.分享网站
-//    WXWebpageObject *webpageObject = [WXWebpageObject object];
-//    webpageObject.webpageUrl = [_detailShareContents valueForKey:@"shareUrl"];
-//    mediaMsg.mediaObject = webpageObject;
-//    
-//    //3.创建发送消息至微信终端程序的消息结构体
-//    SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
-//    //多媒体消息的内容
-//    req.message = mediaMsg;
-//    //指定为发送多媒体消息（不能同时发送文本和多媒体消息，两者只能选其一）
-//    req.bText = NO;
-//    //指定发送到会话(聊天界面)
-//    req.scene = WXSceneTimeline;
-//    //发送请求到微信,等待微信返回onResp
-//    [WXApi sendReq:req];
-//    [self closeGkCover];
-//    
+    //1.创建多媒体消息结构体
+    WXMediaMessage *mediaMsg = [WXMediaMessage message];
+    
+    mediaMsg.title = [_detailShareContents valueForKey:@"name"];
+    mediaMsg.description = [_detailShareContents valueForKey:@"outlining"];
+    
+    UIImage *image =  [self handleImageWithURLStr:[_detailShareContents valueForKey:@"url"]];
+    [mediaMsg setThumbImage:image];
+    
+    //2.分享网站
+    WXWebpageObject *webpageObject = [WXWebpageObject object];
+    webpageObject.webpageUrl = [_detailShareContents valueForKey:@"shareUrl"];
+    mediaMsg.mediaObject = webpageObject;
+    //3.创建发送消息至微信终端程序的消息结构体
+    SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+    //多媒体消息的内容
+    req.message = mediaMsg;
+    //指定为发送多媒体消息（不能同时发送文本和多媒体消息，两者只能选其一）
+    req.bText = NO;
+    //指定发送到会话(聊天界面)
+    req.scene = WXSceneTimeline;
+    //发送请求到微信,等待微信返回onResp
+    [WXApi sendReq:req];
+    [self closeGkCover];
+    
 }
 #pragma mark -分享
 -(void)share{
@@ -1197,6 +1228,7 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     [self loadData];
+    [self findShare];
 }
 -(void)getUpButton{
     

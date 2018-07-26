@@ -42,7 +42,7 @@
                  apsForProduction:0
             advertisingIdentifier:advertisingId];
     //注册微信
-    [WXApi registerApp:@"wx9a6d0860823a1151"];
+    [WXApi registerApp:@"wx681be1979214c6d1"];
     
     //1.创建窗口
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
