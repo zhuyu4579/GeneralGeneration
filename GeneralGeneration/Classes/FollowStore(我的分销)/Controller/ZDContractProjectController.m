@@ -16,7 +16,7 @@
 #import <AFNetworking.h>
 #import <MJRefresh.h>
 #import <MJExtension.h>
-#import "ZDSelectProjectController.h"
+#import "ZDSelectProjectsController.h"
 #import "NSString+LCExtension.h"
 @interface ZDContractProjectController ()<UITextFieldDelegate>
 //楼盘名称
@@ -257,7 +257,7 @@
 }
 //选择楼盘
 -(void)projectSelect{
-    ZDSelectProjectController *project = [[ZDSelectProjectController alloc] init];
+    ZDSelectProjectsController *project = [[ZDSelectProjectsController alloc] init];
     project.storeId = _storeId;
     [self.navigationController pushViewController:project animated:YES];
     project.projectBlocks = ^(NSDictionary *projects) {

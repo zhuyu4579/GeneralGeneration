@@ -146,6 +146,12 @@
 		1F61784E2092C4D000A7E937 /* GKCover.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F61784C2092C4CF00A7E937 /* GKCover.m */; };
 		1F74327E20D8AE7100134886 /* ZDPunchRecordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F74327D20D8AE7100134886 /* ZDPunchRecordController.m */; };
 		1F74328620D8EE2800134886 /* ZDMapFindStoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F74328520D8EE2800134886 /* ZDMapFindStoreController.m */; };
+		1F8C3542210AB1B8002E0C8B /* ZDAddCusController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F8C3541210AB1B8002E0C8B /* ZDAddCusController.m */; };
+		1F8C3548210ACF5E002E0C8B /* ZDHouseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F8C3547210ACF5E002E0C8B /* ZDHouseTableViewController.m */; };
+		1F8C354C210B0022002E0C8B /* ZDHousesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F8C354A210B0022002E0C8B /* ZDHousesCell.m */; };
+		1F8C354D210B0022002E0C8B /* ZDHousesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F8C354B210B0022002E0C8B /* ZDHousesCell.xib */; };
+		1F8C3550210B0160002E0C8B /* ZDHousesItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F8C354F210B0160002E0C8B /* ZDHousesItem.m */; };
+		1F8C3553210B0C3F002E0C8B /* ZDSelectProjectsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F8C3552210B0C3F002E0C8B /* ZDSelectProjectsController.m */; };
 		1FE7708B20916B70009AE100 /* ZDContractController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE7708A20916B70009AE100 /* ZDContractController.m */; };
 		1FE770912091C041009AE100 /* ZDSelectStoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE770902091C041009AE100 /* ZDSelectStoreController.m */; };
 		1FE770942091C424009AE100 /* ZDStoreTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE770932091C424009AE100 /* ZDStoreTableView.m */; };
@@ -411,6 +417,17 @@
 		1F74327D20D8AE7100134886 /* ZDPunchRecordController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDPunchRecordController.m; sourceTree = "<group>"; };
 		1F74328420D8EE2800134886 /* ZDMapFindStoreController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDMapFindStoreController.h; sourceTree = "<group>"; };
 		1F74328520D8EE2800134886 /* ZDMapFindStoreController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDMapFindStoreController.m; sourceTree = "<group>"; };
+		1F8C3540210AB1B8002E0C8B /* ZDAddCusController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDAddCusController.h; sourceTree = "<group>"; };
+		1F8C3541210AB1B8002E0C8B /* ZDAddCusController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDAddCusController.m; sourceTree = "<group>"; };
+		1F8C3546210ACF5E002E0C8B /* ZDHouseTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDHouseTableViewController.h; sourceTree = "<group>"; };
+		1F8C3547210ACF5E002E0C8B /* ZDHouseTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDHouseTableViewController.m; sourceTree = "<group>"; };
+		1F8C3549210B0022002E0C8B /* ZDHousesCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDHousesCell.h; sourceTree = "<group>"; };
+		1F8C354A210B0022002E0C8B /* ZDHousesCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDHousesCell.m; sourceTree = "<group>"; };
+		1F8C354B210B0022002E0C8B /* ZDHousesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ZDHousesCell.xib; sourceTree = "<group>"; };
+		1F8C354E210B0160002E0C8B /* ZDHousesItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDHousesItem.h; sourceTree = "<group>"; };
+		1F8C354F210B0160002E0C8B /* ZDHousesItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDHousesItem.m; sourceTree = "<group>"; };
+		1F8C3551210B0C3F002E0C8B /* ZDSelectProjectsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDSelectProjectsController.h; sourceTree = "<group>"; };
+		1F8C3552210B0C3F002E0C8B /* ZDSelectProjectsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDSelectProjectsController.m; sourceTree = "<group>"; };
 		1FE7708920916B70009AE100 /* ZDContractController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDContractController.h; sourceTree = "<group>"; };
 		1FE7708A20916B70009AE100 /* ZDContractController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDContractController.m; sourceTree = "<group>"; };
 		1FE7708F2091C041009AE100 /* ZDSelectStoreController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDSelectStoreController.h; sourceTree = "<group>"; };
@@ -698,6 +715,10 @@
 				1F462CB4208F31BD0010F92D /* ZDRefusalController.m */,
 				1F09950C20F308D000524361 /* ZDFindCustomerController.h */,
 				1F09950D20F308D000524361 /* ZDFindCustomerController.m */,
+				1F8C3540210AB1B8002E0C8B /* ZDAddCusController.h */,
+				1F8C3541210AB1B8002E0C8B /* ZDAddCusController.m */,
+				1F8C3546210ACF5E002E0C8B /* ZDHouseTableViewController.h */,
+				1F8C3547210ACF5E002E0C8B /* ZDHouseTableViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -707,6 +728,8 @@
 			children = (
 				1F462CB0208F2A650010F92D /* ZDMeCustItem.h */,
 				1F462CB1208F2A650010F92D /* ZDMeCustItem.m */,
+				1F8C354E210B0160002E0C8B /* ZDHousesItem.h */,
+				1F8C354F210B0160002E0C8B /* ZDHousesItem.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -717,6 +740,9 @@
 				1F462CA8208EFFD90010F92D /* ZDMeCustCell.h */,
 				1F462CA9208EFFD90010F92D /* ZDMeCustCell.m */,
 				1F462CAA208EFFD90010F92D /* ZDMeCustCell.xib */,
+				1F8C3549210B0022002E0C8B /* ZDHousesCell.h */,
+				1F8C354A210B0022002E0C8B /* ZDHousesCell.m */,
+				1F8C354B210B0022002E0C8B /* ZDHousesCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -740,6 +766,8 @@
 				1F48F4C32095A2FE001AA4A3 /* ZDContractProjectController.m */,
 				1F48F4C52095ABF8001AA4A3 /* ZDSelectProjectController.h */,
 				1F48F4C62095ABF8001AA4A3 /* ZDSelectProjectController.m */,
+				1F8C3551210B0C3F002E0C8B /* ZDSelectProjectsController.h */,
+				1F8C3552210B0C3F002E0C8B /* ZDSelectProjectsController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1288,6 +1316,7 @@
 				1F035471208DBDCA009B4753 /* ZDSetPassWordController.xib in Resources */,
 				1F035467208D92D8009B4753 /* ZDFindPWController.xib in Resources */,
 				1F0994F220F1F1AE00524361 /* WZAllPhotoCell.xib in Resources */,
+				1F8C354D210B0022002E0C8B /* ZDHousesCell.xib in Resources */,
 				1F0353DA208D68D3009B4753 /* LaunchScreen.storyboard in Resources */,
 				1F089BBE20944E50001AA285 /* ZDAllStoreCell.xib in Resources */,
 				1F48F4BE209578EA001AA4A3 /* ZDTProjectListCell.xib in Resources */,
@@ -1430,12 +1459,15 @@
 				1FE770942091C424009AE100 /* ZDStoreTableView.m in Sources */,
 				1F0994B720F1F1A300524361 /* WZLunBoItem.m in Sources */,
 				1F089BAE209417EB001AA285 /* ZDCollStoreController.m in Sources */,
+				1F8C3542210AB1B8002E0C8B /* ZDAddCusController.m in Sources */,
 				1F0994F320F1F1AE00524361 /* WZLBCollectionView.m in Sources */,
+				1F8C3550210B0160002E0C8B /* ZDHousesItem.m in Sources */,
 				1F035458208D7436009B4753 /* WZSlider.m in Sources */,
 				1F08500320902816006AB282 /* ZDRightTableView.m in Sources */,
 				1FF3A4C3209FF8D000B8BD1A /* UIScrollView+UITouch.m in Sources */,
 				1F035470208DBDCA009B4753 /* ZDSetPassWordController.m in Sources */,
 				1F09950520F1F1AE00524361 /* WZMainUnitCell.m in Sources */,
+				1F8C354C210B0022002E0C8B /* ZDHousesCell.m in Sources */,
 				1F035413208D7311009B4753 /* AppDelegate.m in Sources */,
 				1F08502120907C66006AB282 /* ZDProjectItem.m in Sources */,
 				1F0994B820F1F1A300524361 /* WZMainUnitItem.m in Sources */,
@@ -1480,12 +1512,14 @@
 				1F035459208D7436009B4753 /* UIView+Dimension.m in Sources */,
 				1F462CB5208F31BD0010F92D /* ZDRefusalController.m in Sources */,
 				1F5AD8582096FCF300FC4387 /* AMapTipAnnotation.m in Sources */,
+				1F8C3548210ACF5E002E0C8B /* ZDHouseTableViewController.m in Sources */,
 				1F035440208D7423009B4753 /* UIColor+Tools.m in Sources */,
 				1F48F4CA2095AF37001AA4A3 /* ZDSureProjectsTableView.m in Sources */,
 				1F0994A020F1BA0200524361 /* ZDProjectCell.m in Sources */,
 				1F09950420F1F1AE00524361 /* WZDynamictableView.m in Sources */,
 				1F089BAB209417AD001AA285 /* ZDAllStoreController.m in Sources */,
 				1FE7708B20916B70009AE100 /* ZDContractController.m in Sources */,
+				1F8C3553210B0C3F002E0C8B /* ZDSelectProjectsController.m in Sources */,
 				1F74328620D8EE2800134886 /* ZDMapFindStoreController.m in Sources */,
 				1F0994EB20F1F1AE00524361 /* WZLBCollectionViewCell.m in Sources */,
 				1F0994AA20F1F19500524361 /* WZAlbumPhonesViewController.m in Sources */,

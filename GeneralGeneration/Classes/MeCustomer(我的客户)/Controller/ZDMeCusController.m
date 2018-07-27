@@ -13,6 +13,7 @@
 #import "UIBarButtonItem+Item.h"
 #import "ZDSuccessController.h"
 #import "ZDInvalidController.h"
+#import "ZDAddCusController.h"
 #import "ZDFindCustomerController.h"
 @interface ZDMeCusController ()<UIScrollViewDelegate,UIGestureRecognizerDelegate>
 @property(nonatomic,weak)UIView *titlesView;
@@ -27,13 +28,18 @@
     [super viewDidLoad];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"我的客户";
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithImage:[UIImage imageNamed:@"search_1"] highImage:[UIImage imageNamed:@"search_1"] target:self action:@selector(findCustomer)];
+    self.navigationItem.rightBarButtonItems = @[[UIBarButtonItem itemWithImage:[UIImage imageNamed:@"search_1"] highImage:[UIImage imageNamed:@"search_1"] target:self action:@selector(findCustomer)],[UIBarButtonItem itemWithImage:[UIImage imageNamed:@"add"] highImage:[UIImage imageNamed:@"add"] target:self action:@selector(addCusController)]];
     //初始化子控制器
     [self setupAllChilds];
     //创建一个UIScrollView
     [self setUIScrollView];
     //创建标题栏
     [self setTitlesView];
+}
+//新增客户
+-(void)addCusController{
+    ZDAddCusController *addCus = [[ZDAddCusController alloc] init];
+    [self.navigationController pushViewController:addCus animated:YES];
 }
 //搜索客户
 -(void)findCustomer{

@@ -13,7 +13,7 @@
 //参数赋值
 -(void)setItem:(WZMainUnitItem *)item{
    
-    [_houseImage sd_setImageWithURL:[NSURL URLWithString:item.pictures[0]] placeholderImage:[UIImage imageNamed:@"bb_5_pic"]];
+    [_houseImage sd_setImageWithURL:[NSURL URLWithString:item.pictures[0]] placeholderImage:[UIImage imageNamed:@"Img"]];
     NSInteger room = [item.room integerValue];
     NSInteger living = [item.living integerValue];
     NSInteger toilet = [item.toilet integerValue];

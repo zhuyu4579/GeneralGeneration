@@ -8,16 +8,10 @@
 
 #import "ZDSelectProjectController.h"
 #import "UIView+Frame.h"
-#import "UIBarButtonItem+Item.h"
-#import "UIButton+WZEnlargeTouchAre.h"
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
 #import <MJRefresh.h>
 #import <MJExtension.h>
-#import "ZDCityItem.h"
-#import "ZDCityCell.h"
-#import "ZDRightTableView.h"
-#import "ZDAreasItem.h"
 #import "ZDSureProjectsTableView.h"
 #import "ZDProjectItem.h"
 #import "NSString+LCExtension.h"
@@ -45,12 +39,25 @@ static  NSString * const ID = @"cell";
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"选择楼盘";
     //创建列表
-    UIView *proView = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+45, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight-45-JF_BOTTOM_SPACE)];
+    UIView *proView = [[UIView alloc] init];
     proView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:proView];
-    ZDSureProjectsTableView *pro = [[ZDSureProjectsTableView alloc] initWithFrame:proView.bounds];
+    [proView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left);
+        make.top.equalTo(self.view.mas_top).offset(kApplicationStatusBarHeight+45);
+        make.width.offset(self.view.fWidth);
+        make.height.offset(self.view.fHeight-kApplicationStatusBarHeight-45-JF_BOTTOM_SPACE);
+    }];
+    
+    ZDSureProjectsTableView *pro = [[ZDSureProjectsTableView alloc] init];
     _projects = pro;
     [proView addSubview:pro];
+    [pro mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(proView.mas_left);
+        make.top.equalTo(proView.mas_top);
+        make.width.offset(self.view.fWidth);
+        make.height.offset(self.view.fHeight-kApplicationStatusBarHeight-45-JF_BOTTOM_SPACE);
+    }];
      [self setNoData];
     
     if (_projectBlocks) {
@@ -59,6 +66,7 @@ static  NSString * const ID = @"cell";
         };
     }
 }
+
 //列表的数据请求
 -(void)loadData{
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];

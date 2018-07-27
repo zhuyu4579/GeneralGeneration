@@ -11,21 +11,21 @@
 #import "UIButton+WZEnlargeTouchAre.h"
 @implementation UIBarButtonItem (Item)
 
-//#pragma mark -给导航条添加一个按钮
-//+(UIBarButtonItem *)itemWithImage:(UIImage *)image highImage:(UIImage *)highImage target:(id)target action:(SEL)action{
-//    //创建一个button
-//    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [btn setEnlargeEdgeWithTop:10 right:10 bottom:10 left:100];
-//    [btn setImage:image     forState:UIControlStateNormal];
-//    [btn setImage:highImage forState:UIControlStateHighlighted];
-//    [btn sizeToFit];
-//    [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
-//    UIView *containView = [[UIView alloc] initWithFrame:btn.bounds];
-//    [containView addSubview:btn];
-//
-//    return  [[UIBarButtonItem alloc] initWithCustomView:containView];
-//
-//}
+#pragma mark -给导航条添加一个按钮
++(UIBarButtonItem *)itemWithImages:(UIImage *)image highImage:(UIImage *)highImage target:(id)target action:(SEL)action{
+    //创建一个button
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn setEnlargeEdgeWithTop:10 right:10 bottom:10 left:100];
+    [btn setImage:image     forState:UIControlStateNormal];
+    [btn setImage:highImage forState:UIControlStateHighlighted];
+    [btn sizeToFit];
+    [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+    UIView *containView = [[UIView alloc] initWithFrame:btn.bounds];
+    [containView addSubview:btn];
+
+    return  [[UIBarButtonItem alloc] initWithCustomView:containView];
+
+}
 #pragma mark -给导航条添加一个按钮
 +(UIBarButtonItem *)itemWithButtons:(id)target action:(SEL)action title:(NSString *)title {
     //创建一个button
@@ -78,11 +78,11 @@
 #pragma mark -给导航条添加一个按钮
 +(UIBarButtonItem *)itemWithImage:(UIImage *)image highImage:(UIImage *)highImage target:(id)target action:(SEL)action{
     //创建一个button
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 44)];
     [btn setImage:image     forState:UIControlStateNormal];
     [btn setImage:highImage forState:UIControlStateHighlighted];
     //调整按钮位置
-    btn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -20);
+    btn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
     //[btn sizeToFit];
     [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
     UIView *containView = [[UIView alloc] initWithFrame:btn.bounds];
