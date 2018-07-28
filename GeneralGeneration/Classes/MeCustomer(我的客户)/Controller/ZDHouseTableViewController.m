@@ -15,10 +15,7 @@
 #import "NSString+LCExtension.h"
 #import "ZDHouseTableViewController.h"
 
-@interface ZDHouseTableViewController (){
-    //页数
-    NSInteger current;
-}
+@interface ZDHouseTableViewController ()
 //楼盘数组
 @property(nonatomic,strong)NSArray *projectArray;
 //无数据展示
@@ -26,8 +23,7 @@
 
 @end
 static  NSString * const ID = @"cell";
-//查询条数
-static NSString *size = @"20";
+
 @implementation ZDHouseTableViewController
 
 - (void)viewDidLoad {
@@ -37,8 +33,10 @@ static NSString *size = @"20";
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     self.navigationItem.title = @"选择楼盘";
-    self.view.backgroundColor = [UIColor whiteColor];
-    current = 1;
+    self.view.backgroundColor = UIColorRBG(242, 242, 242);
+    //获取列表数据
+    [self loadData];
+    [self setNoData];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"ZDHousesCell" bundle:nil] forCellReuseIdentifier:ID];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -51,20 +49,16 @@ static NSString *size = @"20";
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
-    mgr.requestSerializer.timeoutInterval = 40;
+    mgr.requestSerializer.timeoutInterval = 10;
     //申明返回的结果是json类型
     mgr.responseSerializer = [AFJSONResponseSerializer serializer];
     //申明请求的数据是json类型
     mgr.requestSerializer=[AFJSONRequestSerializer serializer];
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-    //2.拼接参数
-    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-    paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
-    paraments[@"size"] = size;
-    
+ 
     NSString *url = [NSString stringWithFormat:@"%@/userProject/userProjectList",URL];
-    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             NSDictionary *data = [responseObject valueForKey:@"data"];
@@ -74,7 +68,8 @@ static NSString *size = @"20";
             }else{
                 [_viewNo setHidden:YES];
             }
-            
+            _projectArray = [ZDHousesItem mj_objectArrayWithKeyValuesArray:rows];
+            [self.tableView reloadData];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if (![msg isEqual:@""]) {
@@ -118,73 +113,33 @@ static NSString *size = @"20";
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return 0;
-}
-
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
     
-    // Configure the cell...
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 65;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return _projectArray.count;
     
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    ZDHousesCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    ZDHousesItem *item = _projectArray[indexPath.row];
+    cell.item = item;
     return cell;
 }
-*/
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    ZDHousesCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    NSString *ID = cell.ID;
+    NSMutableDictionary *dicty = [NSMutableDictionary dictionary];
+    dicty[@"ID"] = ID;
+    dicty[@"name"] = cell.name.text;
+    dicty[@"realTelFlag"] = cell.realTelFlag;
+    if (_HouseBlocks) {
+        _HouseBlocks(dicty);
+    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

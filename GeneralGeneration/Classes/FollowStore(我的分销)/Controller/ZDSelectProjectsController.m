@@ -57,7 +57,7 @@ static  NSString * const ID = @"cell";
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
-    mgr.requestSerializer.timeoutInterval = 40;
+    mgr.requestSerializer.timeoutInterval = 10;
     //申明返回的结果是json类型
     mgr.responseSerializer = [AFJSONResponseSerializer serializer];
     //申明请求的数据是json类型

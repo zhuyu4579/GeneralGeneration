@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ZDHouseTableViewController : UITableViewController
-
+//回调数据
+@property(nonatomic,strong)void(^HouseBlocks)(NSDictionary *data);
 @end

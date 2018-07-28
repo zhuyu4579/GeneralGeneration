@@ -28,7 +28,14 @@
     [super viewDidLoad];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"我的客户";
-    self.navigationItem.rightBarButtonItems = @[[UIBarButtonItem itemWithImage:[UIImage imageNamed:@"search_1"] highImage:[UIImage imageNamed:@"search_1"] target:self action:@selector(findCustomer)],[UIBarButtonItem itemWithImage:[UIImage imageNamed:@"add"] highImage:[UIImage imageNamed:@"add"] target:self action:@selector(addCusController)]];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *jobType = [ user objectForKey:@"jobType"];
+    if ([jobType isEqual:@"7"]) {
+        self.navigationItem.rightBarButtonItems = @[[UIBarButtonItem itemWithImage:[UIImage imageNamed:@"search_1"] highImage:[UIImage imageNamed:@"search_1"] target:self action:@selector(findCustomer)],[UIBarButtonItem itemWithImage:[UIImage imageNamed:@"add"] highImage:[UIImage imageNamed:@"add"] target:self action:@selector(addCusController)]];
+    }else{
+        self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithImage:[UIImage imageNamed:@"search_1"] highImage:[UIImage imageNamed:@"search_1"] target:self action:@selector(findCustomer)];
+    }
+   
     //初始化子控制器
     [self setupAllChilds];
     //创建一个UIScrollView

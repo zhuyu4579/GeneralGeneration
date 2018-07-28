@@ -291,20 +291,34 @@ static NSString * const ID = @"cell";
     today.left = @"0";
     today.right = @"";
     if ([jobType isEqual:@"1"]) {
-        
         today.navigationItem.title = @"今日报备";
     }else if([jobType isEqual:@"2"]){
         today.navigationItem.title = @"今日预约";
+    }else if([jobType isEqual:@"7"]){
+        today.navigationItem.title = @"今日客户";
     }
-    [self.navigationController pushViewController:today animated:YES];
+    if(![jobType isEqual:@""]){
+      [self.navigationController pushViewController:today animated:YES];
+    }
+    
 }
 //今日上客
 -(void)findTodayGuest{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *jobType = [ user objectForKey:@"jobType"];
     ZDTodayController *today = [[ZDTodayController alloc] init];
     today.left = @"";
     today.right = @"1";
-    today.navigationItem.title = @"今日上客";
-    [self.navigationController pushViewController:today animated:YES];
+    
+    if([jobType isEqual:@"1"]||[jobType isEqual:@"2"]){
+        today.navigationItem.title = @"今日上客";
+    }else if([jobType isEqual:@"7"]){
+        today.navigationItem.title = @"全部客户";
+    }
+    if(![jobType isEqual:@""]){
+        [self.navigationController pushViewController:today animated:YES];
+    }
+    
 }
 
 #pragma mark -创建城市列表
@@ -448,15 +462,8 @@ static NSString * const ID = @"cell";
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     NSString *realname = [ user objectForKey:@"realname"];
-    NSString *jobType = [ user objectForKey:@"jobType"];
     _labelName.text = realname;
-    if ([jobType isEqual:@"1"]) {
-        _labelOne.text = @"今日报备";
-        _labelTwo.text = @"今日上客";
-    }else if([jobType isEqual:@"2"]){
-        _labelOne.text = @"今日预约";
-        _labelTwo.text = @"今日上客";
-    }
+ 
         //创建会话请求
         AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
         
@@ -476,6 +483,19 @@ static NSString * const ID = @"cell";
                 _leftNum.text = [data valueForKey:@"left"];
                 _rightNum.text = [data valueForKey:@"right"];
                 _enames = [data valueForKey:@"enames"];
+                NSString *jobType = [data valueForKey:@"jobType"];
+                [user setObject:jobType forKey:@"jobType"];
+                [user synchronize];
+                if ([jobType isEqual:@"1"]) {
+                    _labelOne.text = @"今日报备";
+                    _labelTwo.text = @"今日上客";
+                }else if([jobType isEqual:@"2"]){
+                    _labelOne.text = @"今日预约";
+                    _labelTwo.text = @"今日上客";
+                }else if([jobType isEqual:@"7"]){
+                    _labelOne.text = @"今日客户";
+                    _labelTwo.text = @"全部客户";
+                }
                  [_collectionView.mj_header endRefreshing];
             }else{
                 NSString *msg = [responseObject valueForKey:@"msg"];

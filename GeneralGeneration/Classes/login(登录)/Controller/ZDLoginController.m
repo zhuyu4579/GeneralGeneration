@@ -173,7 +173,6 @@
                 [defaults setObject:[loginItem valueForKey:@"uuid"] forKey:@"uuid"];
                 [defaults setObject:[loginItem valueForKey:@"username"] forKey:@"username"];
                 [defaults setObject:[loginItem valueForKey:@"id"] forKey:@"userId"];
-                [defaults setObject:[loginItem valueForKey:@"jobType"] forKey:@"jobType"];
                 [defaults setObject:[loginItem valueForKey:@"realname"] forKey:@"realname"];
                 [defaults setObject:[loginItem valueForKey:@"deptId"] forKey:@"deptId"];
                 [defaults setObject:[loginItem valueForKey:@"deptCode"] forKey:@"deptCode"];
