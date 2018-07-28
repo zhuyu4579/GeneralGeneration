@@ -71,7 +71,7 @@
            _status.text = statusArray[3];
         }
     }
-    
+    _source = item.source;
     _ID = item.id;
     _appUserId = item.appUserId;
     _statu = item.dealStatus;

@@ -32,6 +32,8 @@
 @property(nonatomic,strong)NSString *ID;
 //订单状态
 @property(nonatomic,strong)NSString *statu;
+//订单来源
+@property(nonatomic,strong)NSString *source;
 //经纪人ID
 @property(nonatomic,strong)NSString *appUserId;
 //数据模型

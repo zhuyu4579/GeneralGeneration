@@ -305,7 +305,7 @@
     //客户姓名
     NSString *cusName = _customerName.text;
     if ([cusName isEqual:@""]) {
-        [SVProgressHUD showInfoWithStatus:@"请选择楼盘"];
+        [SVProgressHUD showInfoWithStatus:@"客户姓名不能为空"];
         return;
     }
     //电话号码
@@ -428,6 +428,7 @@
         if ([code isEqual:@"200"]) {
             [SVProgressHUD showInfoWithStatus:@"添加成功"];
             [self.navigationController popViewControllerAnimated:YES];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"Refresh" object:nil];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){

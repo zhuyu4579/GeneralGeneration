@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ZDAllStoreController : UIViewController
--(void)loadData;
+-(void)loadDatas;
 @end

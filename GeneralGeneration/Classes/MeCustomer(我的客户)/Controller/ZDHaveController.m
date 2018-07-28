@@ -55,7 +55,7 @@ static NSString *size = @"20";
     [self headerRefresh];
     [self setNoData];
     //创造通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"Refresh" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewTopics) name:@"Refresh" object:nil];
 }
 //下拉刷新
 -(void)headerRefresh{
@@ -89,7 +89,9 @@ static NSString *size = @"20";
 }
 -(void)loadNewTopics{
     
-    [self.tableView.mj_header beginRefreshing];
+    _cusListArray = [NSMutableArray array];
+    current = 1;
+    [self loadData];
     
 }
 //上拉刷新
@@ -206,10 +208,14 @@ static NSString *size = @"20";
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ZDMeCustCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    ZDOrderDetailsController *order = [[ZDOrderDetailsController alloc] init];
-    order.ID = cell.ID;
-    order.statu = cell.statu;
-    [self.navigationController pushViewController:order animated:YES];
+    NSString *source = cell.source;
+    if ([source isEqual:@"1"]) {
+        ZDOrderDetailsController *order = [[ZDOrderDetailsController alloc] init];
+        order.ID = cell.ID;
+        order.statu = cell.statu;
+        [self.navigationController pushViewController:order animated:YES];
+    }
+  
 }
 
 - (void)didReceiveMemoryWarning {

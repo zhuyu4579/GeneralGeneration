@@ -71,6 +71,7 @@ static NSString *size = @"20";
     _isRequestFinish = YES;
     _storeListArray = [NSMutableArray array];
     current = 1;
+    
     //区域数据的获取
     [self searchData];
     //搜索栏
@@ -78,6 +79,13 @@ static NSString *size = @"20";
     
     [self headerRefresh];
 
+}
+//自动刷新
+-(void)loadDatas{
+    _isRequestFinish = YES;
+    _storeListArray = [NSMutableArray array];
+    current = 1;
+    [self loadData];
 }
 //下拉刷新
 -(void)headerRefresh{
@@ -105,7 +113,6 @@ static NSString *size = @"20";
 }
 #pragma mark -下拉刷新或者加载数据
 -(void)loadNewTopic:(id)refrech{
-    
     [_allStore.mj_header beginRefreshing];
     _storeListArray = [NSMutableArray array];
     current = 1;
@@ -493,8 +500,6 @@ static NSString *size = @"20";
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self loadData];
+    
 }
-
-
 @end

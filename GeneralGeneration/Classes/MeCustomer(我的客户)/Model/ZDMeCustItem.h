@@ -27,5 +27,6 @@
 @property(nonatomic,strong)NSString *dealStatus;
 //订单审核状态
 @property(nonatomic,strong)NSString *verify;
-
+//订单来源
+@property(nonatomic,strong)NSString *source;
 @end

@@ -211,10 +211,13 @@ static NSString *size = @"20";
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ZDMeCustCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    ZDOrderDetailsController *order = [[ZDOrderDetailsController alloc] init];
-    order.ID = cell.ID;
-    order.statu = cell.statu;
-    [self.navigationController pushViewController:order animated:YES];
+    NSString *source = cell.source;
+    if ([source isEqual:@"1"]) {
+        ZDOrderDetailsController *order = [[ZDOrderDetailsController alloc] init];
+        order.ID = cell.ID;
+        order.statu = cell.statu;
+        [self.navigationController pushViewController:order animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

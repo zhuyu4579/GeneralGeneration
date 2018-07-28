@@ -77,24 +77,20 @@
     [segmented setMomentary:NO];
     self.navigationItem.titleView = segmented;
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithImage:[UIImage imageNamed: @"add"] highImage:[UIImage imageNamed:@"add"] target:self action:@selector(addStore)];
-    if (_status == 0) {
-        [self.view addSubview:self.allStore.view];
-         [_allStore loadData];
-    }else{
-        [self.view addSubview:self.collStore.view];
-        [_collStore loadData];
-    }
-    
+
 }
 //选择控制器
 -(void)selectItem:(UISegmentedControl *)segmend{
+        _status = segmend.selectedSegmentIndex;
         if(segmend.selectedSegmentIndex == 0){
             [self.collStore.view removeFromSuperview];
             [self.view addSubview:self.allStore.view];
+            [_allStore loadDatas];
             
         }else{
             [self.allStore.view removeFromSuperview];
             [self.view addSubview:self.collStore.view];
+            [_collStore loadDatas];
         }
 }
 //新增分销
@@ -106,13 +102,18 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-   
+    if (_status == 0) {
+        [self.view addSubview:self.allStore.view];
+        [_allStore loadDatas];
+    }else{
+        [self.view addSubview:self.collStore.view];
+        [_collStore loadDatas];
+    }
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
 }
-
-
 
 @end

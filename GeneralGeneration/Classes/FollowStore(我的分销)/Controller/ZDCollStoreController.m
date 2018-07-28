@@ -85,6 +85,13 @@ static NSString *size = @"20";
     [self headerRefresh];
    
 }
+//自动刷新
+-(void)loadDatas{
+    _isRequestFinish = YES;
+    _storeListArray = [NSMutableArray array];
+    currents = 1;
+    [self loadData];
+}
 //下拉刷新
 -(void)headerRefresh{
     //创建下拉刷新
