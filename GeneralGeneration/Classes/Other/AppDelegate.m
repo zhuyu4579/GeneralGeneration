@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ZDLoginController.h"
+#import <SVProgressHUD.h>
 #import "ZDNavgationController.h"
 #import "ZDHomePageController.h"
 #import "JPUSHService.h"
@@ -76,7 +77,13 @@
 -(void)onResp:(BaseResp *)resp{
     if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
 
-        
+        if (resp.errCode == 0) {
+            //通知回调
+            [SVProgressHUD showInfoWithStatus:@"分享成功"];
+        }else{
+            
+            [SVProgressHUD showInfoWithStatus:@"分享取消"];
+        }
     }
     
 }

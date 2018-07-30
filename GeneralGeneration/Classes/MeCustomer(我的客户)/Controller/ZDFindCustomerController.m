@@ -48,7 +48,7 @@ static NSString *size = @"20";
     UIView *searchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth-20, 45)];
     
     UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, searchView.fWidth, 44)];
-    searchBar.placeholder = @"请搜索楼盘、客户名称";
+    searchBar.placeholder = @"请搜索楼盘、客户名称、电话";
     searchBar.barTintColor = [UIColor whiteColor];
     searchBar.searchBarStyle = UISearchBarStyleMinimal;
     searchBar.returnKeyType = UIReturnKeySearch;
@@ -70,8 +70,6 @@ static NSString *size = @"20";
     
     [self headerRefresh];
     [self setNoData];
-    
-    
     
 }
 -(void)viewWillAppear:(BOOL)animated{

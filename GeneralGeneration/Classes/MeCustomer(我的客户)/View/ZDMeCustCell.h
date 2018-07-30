@@ -38,6 +38,8 @@
 @property(nonatomic,strong)NSString *appUserId;
 //数据模型
 @property(nonatomic,strong)ZDMeCustItem *item;
+//订单状态
+@property(nonatomic,strong)NSString *telphones;
 //打电话
 - (IBAction)playPhone:(UIButton *)sender;
 //拒单

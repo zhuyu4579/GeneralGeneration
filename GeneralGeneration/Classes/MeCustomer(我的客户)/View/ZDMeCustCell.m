@@ -38,6 +38,7 @@
     _itemName.text =item.projectName;
     _orderTime.text = item.updateDate;
     _customerName.text = [NSString stringWithFormat:@"客       户：%@",item.clientName];
+    _telphones = item.missContacto;
     _cusPhone.text = [NSString stringWithFormat:@"报备电话：%@",item.missContacto];
     _brokerName.text = [NSString stringWithFormat:@"经  纪  人：%@",[item.user valueForKey:@"realname"]];
     _brokerPhone.text = [NSString stringWithFormat:@"电       话："];
@@ -90,8 +91,15 @@
     
     NSString *phone = _telphone.text;
     
-    if (![phone isEqual:@""]) {
+    if (![phone isEqual:@""]&&![phone isEqual:@"无"]) {
         NSString *callPhone = [NSString stringWithFormat:@"telprompt://%@", phone];
+        if (@available(iOS 10.0, *)) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callPhone] options:@{} completionHandler:nil];
+        } else {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callPhone]];
+        }
+    }else{
+        NSString *callPhone = [NSString stringWithFormat:@"telprompt://%@", _telphones];
         if (@available(iOS 10.0, *)) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callPhone] options:@{} completionHandler:nil];
         } else {
