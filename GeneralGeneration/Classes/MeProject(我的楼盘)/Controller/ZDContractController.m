@@ -412,7 +412,7 @@
     }
     //合同开始时间
     NSString *validityTimeStart = _startTime.titleLabel.text;
-    if ([validityTimeStart isEqual:@"开始时间"]) {
+    if ([validityTimeStart isEqual:@"开始时间"]||[validityTimeStart isEqual:@""]) {
         [SVProgressHUD showInfoWithStatus:@"开始时间不能为空"];
         return;
     }
