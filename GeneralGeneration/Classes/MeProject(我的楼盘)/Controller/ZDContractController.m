@@ -270,7 +270,7 @@
 //选择开始时间
 -(void)beginDate:(UIButton *)button{
     [self touches];
-    [BRDatePickerView showDatePickerWithTitle:@"开始时间" dateType:UIDatePickerModeDate defaultSelValue:nil resultBlock:^(NSString *selectValue) {
+    [BRDatePickerView showDatePickerWithTitle:@"开始日期" dateType:UIDatePickerModeDate defaultSelValue:nil resultBlock:^(NSString *selectValue) {
         button.selected = YES;
         [button setTitle:selectValue forState:UIControlStateNormal];
     }];
@@ -278,7 +278,7 @@
 //选择结束时间
 -(void)endDate:(UIButton *)button{
     [self touches];
-    [BRDatePickerView showDatePickerWithTitle:@"结束时间" dateType:UIDatePickerModeDate defaultSelValue:nil resultBlock:^(NSString *selectValue) {
+    [BRDatePickerView showDatePickerWithTitle:@"结束日期" dateType:UIDatePickerModeDate defaultSelValue:nil resultBlock:^(NSString *selectValue) {
         button.selected = YES;
         [button setTitle:selectValue forState:UIControlStateNormal];
     }];
@@ -412,14 +412,14 @@
     }
     //合同开始时间
     NSString *validityTimeStart = _startTime.titleLabel.text;
-    if ([validityTimeStart isEqual:@"开始时间"]||[validityTimeStart isEqual:@""]) {
-        [SVProgressHUD showInfoWithStatus:@"开始时间不能为空"];
+    if ([validityTimeStart isEqual:@"开始日期"]||[validityTimeStart isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"开始日期不能为空"];
         return;
     }
     //合同结束时间
     NSString *validityTimeEnd = _endTime.titleLabel.text;
-    if ([validityTimeEnd isEqual:@"结束时间"]) {
-        [SVProgressHUD showInfoWithStatus:@"结束时间不能为空"];
+    if ([validityTimeEnd isEqual:@"结束日期"]) {
+        [SVProgressHUD showInfoWithStatus:@"结束日期不能为空"];
         return;
     }
      long sTime = [self getZiFuChuan:validityTimeStart];
@@ -468,7 +468,6 @@
     [GKCover translucentWindowCenterCoverContent:view animated:YES notClick:YES];
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     [SVProgressHUD showWithStatus:@"提交中"];
-    
     [self performSelector:@selector(loadData) withObject:self afterDelay:1];
     
 }

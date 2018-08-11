@@ -15,9 +15,12 @@
 @property(nonatomic,strong)NSString *address;
 //默认时间
 @property(nonatomic,strong)NSString *defaultSignStartTime;
+//结束时间
+@property(nonatomic,strong)NSString *signEndTime;
 //楼盘ID
 @property(nonatomic,strong)NSString *id;
 //佣金
 @property(nonatomic,strong)NSString *commission;
-
+//签约状态
+@property(nonatomic,strong)NSString *signStatus;
 @end

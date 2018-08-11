@@ -162,7 +162,7 @@ static  NSString * const ID = @"cell";
 }
 //选择时间
 -(void)selectDate{
-    [BRDatePickerView showDatePickerWithTitle:@"开始时间" dateType:UIDatePickerModeDate defaultSelValue:nil resultBlock:^(NSString *selectValue) {
+    [BRDatePickerView showDatePickerWithTitle:@"开始日期" dateType:UIDatePickerModeDate defaultSelValue:nil resultBlock:^(NSString *selectValue) {
         self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButtonImage:[UIImage imageNamed:@"more_unfold_2-1"] target:self action:@selector(selectDate) title:selectValue];
         _dateTime = selectValue;
         _recordArray = [NSMutableArray array];

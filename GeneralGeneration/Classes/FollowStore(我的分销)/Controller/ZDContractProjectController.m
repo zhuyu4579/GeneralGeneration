@@ -51,9 +51,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.5]];
+    [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"签约楼盘";
@@ -107,7 +107,15 @@
     storeName.textColor = UIColorRBG(68, 68, 68);
     [view5 addSubview:storeName];
     
-    UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0,view5.fY+46, self.view.fWidth, 45)];
+    //可修改信息
+    UILabel *labelTitle = [[UILabel alloc] init];
+    labelTitle.frame = CGRectMake(15,view5.fY+65, 100,16);
+    labelTitle.text = @"可修改信息";
+    labelTitle.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:16];
+    labelTitle.textColor = UIColorRBG(68, 68, 68);
+    [scrollView addSubview:labelTitle];
+    
+    UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0,view5.fY+90, self.view.fWidth, 45)];
     view2.backgroundColor = [UIColor whiteColor];
     [scrollView addSubview:view2];
     //2
@@ -127,7 +135,7 @@
     companyName.text = _companyName;
     [view2 addSubview:companyName];
     
-    UIView *view3 = [[UIView alloc] initWithFrame:CGRectMake(0, view2.fY+56, self.view.fWidth, 45)];
+    UIView *view3 = [[UIView alloc] initWithFrame:CGRectMake(0, view2.fY+46, self.view.fWidth, 45)];
     view3.backgroundColor = [UIColor whiteColor];
     [scrollView addSubview:view3];
     //3
@@ -264,7 +272,7 @@
         _projectId = [projects valueForKey:@"projectId"];
         _projectName.text = [projects valueForKey:@"projectName"];
         NSString *startTime = [projects valueForKey:@"defaultSignStartTime"];
-        if (startTime) {
+        if (![startTime isEqual:@""]) {
              [_startTime setTitle:startTime forState:UIControlStateNormal];
         }
        
@@ -273,7 +281,7 @@
 //选择开始时间
 -(void)beginDate:(UIButton *)button{
     [self touches];
-    [BRDatePickerView showDatePickerWithTitle:@"开始时间" dateType:UIDatePickerModeDate defaultSelValue:nil resultBlock:^(NSString *selectValue) {
+    [BRDatePickerView showDatePickerWithTitle:@"开始日期" dateType:UIDatePickerModeDate defaultSelValue:nil resultBlock:^(NSString *selectValue) {
         button.selected = YES;
         [button setTitle:selectValue forState:UIControlStateNormal];
     }];
@@ -281,7 +289,7 @@
 //选择结束时间
 -(void)endDate:(UIButton *)button{
     [self touches];
-    [BRDatePickerView showDatePickerWithTitle:@"结束时间" dateType:UIDatePickerModeDate defaultSelValue:nil resultBlock:^(NSString *selectValue) {
+    [BRDatePickerView showDatePickerWithTitle:@"结束日期" dateType:UIDatePickerModeDate defaultSelValue:nil resultBlock:^(NSString *selectValue) {
         button.selected = YES;
         [button setTitle:selectValue forState:UIControlStateNormal];
     }];
@@ -435,21 +443,21 @@
     }
     //合同开始时间
     NSString *validityTimeStart = _startTime.titleLabel.text;
-    if ([validityTimeStart isEqual:@"开始时间"]||[validityTimeStart isEqual:@""]) {
-        [SVProgressHUD showInfoWithStatus:@"开始时间不能为空"];
+    if ([validityTimeStart isEqual:@"开始日期"]||[validityTimeStart isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"开始日期不能为空"];
         return;
     }
     
     //合同结束时间
     NSString *validityTimeEnd = _endTime.titleLabel.text;
-    if ([validityTimeEnd isEqual:@"结束时间"]) {
-        [SVProgressHUD showInfoWithStatus:@"结束时间不能为空"];
+    if ([validityTimeEnd isEqual:@"结束日期"]) {
+        [SVProgressHUD showInfoWithStatus:@"结束日期不能为空"];
         return;
     }
     long sTime = [self getZiFuChuan:validityTimeStart];
     long eTime = [self getZiFuChuan:validityTimeEnd];
     if (eTime<=sTime) {
-        [SVProgressHUD showInfoWithStatus:@"时间选择错误"];
+        [SVProgressHUD showInfoWithStatus:@"日期选择错误"];
         return;
     }
   

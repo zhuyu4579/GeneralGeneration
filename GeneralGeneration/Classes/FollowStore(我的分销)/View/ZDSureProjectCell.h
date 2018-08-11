@@ -11,6 +11,9 @@
 @interface ZDSureProjectCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *projectName;
 @property (strong, nonatomic) IBOutlet UILabel *address;
+@property (strong, nonatomic) IBOutlet UILabel *time;
+@property (strong, nonatomic) IBOutlet UILabel *status;
+
 @property(nonatomic,strong)NSString *projectId;
 @property(nonatomic,strong)NSString *defaultSignStartTime;
 @property(nonatomic,strong)ZDProjectItem *item;
