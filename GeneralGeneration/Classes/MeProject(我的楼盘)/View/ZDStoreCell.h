@@ -13,6 +13,9 @@
 @property (strong, nonatomic) IBOutlet UILabel *storeName;
 //分销地址
 @property (strong, nonatomic) IBOutlet UILabel *storeAddress;
+@property (strong, nonatomic) IBOutlet UILabel *time;
+@property (strong, nonatomic) IBOutlet UILabel *status;
+
 //分销ID
 @property(nonatomic,strong)NSString *storeId;
 //是否被收藏

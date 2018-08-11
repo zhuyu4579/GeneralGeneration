@@ -31,7 +31,7 @@
     _address.text = item.address;
     _defaultSignStartTime = item.defaultSignStartTime;
     if (![_defaultSignStartTime isEqual:@""]) {
-        _time.text = [NSString stringWithFormat:@"%@至%@",_defaultSignStartTime,item.signEndTime];
+        _time.text = [NSString stringWithFormat:@"%@ 至 %@",_defaultSignStartTime,item.signEndTime];
     }
     if ([item.signStatus isEqual:@"2"]) {
         _status.text = @" 已签约 ";

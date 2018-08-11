@@ -88,7 +88,34 @@
     [storeSelect setEnlargeEdge:15];
     [viewOne addSubview:storeSelect];
     
-    UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0,viewOne.fY+46, self.view.fWidth, 45)];
+    //楼盘名称
+    UIView *view5 = [[UIView alloc] initWithFrame:CGRectMake(0, viewOne.fY+56, self.view.fWidth, 45)];
+    view5.backgroundColor = [UIColor whiteColor];
+    [scrollView addSubview:view5];
+    
+    UILabel *labelFever = [[UILabel alloc] init];
+    labelFever.frame = CGRectMake(15,17,60,13);
+    labelFever.text = @"楼盘名称:";
+    labelFever.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
+    labelFever.textColor = UIColorRBG(153, 153, 153);
+    [view5 addSubview:labelFever];
+    
+    UILabel *projectName = [[UILabel alloc] init];
+    projectName.frame = CGRectMake(84,16, view5.fWidth-84,14);
+    projectName.text = _projectName;
+    projectName.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:14];
+    projectName.textColor = UIColorRBG(68, 68, 68);
+    [view5 addSubview:projectName];
+    
+    //可修改信息
+    UILabel *labelTitle = [[UILabel alloc] init];
+    labelTitle.frame = CGRectMake(15,view5.fY+65, 100,16);
+    labelTitle.text = @"可修改信息";
+    labelTitle.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:16];
+    labelTitle.textColor = UIColorRBG(68, 68, 68);
+    [scrollView addSubview:labelTitle];
+    
+    UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0,view5.fY+90, self.view.fWidth, 45)];
     view2.backgroundColor = [UIColor whiteColor];
     [scrollView addSubview:view2];
     //2
@@ -107,7 +134,7 @@
      companyName.keyboardType = UIKeyboardTypeDefault;
     [view2 addSubview:companyName];
     
-    UIView *view3 = [[UIView alloc] initWithFrame:CGRectMake(0, view2.fY+56, self.view.fWidth, 45)];
+    UIView *view3 = [[UIView alloc] initWithFrame:CGRectMake(0, view2.fY+46, self.view.fWidth, 45)];
     view3.backgroundColor = [UIColor whiteColor];
     [scrollView addSubview:view3];
     //3
@@ -145,25 +172,8 @@
     phone.keyboardType = UIKeyboardTypeDefault;
     [view4 addSubview:phone];
     
-    UIView *view5 = [[UIView alloc] initWithFrame:CGRectMake(0, view4.fY+56, self.view.fWidth, 45)];
-    view5.backgroundColor = [UIColor whiteColor];
-    [scrollView addSubview:view5];
-    //5
-    UILabel *labelFever = [[UILabel alloc] init];
-    labelFever.frame = CGRectMake(15,17,60,13);
-    labelFever.text = @"楼盘名称:";
-    labelFever.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
-    labelFever.textColor = UIColorRBG(153, 153, 153);
-    [view5 addSubview:labelFever];
-    UILabel *projectName = [[UILabel alloc] init];
-    projectName.frame = CGRectMake(84,16, view5.fWidth-84,14);
-    projectName.text = _projectName;
-    projectName.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:14];
-    projectName.textColor = UIColorRBG(68, 68, 68);
-    [view5 addSubview:projectName];
     
-    
-    UIView *view6 = [[UIView alloc] initWithFrame:CGRectMake(0, view5.fY+56, self.view.fWidth, 45)];
+    UIView *view6 = [[UIView alloc] initWithFrame:CGRectMake(0, view4.fY+56, self.view.fWidth, 45)];
     view6.backgroundColor = [UIColor whiteColor];
     [scrollView addSubview:view6];
     //6
@@ -262,7 +272,7 @@
         _phone.text = [stores valueForKey:@"telphone"];
         _storeId = [stores valueForKey:@"storeId"];
         NSString *startTime = [stores valueForKey:@"defaultSignStartTime"];
-        if (startTime) {
+        if (![startTime isEqual:@""]) {
             [_startTime setTitle:startTime forState:UIControlStateNormal];
         }
     };
@@ -425,7 +435,7 @@
      long sTime = [self getZiFuChuan:validityTimeStart];
      long eTime = [self getZiFuChuan:validityTimeEnd];
     if (eTime<=sTime) {
-        [SVProgressHUD showInfoWithStatus:@"时间选择错误"];
+        [SVProgressHUD showInfoWithStatus:@"日期选择错误"];
         return;
     }
     //公司全称

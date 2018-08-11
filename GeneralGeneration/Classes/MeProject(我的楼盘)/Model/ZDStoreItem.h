@@ -19,6 +19,10 @@
 @property(nonatomic,strong)NSString *collect;
 //时间
 @property(nonatomic,strong)NSString *updateDate;
-//默认开始时间
+//默认开始日期
 @property(nonatomic,strong)NSString *defaultSignStartTime;
+//默认结束日期
+@property(nonatomic,strong)NSString *signEndTime;
+//签约状态
+@property(nonatomic,strong)NSString *signStatus;
 @end

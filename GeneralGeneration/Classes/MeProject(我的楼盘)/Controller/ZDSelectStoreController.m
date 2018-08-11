@@ -254,7 +254,7 @@ static NSString *size = @"20";
     [view addSubview:ine];
     //创建搜索框
     UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(94, 0, view.fWidth-94, view.fHeight)];
-    searchBar.placeholder = @"请输入分销名称";
+    searchBar.placeholder = @"输入公司简称、全称";
     searchBar.barTintColor = [UIColor whiteColor];
     searchBar.searchBarStyle = UISearchBarStyleMinimal;
     searchBar.returnKeyType = UIReturnKeySearch;
