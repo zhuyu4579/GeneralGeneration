@@ -16,13 +16,19 @@
 //客户名字
 @property (strong, nonatomic) IBOutlet UILabel *customerName;
 //客户电话
+@property (strong, nonatomic) IBOutlet UILabel *cusTelphoneLabel;
+
 @property (strong, nonatomic) IBOutlet UILabel *cusPhone;
+
 //经纪人姓名
 @property (strong, nonatomic) IBOutlet UILabel *brokerName;
 //经纪人电话
 @property (strong, nonatomic) IBOutlet UILabel *brokerPhone;
 
 @property (strong, nonatomic) IBOutlet UILabel *telphone;
+//打电话
+@property (strong, nonatomic) IBOutlet UIButton *cusPlayTelphone;
+
 @property (strong, nonatomic) IBOutlet UIButton *playPhone;
 //状态展示
 @property (strong, nonatomic) IBOutlet UILabel *status;
@@ -42,6 +48,9 @@
 @property(nonatomic,strong)NSString *telphones;
 //打电话
 - (IBAction)playPhone:(UIButton *)sender;
+- (IBAction)cusplayPhone:(UIButton *)sender;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *sourceHeight;
+
 //拒单
 - (IBAction)refusal:(UIButton *)sender;
 
