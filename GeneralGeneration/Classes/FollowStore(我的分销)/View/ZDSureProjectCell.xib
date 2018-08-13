@@ -47,7 +47,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Il-Wo-CwM">
-                        <rect key="frame" x="360" y="32" width="0.0" height="20"/>
+                        <rect key="frame" x="360" y="15" width="0.0" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="73M-e5-UZM"/>
                         </constraints>
@@ -55,25 +55,37 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HR5-7t-lxk">
+                        <rect key="frame" x="360" y="55" width="0.0" height="13"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="13" id="ied-gZ-9Xl"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="5Il-Wo-CwM" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="32" id="1ac-14-Krt"/>
+                    <constraint firstItem="5Il-Wo-CwM" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="1ac-14-Krt"/>
                     <constraint firstItem="bPL-O0-haU" firstAttribute="top" secondItem="VZJ-Gn-z69" secondAttribute="bottom" constant="9" id="7rY-6U-1f1"/>
                     <constraint firstItem="CnA-r1-qUP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="14" id="8jY-7q-qX5"/>
+                    <constraint firstAttribute="trailing" secondItem="HR5-7t-lxk" secondAttribute="trailing" constant="15" id="Czh-SW-ttt"/>
                     <constraint firstItem="CnA-r1-qUP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="P0t-7n-BdP"/>
                     <constraint firstItem="bPL-O0-haU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="meX-vy-KUI"/>
                     <constraint firstItem="VZJ-Gn-z69" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="msN-D4-CR9"/>
                     <constraint firstItem="VZJ-Gn-z69" firstAttribute="top" secondItem="CnA-r1-qUP" secondAttribute="bottom" constant="8" id="nkP-lo-z5x"/>
                     <constraint firstAttribute="trailing" secondItem="5Il-Wo-CwM" secondAttribute="trailing" constant="15" id="pde-b9-sE7"/>
+                    <constraint firstItem="HR5-7t-lxk" firstAttribute="top" secondItem="5Il-Wo-CwM" secondAttribute="bottom" constant="20" id="sEq-Sa-k1w"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="address" destination="VZJ-Gn-z69" id="W7D-2X-bSe"/>
+                <outlet property="dutyName" destination="HR5-7t-lxk" id="IiC-q8-l8g"/>
                 <outlet property="projectName" destination="CnA-r1-qUP" id="yJz-b1-WsS"/>
                 <outlet property="status" destination="5Il-Wo-CwM" id="XSH-3g-G5h"/>
                 <outlet property="time" destination="bPL-O0-haU" id="7ic-G1-yIs"/>
             </connections>
-            <point key="canvasLocation" x="70" y="37"/>
+            <point key="canvasLocation" x="81" y="19"/>
         </tableViewCell>
     </objects>
 </document>

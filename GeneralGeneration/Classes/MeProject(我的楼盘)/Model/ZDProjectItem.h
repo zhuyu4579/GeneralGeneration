@@ -23,4 +23,8 @@
 @property(nonatomic,strong)NSString *commission;
 //签约状态
 @property(nonatomic,strong)NSString *signStatus;
+//责任经服
+@property(nonatomic,strong)NSString *serverName;
+//签约类型
+@property(nonatomic,strong)NSString *type;
 @end

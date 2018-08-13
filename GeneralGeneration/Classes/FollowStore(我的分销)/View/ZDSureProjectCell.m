@@ -15,6 +15,7 @@
     _projectName.textColor = UIColorRBG(68, 68, 68);
     _address.textColor = UIColorRBG(153, 153, 153);
     _time.textColor = UIColorRBG(153, 153, 153);
+    _dutyName.textColor = UIColorRBG(68, 68, 68);
     _status.backgroundColor = UIColorRBG(240, 246, 236);
     _status.textColor = UIColorRBG(111, 182, 244);
 }
@@ -30,11 +31,18 @@
     _projectName.text = item.name;
     _address.text = item.address;
     _defaultSignStartTime = item.defaultSignStartTime;
+    _signEndTime = item.signEndTime;
     if (![_defaultSignStartTime isEqual:@""]) {
-        _time.text = [NSString stringWithFormat:@"%@ 至 %@",_defaultSignStartTime,item.signEndTime];
+        _time.text = [NSString stringWithFormat:@"%@ 至 %@",_defaultSignStartTime,_signEndTime];
     }
-    if ([item.signStatus isEqual:@"2"]) {
+    _signStatus = item.signStatus;
+    if ([_signStatus isEqual:@"2"]) {
         _status.text = @" 已签约 ";
+         _dutyName.text = [NSString stringWithFormat:@"责任经服：%@",item.serverName];
+        if([item.type isEqual:@"0"]){
+            _status.backgroundColor = UIColorRBG(255, 213, 195);
+            _status.textColor = UIColorRBG(255, 180, 61);
+        }
     }
 }
 -(void)setFrame:(CGRect)frame{

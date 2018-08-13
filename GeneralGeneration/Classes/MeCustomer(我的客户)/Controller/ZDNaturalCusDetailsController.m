@@ -28,6 +28,7 @@
 @property (strong, nonatomic)UILabel *cusPhone;
 //数据
 @property (strong, nonatomic) NSDictionary *custors;
+
 @end
 
 @implementation ZDNaturalCusDetailsController
@@ -87,7 +88,7 @@
     _itemName.text = [_custors valueForKey:@"projectName"];
     _orderTime.text = [_custors valueForKey:@"updateDate"];
     _customerName.text =[NSString stringWithFormat:@"客户姓名：%@",[_custors valueForKey:@"clientName"]];
-    _estimateTime.text = [NSString stringWithFormat:@"上客时间：%@",[_custors valueForKey:@"boardingPlane"]];
+    _estimateTime.text = [NSString stringWithFormat:@"上客时间：%@",[_custors valueForKey:@"createTime"]];
     _cusPhone.text = [_custors valueForKey:@"missContacto"];
     NSString *telphones = [_custors valueForKey:@"missContacto"];
     if ([telphones containsString:@"*"]&& ![telphones isEqual:@""]) {
@@ -148,7 +149,6 @@
         make.left.equalTo(view.mas_left).offset(18);
         make.height.offset(14);
     }];
-    
     //客户电话标题
     UILabel *cusPhoneLabel = [[UILabel alloc] init];
     cusPhoneLabel.font =[UIFont fontWithName:@"PingFang-SC-Regular" size:14];

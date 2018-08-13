@@ -13,8 +13,11 @@
 @property (strong, nonatomic) IBOutlet UILabel *address;
 @property (strong, nonatomic) IBOutlet UILabel *time;
 @property (strong, nonatomic) IBOutlet UILabel *status;
+@property (strong, nonatomic) IBOutlet UILabel *dutyName;
 
 @property(nonatomic,strong)NSString *projectId;
 @property(nonatomic,strong)NSString *defaultSignStartTime;
+@property(nonatomic,strong)NSString *signEndTime;
+@property(nonatomic,strong)NSString *signStatus;
 @property(nonatomic,strong)ZDProjectItem *item;
 @end
