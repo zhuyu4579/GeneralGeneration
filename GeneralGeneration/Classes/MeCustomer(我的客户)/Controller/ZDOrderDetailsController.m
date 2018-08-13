@@ -35,6 +35,8 @@
 @property (strong, nonatomic) UILabel *brokerName;
 //经纪人电话
 @property (strong, nonatomic) UILabel *brokerPhone;
+//打电话按钮
+@property (strong, nonatomic) UIButton *playButton;
 //公司
 @property (strong, nonatomic) UILabel *company;
 //分销
@@ -123,6 +125,12 @@
       NSDictionary *user = [_custors valueForKey:@"user"];
      _brokerName.text = [NSString stringWithFormat:@"姓       名：%@",[user valueForKey:@"realname"]];
      _brokerPhone.text = [user valueForKey:@"phone"];
+    NSString *telphones = [user valueForKey:@"phone"];
+    if ([telphones containsString:@"*"]&& ![telphones isEqual:@""]) {
+        [_playButton setHidden:YES];
+        [_playButton setEnabled:NO];
+        _brokerPhone.textColor = UIColorRBG(153, 153, 153);
+    }
      _company.text = [NSString stringWithFormat:@"公司全称：%@",[user valueForKey:@"companyName"]];
      _storeAddress.text = [NSString stringWithFormat:@"公司简称：%@",[user valueForKey:@"storeName"]];
     
@@ -274,6 +282,7 @@
     [playButton setBackgroundImage:[UIImage imageNamed:@"phone"] forState:UIControlStateNormal];
     [playButton setEnlargeEdge:44];
     [playButton addTarget:self action:@selector(playTelphone) forControlEvents:UIControlEventTouchUpInside];
+    _playButton = playButton;
     [view addSubview:playButton];
     [playButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(brokerName.mas_bottom).offset(9);

@@ -105,6 +105,7 @@
 		1F09950E20F308D000524361 /* ZDFindCustomerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F09950D20F308D000524361 /* ZDFindCustomerController.m */; };
 		1F0F8DA720D2390C00FAB3E2 /* ZDFollowsRecordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0F8DA620D2390C00FAB3E2 /* ZDFollowsRecordController.m */; };
 		1F0F8DAA20D2498C00FAB3E2 /* ZDStorePunchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0F8DA920D2498C00FAB3E2 /* ZDStorePunchController.m */; };
+		1F40B8F5212119E100DAE397 /* ZDNaturalCusDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F40B8F4212119E100DAE397 /* ZDNaturalCusDetailsController.m */; };
 		1F45EC712097F4A00042FD53 /* ZDReadFollowsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45EC702097F4A00042FD53 /* ZDReadFollowsController.m */; };
 		1F45EC742098123C0042FD53 /* ZDFollowTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45EC732098123C0042FD53 /* ZDFollowTableView.m */; };
 		1F45EC78209814F80042FD53 /* ZDFollowCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45EC76209814F80042FD53 /* ZDFollowCell.m */; };
@@ -341,6 +342,8 @@
 		1F0F8DA620D2390C00FAB3E2 /* ZDFollowsRecordController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDFollowsRecordController.m; sourceTree = "<group>"; };
 		1F0F8DA820D2498C00FAB3E2 /* ZDStorePunchController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDStorePunchController.h; sourceTree = "<group>"; };
 		1F0F8DA920D2498C00FAB3E2 /* ZDStorePunchController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDStorePunchController.m; sourceTree = "<group>"; };
+		1F40B8F3212119E100DAE397 /* ZDNaturalCusDetailsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDNaturalCusDetailsController.h; sourceTree = "<group>"; };
+		1F40B8F4212119E100DAE397 /* ZDNaturalCusDetailsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDNaturalCusDetailsController.m; sourceTree = "<group>"; };
 		1F45EC6F2097F4A00042FD53 /* ZDReadFollowsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDReadFollowsController.h; sourceTree = "<group>"; };
 		1F45EC702097F4A00042FD53 /* ZDReadFollowsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDReadFollowsController.m; sourceTree = "<group>"; };
 		1F45EC722098123C0042FD53 /* ZDFollowTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDFollowTableView.h; sourceTree = "<group>"; };
@@ -711,6 +714,8 @@
 				1F462CA6208EFE4D0010F92D /* ZDInvalidController.m */,
 				1F462CAD208F10830010F92D /* ZDOrderDetailsController.h */,
 				1F462CAE208F10830010F92D /* ZDOrderDetailsController.m */,
+				1F40B8F3212119E100DAE397 /* ZDNaturalCusDetailsController.h */,
+				1F40B8F4212119E100DAE397 /* ZDNaturalCusDetailsController.m */,
 				1F462CB3208F31BD0010F92D /* ZDRefusalController.h */,
 				1F462CB4208F31BD0010F92D /* ZDRefusalController.m */,
 				1F09950C20F308D000524361 /* ZDFindCustomerController.h */,
@@ -1490,6 +1495,7 @@
 				1F462CA1208EFDFF0010F92D /* ZDHaveController.m in Sources */,
 				1F03544E208D7423009B4753 /* UIBarButtonItem+Item.m in Sources */,
 				1F0994F820F1F1AE00524361 /* WZShoppingTableView.m in Sources */,
+				1F40B8F5212119E100DAE397 /* ZDNaturalCusDetailsController.m in Sources */,
 				1F45EC82209866680042FD53 /* ZDScaveResultController.m in Sources */,
 				1F089BB2209441C1001AA285 /* ZDAddStoreController.m in Sources */,
 				1F089BB620944D00001AA285 /* ZDAllStoreTableView.m in Sources */,

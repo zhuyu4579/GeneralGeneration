@@ -9,10 +9,17 @@
 #import "NSString+LCExtension.h"
 #import "ZDLoginController.h"
 #import "ZDNavgationController.h"
+#import "JPUSHService.h"
 @implementation NSString (LCExtension)
 //判断code码
 +(void)isCode:(id)target code:(NSString *)code{
     if ([code isEqual:@"401"]) {
+        //退出的时候删除别名
+        [JPUSHService deleteAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+            if (iResCode == 0) {
+                NSLog(@"删除别名成功");
+            }
+        } seq:1];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         NSDictionary *dic = [userDefaults dictionaryRepresentation];
         for (NSString *key in dic) {

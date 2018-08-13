@@ -214,6 +214,8 @@ static NSString *size = @"20";
         order.ID = cell.ID;
         order.statu = cell.statu;
         [self.navigationController pushViewController:order animated:YES];
+    }else{
+        
     }
   
 }

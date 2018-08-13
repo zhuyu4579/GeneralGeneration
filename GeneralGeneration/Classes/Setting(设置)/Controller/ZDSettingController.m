@@ -15,7 +15,7 @@
 #import <MJExtension.h>
 #import "ZDOpinionController.h"
 #import "NSString+LCExtension.h"
-#import "JPUSHService.h"
+
 @interface ZDSettingController ()
 //箭头1，2，3
 @property (strong, nonatomic) IBOutlet UIButton *JTOne;
@@ -132,12 +132,7 @@
         if ([code isEqual:@"200"]) {
             //清除持久数据
             [SVProgressHUD showInfoWithStatus:@"退出成功"];
-            //退出的时候删除别名
-            [JPUSHService deleteAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
-                if (iResCode == 0) {
-                    NSLog(@"删除别名成功");
-                }
-            } seq:1];
+            
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             NSDictionary *dic = [userDefaults dictionaryRepresentation];
             for (NSString *key in dic) {
