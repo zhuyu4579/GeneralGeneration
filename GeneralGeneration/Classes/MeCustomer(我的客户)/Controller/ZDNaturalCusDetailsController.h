@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ZDNaturalCusDetailsController : UIViewController
-
+//订单ID
+@property(nonatomic,strong)NSString *ID;
 @end
