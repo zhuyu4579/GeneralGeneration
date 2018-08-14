@@ -25,11 +25,8 @@
 @property (strong, nonatomic) IBOutlet UITextField *passWord;
 //显示密码/隐藏密码
 @property (strong, nonatomic) IBOutlet UIButton *showPassWord;
-
 //登录按钮
 @property (strong, nonatomic) IBOutlet UIButton *loginButton;
-
-
 //显示密码
 - (IBAction)showPassWord:(UIButton *)sender;
 //登录

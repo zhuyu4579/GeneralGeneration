@@ -32,6 +32,9 @@
     _address.text = item.address;
     _defaultSignStartTime = item.defaultSignStartTime;
     _signEndTime = item.signEndTime;
+    _time.text = @"";
+    _status.text = @"";
+    _dutyName.text = @"";
     if (![_defaultSignStartTime isEqual:@""]) {
         _time.text = [NSString stringWithFormat:@"%@ 至 %@",_defaultSignStartTime,_signEndTime];
     }
@@ -45,6 +48,12 @@
         if([item.type isEqual:@"0"]){
             _status.backgroundColor = UIColorRBG(255, 213, 195);
             _status.textColor = UIColorRBG(255, 180, 61);
+        }
+    }else{
+        if([_protectType isEqual:@"1"]){
+            _status.text = @" 保护期 ";
+            _status.backgroundColor = UIColorRBG(238, 238, 238);
+            _status.textColor = UIColorRBG(204, 204, 204);
         }
     }
 }

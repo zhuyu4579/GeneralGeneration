@@ -9,6 +9,7 @@
 #import "ZDTodayController.h"
 #import "ZDMeCustCell.h"
 #import "ZDOrderDetailsController.h"
+#import "ZDNaturalCusDetailsController.h"
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
 #import <MJRefresh.h>
@@ -217,6 +218,10 @@ static NSString *size = @"20";
         order.ID = cell.ID;
         order.statu = cell.statu;
         [self.navigationController pushViewController:order animated:YES];
+    }else{
+        ZDNaturalCusDetailsController *natural = [[ZDNaturalCusDetailsController alloc] init];
+        natural.ID = cell.ID;
+        [self.navigationController pushViewController:natural animated:YES];
     }
 }
 

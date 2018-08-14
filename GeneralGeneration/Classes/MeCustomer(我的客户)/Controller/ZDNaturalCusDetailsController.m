@@ -190,7 +190,7 @@
     _playButton = playButton;
     [view addSubview:playButton];
     [playButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(cusPhone.mas_bottom).offset(9);
+        make.top.equalTo(customerName.mas_bottom).offset(9);
         make.right.equalTo(view.mas_right).offset(-18);
         make.height.offset(23);
         make.width.offset(16);
