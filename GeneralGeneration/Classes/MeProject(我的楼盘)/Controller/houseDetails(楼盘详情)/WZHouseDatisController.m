@@ -1078,7 +1078,6 @@
     NSString *url = [NSString stringWithFormat:@"%@/proProject/projectInfoShare",URL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
-        NSLog(@"%@",responseObject);
         if ([code isEqual:@"200"]) {
             NSMutableDictionary *data = [responseObject valueForKey:@"data"];
 

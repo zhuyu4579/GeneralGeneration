@@ -25,4 +25,12 @@
 @property(nonatomic,strong)NSString *signEndTime;
 //签约状态
 @property(nonatomic,strong)NSString *signStatus;
+//分销责任人
+@property(nonatomic,strong)NSString *dutyName;
+//签约人类型
+@property(nonatomic,strong)NSString *type;
+//是否在保护期
+@property(nonatomic,strong)NSString *protectType;
+//门店创建者
+@property(nonatomic,strong)NSString *storeCreatorName;
 @end

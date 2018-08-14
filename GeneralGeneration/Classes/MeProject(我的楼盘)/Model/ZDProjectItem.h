@@ -27,4 +27,8 @@
 @property(nonatomic,strong)NSString *serverName;
 //签约类型
 @property(nonatomic,strong)NSString *type;
+//门店创建者
+@property(nonatomic,strong)NSString *storeCreatorName;
+//保护期内
+@property(nonatomic,strong)NSString *protectType;
 @end

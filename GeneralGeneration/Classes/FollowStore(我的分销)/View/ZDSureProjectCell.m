@@ -35,7 +35,10 @@
     if (![_defaultSignStartTime isEqual:@""]) {
         _time.text = [NSString stringWithFormat:@"%@ 至 %@",_defaultSignStartTime,_signEndTime];
     }
+    _saveName = item.serverName;
     _signStatus = item.signStatus;
+    _storeCreatorName = item.storeCreatorName;
+    _protectType = item.protectType;
     if ([_signStatus isEqual:@"2"]) {
         _status.text = @" 已签约 ";
          _dutyName.text = [NSString stringWithFormat:@"责任经服：%@",item.serverName];

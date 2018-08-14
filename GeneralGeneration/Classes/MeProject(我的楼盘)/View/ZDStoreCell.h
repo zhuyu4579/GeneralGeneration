@@ -15,9 +15,16 @@
 @property (strong, nonatomic) IBOutlet UILabel *storeAddress;
 @property (strong, nonatomic) IBOutlet UILabel *time;
 @property (strong, nonatomic) IBOutlet UILabel *status;
-
+@property (strong, nonatomic) IBOutlet UILabel *saveName;
+@property(nonatomic,strong)NSString *dutyName;
+//门店创建者
+@property(nonatomic,strong)NSString *storeCreatorName;
+//保护期内
+@property(nonatomic,strong)NSString *protectType;
 //分销ID
 @property(nonatomic,strong)NSString *storeId;
+@property(nonatomic,strong)NSString *signEndTime;
+@property(nonatomic,strong)NSString *signStatus;
 //是否被收藏
 @property(nonatomic,strong)NSString *collect;
 //时间

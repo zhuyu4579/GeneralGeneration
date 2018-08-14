@@ -17,6 +17,8 @@
     _time.textColor = UIColorRBG(153, 153, 153);
     _status.backgroundColor = UIColorRBG(240, 246, 236);
     _status.textColor = UIColorRBG(111, 182, 244);
+    _saveName.textColor = UIColorRBG(68, 68, 68);
+   
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -31,11 +33,21 @@
     _collect = item.collect;
     _updateDate = item.updateDate;
     _defaultSignStartTime = item.defaultSignStartTime;
+    _signEndTime = item.signEndTime;
     if (![_defaultSignStartTime isEqual:@""]) {
-        _time.text = [NSString stringWithFormat:@"%@ 至 %@",_defaultSignStartTime,item.signEndTime];
+        _time.text = [NSString stringWithFormat:@"%@ 至 %@",_defaultSignStartTime,_signEndTime];
     }
-    if ([item.signStatus isEqual:@"2"]) {
+    _dutyName = item.dutyName;
+    _signStatus = item.signStatus;
+    _storeCreatorName = item.storeCreatorName;
+    _protectType = item.protectType;
+    if ([_signStatus isEqual:@"2"]) {
         _status.text = @" 已签约 ";
+        _saveName.text = [NSString stringWithFormat:@"责任经服：%@",item.dutyName];
+        if([item.type isEqual:@"0"]){
+            _status.backgroundColor = UIColorRBG(255, 213, 195);
+            _status.textColor = UIColorRBG(255, 180, 61);
+        }
     }
 }
 

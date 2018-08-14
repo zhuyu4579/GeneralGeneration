@@ -47,9 +47,31 @@ static  NSString * const ID = @"cells";
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    UIViewController *VC = [UIViewController viewController:self.superview];
     ZDStoreCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSString *storeId = cell.storeId;
-    
+    NSString *signStatus = cell.signStatus;
+    if ([signStatus isEqual:@"2"]) {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"不能签约分销" message:[NSString stringWithFormat:@"分销已被经服%@签约，签约有效期：%@至%@，有效期结束后你可签约",cell.dutyName,cell.defaultSignStartTime,cell.signEndTime]  preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"我知道了" style:UIAlertActionStyleCancel
+                                                              handler:^(UIAlertAction * action) {
+                                                                  
+                                                              }];
+        [alert addAction:cancelAction];
+        [VC presentViewController:alert animated:YES completion:nil];
+        return;
+    }
+    NSString *projectType = cell.protectType;
+    if ([projectType isEqual:@"1"]) {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"不能签约分销" message:[NSString stringWithFormat:@"分销在经服%@的录入保护期，保护期内只能录入经服签约，保护期结束后你可约",cell.storeCreatorName]  preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"我知道了" style:UIAlertActionStyleCancel
+                                                              handler:^(UIAlertAction * action) {
+                                                                  
+                                                              }];
+        [alert addAction:cancelAction];
+        [VC presentViewController:alert animated:YES completion:nil];
+        return;
+    }
     NSMutableDictionary *dicty = [NSMutableDictionary dictionary];
     dicty[@"storeId"] = storeId;
     dicty[@"storeName"] = cell.storeName.text;

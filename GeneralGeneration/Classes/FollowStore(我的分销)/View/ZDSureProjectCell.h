@@ -19,5 +19,10 @@
 @property(nonatomic,strong)NSString *defaultSignStartTime;
 @property(nonatomic,strong)NSString *signEndTime;
 @property(nonatomic,strong)NSString *signStatus;
+@property(nonatomic,strong)NSString *saveName;
+//门店创建者
+@property(nonatomic,strong)NSString *storeCreatorName;
+//保护期内
+@property(nonatomic,strong)NSString *protectType;
 @property(nonatomic,strong)ZDProjectItem *item;
 @end
